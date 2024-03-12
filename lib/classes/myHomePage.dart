@@ -63,9 +63,6 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            const Text(
-              'Lot de tuyaux galvanisés:',
-            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
@@ -74,9 +71,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   width: 200,
                   height: 200,
                 ),
-                const Text(
-                  'Prix : 40 €'
-                )
                 // Vous pouvez ajouter d'autres éléments de la ligne ici si nécessaire
               ],
             ),
@@ -94,9 +88,6 @@ class _MyHomePageState extends State<MyHomePage> {
             const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text(
-                  'Lot de 20 tuyaux galvanisés de très bonne qualité',
-                ),
               ]
             )
           ],
