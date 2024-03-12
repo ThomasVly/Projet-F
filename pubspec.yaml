@@ -62,6 +62,8 @@ flutter:
   assets:
     - images\galvanized-steel-tubes.webp
     - images\basket-svgrepo-com.svg
+    - images\logo.png
+    - images\gif-diary.gif
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
