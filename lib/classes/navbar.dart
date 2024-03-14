@@ -5,17 +5,17 @@ import 'accueil.dart';
 
 
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class NavBar extends StatefulWidget {
+  const NavBar({super.key, required this.title});
 
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<NavBar> createState() => _NavBarState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _NavBarState extends State<NavBar> {
 
 
   int _selectedIndex = 0;

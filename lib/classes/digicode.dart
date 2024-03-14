@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/classes/myHomePage.dart';
+import 'package:flutter_application_1/classes/Chargement.dart';
+import 'package:flutter_application_1/classes/navbar.dart';
+import 'accueil.dart';
 
 class DigicodePage extends StatefulWidget {
   const DigicodePage({Key? key, required this.title}) : super(key: key);
@@ -40,7 +42,7 @@ class _DigicodePageState extends State<DigicodePage> {
     if (_input == '123456') {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) =>const MyHomePage(title:"accueil"), 
+          builder: (context) =>const NavBar(title:"accueil"), 
         ),
       );
     }
