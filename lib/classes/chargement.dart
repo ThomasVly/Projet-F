@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'myHomePage.dart';
+import 'package:flutter_application_1/classes/digicode.dart';
+
 
 class AccueilPage extends StatefulWidget{
   const AccueilPage({super.key, required this.title});
@@ -18,7 +19,7 @@ class _AccueilPageState extends State<AccueilPage>{
     Future.delayed(Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) =>const MyHomePage(title:"accueil"), // Remplacez AutrePage par le nom de votre page suivante
+          builder: (context) =>const DigicodePage(title:"accueil"), 
         ),
       );
     });
