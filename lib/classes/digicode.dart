@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/classes/myHomePage.dart';
+import 'package:flutter_application_1/classes/mot_de_passe.dart';
 
 class DigicodePage extends StatefulWidget {
   const DigicodePage({Key? key, required this.title}) : super(key: key);
@@ -114,7 +115,7 @@ class _DigicodePageState extends State<DigicodePage> {
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: InkWell(
-                    onTap: () => _addToInput('0'),
+                    onTap: (){},
                     child: Container(
                       width: buttonSizeWidth*0.7,
                       height: buttonSizeHeight*0.7,
@@ -137,7 +138,14 @@ class _DigicodePageState extends State<DigicodePage> {
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: InkWell(
-                    onTap: _clearInput,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MotDePassePage(title: "Mot de passe"),
+                        ),
+                      );
+                    },
                     child: Container(
                       width: buttonSizeWidth*0.7,
                       height: buttonSizeHeight*0.7,
@@ -272,8 +280,10 @@ class _DigicodePageState extends State<DigicodePage> {
                 ),
               ],
             ),
+
+            // Bouton "Mot de passe oublié ?"
             TextButton(
-              onPressed: _clearInput,
+              onPressed: (){},
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0), // Définir un rayon de coin
