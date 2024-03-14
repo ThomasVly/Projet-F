@@ -21,9 +21,10 @@ class _DigicodePageState extends State<DigicodePage> {
       });
     }
     if (_input.length == 6) {
-      
-      print(_input);
       checkInput();
+    }
+    if (_input.length >6) {
+      _clearInput();
     }
   }
 
@@ -76,33 +77,34 @@ class _DigicodePageState extends State<DigicodePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             // Affichage du logo et du nom de l'application
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  height: buttonSizeHeight * 0.8,
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        'images/logo.png',
-                        width: 80,
-                        height: 80,
-                      ),
-                      const SizedBox(width: 8), // Ajoute un espace entre l'image et le texte
-                      const FittedBox(
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Image.asset(
+                      'images/logo.png',
+                      width: buttonSizeWidth * 0.6,
+                      height: buttonSizeHeight * 0.6,
+                    ),
+                    SizedBox(width: buttonSizeWidth * 0.1), // Ajoute un espace entre l'image et le texte
+                    const Flexible(
+                      child: FittedBox(
                         fit: BoxFit.scaleDown,
                         child: Text(
                           "[Insérer nom de l'application]",
                           style: TextStyle(fontSize: 24.0, color: Colors.black),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
 
-            const SizedBox(height: 10.0),
+
+            //SizedBox(height: buttonSizeHeight * 0.05),
 
             //Affichage du selecteur entre digicode et mdp
             Row(
@@ -161,7 +163,7 @@ class _DigicodePageState extends State<DigicodePage> {
               ],
             ),
 
-            const SizedBox(height: 20.0),
+            //const SizedBox(height: 20.0),
 
             // Affichage du code entré
             FittedBox(
@@ -185,8 +187,8 @@ class _DigicodePageState extends State<DigicodePage> {
                   child: InkWell(
                     onTap: () => _addToInput(digit.toString()),
                     child: Container(
-                      width: 80.0,
-                      height: 80.0,
+                      width: buttonSizeWidth,
+                      height: buttonSizeHeight,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.white,
