@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/classes/digicode.dart';
+import 'package:flutter_application_1/classes/inscriptionPage.dart';
 
 
 class Chargement extends StatefulWidget{
@@ -19,7 +20,7 @@ class _AccueilPageState extends State<Chargement>{
     Future.delayed(Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) =>const DigicodePage(title:"accueil"), 
+          builder: (context) =>InscriptionPage(), 
         ),
       );
     });
