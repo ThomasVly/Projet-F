@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/classes/mot_de_passe.dart';
-import 'package:flutter_application_1/classes/Chargement.dart';
 import 'package:flutter_application_1/classes/navbar.dart';
-import 'accueil.dart';
 
 class DigicodePage extends StatefulWidget {
   const DigicodePage({Key? key, required this.title}) : super(key: key);
@@ -69,6 +67,8 @@ class _DigicodePageState extends State<DigicodePage> {
   @override
   Widget build(BuildContext context) {
 
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     double buttonSizeWidth = calculateButtonSizeWidth(context, 3);
     double buttonSizeHeight = calculateButtonSizeHeight(context, 3);
     const Color selectBlue =  Color(0xff1774CA);
@@ -88,10 +88,10 @@ class _DigicodePageState extends State<DigicodePage> {
                   children: <Widget>[
                     Image.asset(
                       'images/logo.png',
-                      width: buttonSizeWidth * 0.6,
-                      height: buttonSizeHeight * 0.6,
+                      width: screenWidth * 0.16,
+                      height: screenHeight * 0.08,
                     ),
-                    SizedBox(width: buttonSizeWidth * 0.1), // Ajoute un espace entre l'image et le texte
+                    SizedBox(width: screenWidth * 0.05), // Ajoute un espace entre l'image et le texte
                     const Flexible(
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
@@ -119,8 +119,8 @@ class _DigicodePageState extends State<DigicodePage> {
                   child: InkWell(
                     onTap: (){},
                     child: Container(
-                      width: buttonSizeWidth*0.7,
-                      height: buttonSizeHeight*0.7,
+                      width: screenWidth * 0.19,
+                      height: screenHeight * 0.1,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: selectBlue,
@@ -129,8 +129,8 @@ class _DigicodePageState extends State<DigicodePage> {
                       alignment: Alignment.center,
                       child: Image.asset(
                         'images/digicode.png',
-                        width: buttonSizeWidth*0.45,
-                        height: buttonSizeHeight*0.45,
+                        width: screenWidth * 0.12,
+                        height: screenHeight * 0.06,
                       ),
                     ),
                   ),
@@ -149,8 +149,8 @@ class _DigicodePageState extends State<DigicodePage> {
                       );
                     },
                     child: Container(
-                      width: buttonSizeWidth*0.7,
-                      height: buttonSizeHeight*0.7,
+                      width: screenWidth * 0.19,
+                      height: screenHeight * 0.1,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.white,
@@ -292,8 +292,8 @@ class _DigicodePageState extends State<DigicodePage> {
                 ),
               ),
               child: Container(
-                width: buttonSizeWidth * 2,
-                height: buttonSizeHeight * 0.5,
+                width: screenWidth * 0.5,
+                height: screenHeight * 0.075,
                 decoration: BoxDecoration(
                   color: unselectedGrey, // Couleur de fond fixe
                   borderRadius: BorderRadius.circular(20.0), // Définir un rayon de coin

@@ -13,16 +13,21 @@ class MotDePassePage extends StatefulWidget {
 }
 
 class _MotDePassePageState extends State<MotDePassePage> {
+  String errorText = ' '; //Stocke le message d'erreur pour le mot de passe
 
   // Fonction pour vérifier le code entré
   void checkInput(String input) {
-    if (input == 'motdepasse') {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) =>const NavBar(title:"accueil"), 
-        ),
-      );
-    }
+    setState(() {
+      if (input == 'motdepasse') {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) =>const NavBar(title:"accueil"), 
+          ),
+        );
+      } else {
+        errorText = 'Mot de passe incorrect';
+      }
+    });
   }
 
 
@@ -34,6 +39,7 @@ class _MotDePassePageState extends State<MotDePassePage> {
     const Color selectBlue =  Color(0xff1774CA);
     const Color unselectedGrey = Color(0xffD9D9D9);
     final TextEditingController passwordController = TextEditingController();
+    
 
     return Scaffold(
       body: Align(
@@ -49,8 +55,8 @@ class _MotDePassePageState extends State<MotDePassePage> {
                   children: <Widget>[
                     Image.asset(
                       'images/logo.png',
-                      width: screenWidth * 0.1,
-                      height: screenHeight * 0.1,
+                      width: screenWidth * 0.16,
+                      height: screenHeight * 0.08,
                     ),
                     SizedBox(width: screenWidth * 0.05), // Ajoute un espace entre l'image et le texte
                     const Flexible(
@@ -86,8 +92,8 @@ class _MotDePassePageState extends State<MotDePassePage> {
                       );
                     },
                     child: Container(
-                      width: screenWidth*0.18,
-                      height: screenHeight*0.18,
+                      width: screenWidth*0.19,
+                      height: screenHeight*0.1,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.white,
@@ -96,8 +102,8 @@ class _MotDePassePageState extends State<MotDePassePage> {
                       alignment: Alignment.center,
                       child: Image.asset(
                         'images/digicode.png',
-                        width: screenWidth*0.10,
-                        height: screenHeight*0.10,
+                        width: screenWidth*0.12,
+                        height: screenHeight*0.06,
                         color: Colors.black,
                       ),
                     ),
@@ -110,8 +116,8 @@ class _MotDePassePageState extends State<MotDePassePage> {
                   child: InkWell(
                     onTap: (){},
                     child: Container(
-                      width: screenWidth*0.18,
-                      height: screenHeight*0.18,
+                      width: screenWidth*0.19,
+                      height: screenHeight*0.1,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: selectBlue,
@@ -133,6 +139,18 @@ class _MotDePassePageState extends State<MotDePassePage> {
                 ),
               ],
             ),
+
+            // Affichage du code entré
+            //if (errorText.isNotEmpty) {
+              // Afficher le message d'erreur uniquement s'il n'est pas vide
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  '$errorText',
+                  style: const TextStyle(fontSize: 24.0, color: Colors.red),
+                ),
+              ),
+            //},
 
             const SizedBox(height: 20.0),
 
@@ -168,6 +186,7 @@ class _MotDePassePageState extends State<MotDePassePage> {
               ),
             ),
 
+            SizedBox(height: screenHeight * 0.5,),
 
             // Bouton "Mot de passe oublié ?"
             TextButton(
@@ -178,8 +197,8 @@ class _MotDePassePageState extends State<MotDePassePage> {
                 ),
               ),
               child: Container(
-                width: screenWidth * 0.65,
-                height: screenHeight * 0.05,
+                width: screenWidth * 0.5,
+                height: screenHeight * 0.075,
                 decoration: BoxDecoration(
                   color: unselectedGrey, // Couleur de fond fixe
                   borderRadius: BorderRadius.circular(20.0), // Définir un rayon de coin
