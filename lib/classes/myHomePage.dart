@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'accueil.dart';
+import 'package:table_calendar/table_calendar.dart';
+import 'calendrier.dart';
+import 'notes.dart';
 
 
 class MyHomePage extends StatefulWidget {
@@ -13,6 +17,15 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -21,80 +34,42 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
 
-        actions: [
-          ElevatedButton(
-            style: ButtonStyle(
-              foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
-              backgroundColor: MaterialStateProperty.all<Color>(Colors.blueGrey),
-            ),
-            onPressed: () {
-              // Action à effectuer lorsque le bouton est pressé
-            },
-            child: Text("coucou")
-          )
+
+    const List<Widget> _pages = <Widget>[
+
+      Notes(title: "notes",),
+      Calendar(title: "calendar",),
+      AccueilPage(title: 'yousk2'),
+    ];
+
+    return Scaffold(
+
+      appBar: AppBar(
+        title: const Text(''),
+      ),
+      
+      body : Center(
+        child: _pages.elementAt(_selectedIndex),
+      ),
+      bottomNavigationBar:BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.call),
+            label: 'Calls',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.camera),
+            label: 'Camera',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat),
+            label: 'Chats',
+          ),
         ],
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
+        currentIndex : _selectedIndex,
+        onTap: _onItemTapped,
       ),
-      body: Align(
-        
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Image.asset(
-                  'images/galvanized-steel-tubes.webp',
-                  width: 200,
-                  height: 200,
-                ),
-                // Vous pouvez ajouter d'autres éléments de la ligne ici si nécessaire
-              ],
-            ),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  'Description : ',
-                ),
-              ]
-            ),
-            const SizedBox(
-              height: 50,
-            ),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-              ]
-            )
-          ],
-        ),
-       
-      ),
-       // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

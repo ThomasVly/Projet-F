@@ -16,12 +16,10 @@ class _AccueilPageState extends State<AccueilPage>{
   void initState() {
     super.initState();
 
-    // Utilisez Future.delayed pour attendre 2 secondes avant de naviguer vers une autre page
-    Future.delayed(Duration(seconds: 3), () {
-      // Utilisez Navigator pour naviguer vers une autre page (par exemple, la page suivante)
+    Future.delayed(const Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) =>const MyHomePage(title:"accueil"), // Remplacez AutrePage par le nom de votre page suivante
+          builder: (context) =>const MyHomePage(title:"accueil"),
         ),
       );
     });
@@ -36,11 +34,11 @@ class _AccueilPageState extends State<AccueilPage>{
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-          Row(
+          const Row(
                mainAxisAlignment: MainAxisAlignment.center,
                children: <Widget>[
-              const Text(
-                'Journal Intime',
+                  Text(
+                    'Journal Intime',
               ),
                ]
             ),
