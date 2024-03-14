@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/classes/digicode.dart';
 
 
-class AccueilPage extends StatefulWidget{
-  const AccueilPage({super.key, required this.title});
+class Chargement extends StatefulWidget{
+  const Chargement({super.key, required this.title});
 
 
   final String title;
 
   @override
-  State<AccueilPage> createState() => _AccueilPageState();
+  State<Chargement> createState() => _AccueilPageState();
 }
 
-class _AccueilPageState extends State<AccueilPage>{
+class _AccueilPageState extends State<Chargement>{
   @override
   void initState() {
     super.initState();
