@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/classes/mot_de_passe.dart';
-import 'package:flutter_application_1/classes/Chargement.dart';
 import 'package:flutter_application_1/classes/navbar.dart';
-import 'accueil.dart';
 
 class DigicodePage extends StatefulWidget {
   const DigicodePage({Key? key, required this.title}) : super(key: key);

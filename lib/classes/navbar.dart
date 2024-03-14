@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/classes/parametres.dart';
 import 'chargement.dart';
 import 'calendrier.dart';
 import 'accueil.dart';
@@ -41,6 +42,7 @@ class _NavBarState extends State<NavBar> {
       Accueil(title: "notes",),
       Calendar(title: "calendar",),
       Chargement(title: 'yousk2'),
+      Parametres(title: 'settings'),
       Icon(
         Icons.calendar_today,
         size: 150,
