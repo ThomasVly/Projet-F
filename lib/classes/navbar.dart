@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'accueil.dart';
-import 'package:table_calendar/table_calendar.dart';
+import 'chargement.dart';
 import 'calendrier.dart';
-import 'notes.dart';
+import 'accueil.dart';
+
 
 
 class MyHomePage extends StatefulWidget {
@@ -38,9 +38,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
     const List<Widget> _pages = <Widget>[
 
-      Notes(title: "notes",),
+      Accueil(title: "notes",),
       Calendar(title: "calendar",),
-      AccueilPage(title: 'yousk2'),
+      Chargement(title: 'yousk2'),
+      Icon(
+        Icons.calendar_today,
+        size: 150,
+      ),
+      Icon(
+        Icons.settings,
+        size: 150,
+      ),
     ];
 
     return Scaffold(
@@ -53,18 +61,27 @@ class _MyHomePageState extends State<MyHomePage> {
         child: _pages.elementAt(_selectedIndex),
       ),
       bottomNavigationBar:BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.call),
+            icon: Icon(Icons.house),
             label: 'Calls',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.camera),
+            icon: Icon(Icons.fast_rewind),
             label: 'Camera',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
+            icon: Icon(Icons.note_add),
             label: 'Chats',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_today),
+            label: 'calendar',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'settings',
           ),
         ],
         currentIndex : _selectedIndex,
