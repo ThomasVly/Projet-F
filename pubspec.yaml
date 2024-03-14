@@ -71,6 +71,7 @@ flutter:
     - images\logo.png
     - images\gif-diary.gif
     - images\digicode.png
+    - images\logo_forgot_password.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

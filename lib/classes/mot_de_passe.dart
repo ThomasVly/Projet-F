@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_application_1/classes/digicode.dart';
 import 'package:flutter_application_1/classes/navbar.dart';
+import 'package:flutter_application_1/classes/forgotPassword.dart';
 
 class MotDePassePage extends StatefulWidget {
   const MotDePassePage({Key? key, required this.title}) : super(key: key);
@@ -190,7 +191,14 @@ class _MotDePassePageState extends State<MotDePassePage> {
 
             // Bouton "Mot de passe oublié ?"
             TextButton(
-              onPressed: (){},
+              onPressed: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ForgotPasswordPage(title: "Mot de passe oublié"),
+                  ),
+                );
+              },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0), // Définir un rayon de coin
