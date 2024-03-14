@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'classes/myHomePage.dart';
-import 'classes/accueil.dart';
+import 'classes/chargement.dart';
 
 void main() {
   runApp(const MyApp());
