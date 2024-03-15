@@ -64,15 +64,15 @@ class _NavBarState extends State<NavBar> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.house),
-            label: 'Calls',
+            label: 'Accueil',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.fast_rewind),
-            label: 'Camera',
+            label: 'Calendrier',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.note_add),
-            label: 'Chats',
+            label: 'Notes',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_today),
