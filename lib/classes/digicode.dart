@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/classes/mot_de_passe.dart';
 import 'package:flutter_application_1/classes/navbar.dart';
+import 'package:flutter_application_1/classes/forgot_password.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DigicodePage extends StatefulWidget {
@@ -303,7 +304,19 @@ class _DigicodePageState extends State<DigicodePage> {
 
             // Bouton "Mot de passe oublié ?"
             TextButton(
-              onPressed: (){},
+              onPressed: () async{
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                await prefs.setBool(
+                  'digicodeForgot', true);
+                await prefs.setBool(
+                  'passwordForgot', false);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ForgotPasswordPage(title: "Mot de passe oublié"),
+                  ),
+                );
+              },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0), // Définir un rayon de coin
