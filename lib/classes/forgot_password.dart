@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/classes/mot_de_passe.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class ForgotPasswordPage extends StatefulWidget {
@@ -12,6 +13,27 @@ class ForgotPasswordPage extends StatefulWidget {
 }
 
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
+  late bool _isDarkMode =false;
+  @override
+  void initState() {
+    super.initState();
+    _loadTheme();
+  }
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (ModalRoute.of(context)!.isCurrent) {
+      _loadTheme();
+    }
+  }
+
+  Future<void> _loadTheme() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _isDarkMode = prefs.getDouble('theme') == 1.0;
+    });
+  }
+
   String errorText = ' ';
   String questionText = 'Quelle est la couleur ?';
 
@@ -77,7 +99,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Image.asset(
-                      'images/blacklogo_forgot_password.png',
+                      _isDarkMode?
+                      'images/whitelogo_forgot_password.png'
+                      : 'images/blacklogo_forgot_password.png',
                       width: screenWidth * 0.20,
                       height: screenHeight * 0.10,
                     ),
@@ -87,7 +111,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         fit: BoxFit.scaleDown,
                         child: Text(
                           "Mot de passe oublié ?",
-                          style: TextStyle(fontSize: 32.0, color: Colors.black),
+                          style: TextStyle(fontSize: 32.0),
                         ),
                       ),
                     ),
