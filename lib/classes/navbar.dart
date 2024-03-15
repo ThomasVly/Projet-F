@@ -3,6 +3,7 @@ import 'package:flutter_application_1/classes/parametres.dart';
 import 'chargement.dart';
 import 'calendrier.dart';
 import 'accueil.dart';
+import 'notes.dart';
 
 
 

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
-
 class Accueil extends StatefulWidget {
-  const Accueil({super.key, required this.title});
+  const Accueil({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -13,22 +11,37 @@ class Accueil extends StatefulWidget {
 }
 
 class _AccueilState extends State<Accueil> {
+  late String username = "";
 
   @override
   void initState() {
     super.initState();
+    retrieveStringValue();
   }
 
+  retrieveStringValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? value = prefs.getString("username");
+    if (value != null) {
+      setState(() {
+        username = value;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-        child: Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Center(
-              child: Column(children: <Widget>[
-                Text('test')
-              ]),
-            )));
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Center(
+          child: Column(
+            children: <Widget>[
+              Text("Username: $username"),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
