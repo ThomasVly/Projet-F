@@ -71,6 +71,18 @@ flutter:
     - images\logo.png
     - images\gif-diary.gif
     - images\digicode.png
+    - images\whiteparametres.png
+    - images\blackparametres.png
+    - images\blackprofil.png
+    - images\whiteprofil.png
+    - images\whitepersonnalisation.png
+    - images\blackpersonnalisation.png
+    - images\blacknotif.png
+    - images\whitenotif.png
+    - images\blackmoon.png
+    - images\whitemoon.png
+    - images\whitesun.png
+    - images\blacksun.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
