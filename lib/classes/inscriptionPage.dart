@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/classes/chargement.dart';
 import 'package:flutter_application_1/classes/digicode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'chargement.dart';
@@ -13,15 +12,14 @@ class _InscriptionPageState extends State<InscriptionPage> {
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _securityAnswerController = TextEditingController();
-  String _selectedSecurityQuestion =
-      'Quel est le nom de votre animal de compagnie?'; // Variable pour stocker la question sélectionnée
+  String _selectedSecurityQuestion = 'Votre animal de compagnie préféré?';
 
-  // Liste de questions de sécurité, à personnaliser selon vos besoins
   List<String> securityQuestions = [
-    'Quel est le nom de votre animal de compagnie?',
+    'Votre animal de compagnie préféré?',
     'Quel est votre couleur preferée?',
     'Quel est le nom de votre professeur préféré?',
   ];
+
   void initState() {
     super.initState();
     // Vérifier si l'utilisateur est déjà enregistré lors du lancement de l'application
@@ -49,52 +47,43 @@ class _InscriptionPageState extends State<InscriptionPage> {
       appBar: AppBar(
         title: Text('Inscription'),
       ),
-      body: Stack(
-        children: [
-          Positioned(
-            top: 0,
-            right: 0,
-            left: 0,
-            child: Container(
-              height: 300,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height * 0.4,
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage('images/logo.png'),
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
-          ),
-          Positioned(
-            top: 300, // Adjust the value based on your design
-            left: 0,
-            right: 0,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Bienvenue dans ton journal intime',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 148, 110, 218),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Bienvenue dans ton journal intime',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 148, 110, 218),
+                    ),
                   ),
-                ),
-                Text(
-                  "Crée ton profil pour t'exprimer en toute intimité",
-                  style: TextStyle(
-                    letterSpacing: 1,
+                  SizedBox(height: 10),
+                  Text(
+                    "Crée ton profil pour t'exprimer en toute intimité",
+                    style: TextStyle(
+                      letterSpacing: 1,
+                    ),
                   ),
-                ),
-
-                // Add other widgets as needed
-              ],
+                ],
+              ),
             ),
-          ),
-          Positioned(
-            top: 300,     //ajouter 100 px
-            child: Container(
-              height: 450,
-              width: MediaQuery.of(context).size.width - 40,
+            Container(
               margin: EdgeInsets.symmetric(horizontal: 20),
               decoration: BoxDecoration(
                 color: Color.fromARGB(179, 187, 127, 199),
@@ -107,25 +96,20 @@ class _InscriptionPageState extends State<InscriptionPage> {
                   ),
                 ],
               ),
-              child: Column(
-                children: [
-                  // Champ de saisie pour le nom d'utilisateur
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: TextFormField(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    TextFormField(
                       controller: _usernameController,
                       decoration: InputDecoration(
                         labelText: 'Nom d\'utilisateur',
                         border: OutlineInputBorder(),
                       ),
                     ),
-                  ),
-
-                  // Champ de saisie pour le code chiffré
-                  // Champ de saisie pour le code chiffré
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: TextFormField(
+                    SizedBox(height: 10),
+                    TextFormField(
                       controller: _passwordController,
                       obscureText: true,
                       decoration: InputDecoration(
@@ -133,76 +117,69 @@ class _InscriptionPageState extends State<InscriptionPage> {
                         border: OutlineInputBorder(),
                       ),
                     ),
-                  ),
-
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: DropdownButtonFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Question de sécurité',
-                        border: OutlineInputBorder(),
+                    SizedBox(height: 10),
+                    Container(
+                      width: MediaQuery.of(context).size.width - 40,
+                      child: DropdownButtonFormField(
+                        decoration: InputDecoration(
+                          labelText: 'Question de sécurité',
+                          border: OutlineInputBorder(),
+                        ),
+                        value: _selectedSecurityQuestion,
+                        style: TextStyle(fontSize: 11),
+                        items: securityQuestions.map((question) {
+                          return DropdownMenuItem(
+                            value: question,
+                            child: Text(question),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedSecurityQuestion = value.toString();
+                          });
+                        },
                       ),
-                      value: _selectedSecurityQuestion,
-                      items: securityQuestions.map((question) {
-                        return DropdownMenuItem(
-                          value: question,
-                          child: Text(question),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedSecurityQuestion = value.toString();
-                        });
-                      },
                     ),
-                  ),
-
-                  // Champ de saisie pour la réponse à la question de sécurité
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: TextFormField(
+                    SizedBox(height: 10),
+                    TextFormField(
                       controller: _securityAnswerController,
                       decoration: InputDecoration(
                         labelText: 'Réponse à la question de sécurité',
                         border: OutlineInputBorder(),
                       ),
                     ),
-                  ),
+                    SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: () async {
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        await prefs.setString(
+                            'username', _usernameController.text);
+                        await prefs.setString(
+                            'password', _passwordController.text);
+                        await prefs.setString(
+                            'securityQuestion', _selectedSecurityQuestion);
+                        await prefs.setString(
+                            'securityAnswer', _securityAnswerController.text);
+                        await prefs.setBool('isRegistered', true);
 
-                  // Bouton pour soumettre les informations
-                  ElevatedButton(
-                    onPressed: () async {
-                      // Enregistrer les informations de l'utilisateur dans SharedPreferences
-                      SharedPreferences prefs =
-                          await SharedPreferences.getInstance();
-                      await prefs.setString(
-                          'username', _usernameController.text);
-                      await prefs.setString(
-                          'password', _passwordController.text);
-                      await prefs.setString(
-                          'securityQuestion', _selectedSecurityQuestion);
-                      await prefs.setString(
-                          'securityAnswer', _securityAnswerController.text);
-                      await prefs.setBool('isRegistered',
-                          true); // Marquer l'utilisateur comme enregistré
-
-                      // Rediriger l'utilisateur vers la page d'accueil
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>DigicodePage(
-                              title:
-                                  "Accueil"), // Assurez-vous de passer le titre correctement
-                        ),
-                      );
-                    },
-                    child: Text('Valider'),
-                  ),
-                ],
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DigicodePage(
+                              title: "Accueil",
+                            ),
+                          ),
+                        );
+                      },
+                      child: Text('Valider'),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
