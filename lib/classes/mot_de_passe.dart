@@ -16,11 +16,28 @@ class MotDePassePage extends StatefulWidget {
 
 class _MotDePassePageState extends State<MotDePassePage> {
   String errorText = ' '; //Stocke le message d'erreur pour le mot de passe
+  late String motDePasse = "";
+
+  @override
+  void initState() {
+    super.initState();
+    retrieveStringValue();
+  }
+
+  retrieveStringValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? value = prefs.getString("password");
+    if (value != null) {
+      setState(() {
+        motDePasse = value;
+      });
+    }
+  }
 
   // Fonction pour vérifier le code entré
   void checkInput(String input) {
     setState(() {
-      if (input == 'motdepasse') {
+      if (input == motDePasse) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
             builder: (context) =>const NavBar(title:"accueil"), 

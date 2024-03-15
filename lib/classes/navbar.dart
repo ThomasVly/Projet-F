@@ -41,9 +41,10 @@ class _NavBarState extends State<NavBar> {
       ),
       Chargement(title: 'yousk2'),
       Icon(
-        Icons.calendar_today,
+        Icons.note_add,
         size: 150,
       ),
+      Calendar(title: "calendar",),
       Parametres(title: 'settings'),
     ];
 
