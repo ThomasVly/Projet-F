@@ -72,7 +72,8 @@ flutter:
     - images\logo.png
     - images\gif-diary.gif
     - images\digicode.png
-    - images\logo_forgot_password.png
+    - images\blacklogo_forgot_password.png
+    - images\whitelogo_forgot_password.png
     - images\whiteparametres.png
     - images\blackparametres.png
     - images\blackprofil.png

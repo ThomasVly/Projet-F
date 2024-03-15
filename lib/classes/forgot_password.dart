@@ -77,7 +77,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Image.asset(
-                      'images/logo_forgot_password.png',
+                      'images/blacklogo_forgot_password.png',
                       width: screenWidth * 0.20,
                       height: screenHeight * 0.10,
                     ),
