@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/classes/digicode.dart';
 import 'package:flutter_application_1/classes/inscriptionPage.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Chargement extends StatefulWidget{
   const Chargement({super.key, required this.title});
@@ -14,9 +14,13 @@ class Chargement extends StatefulWidget{
 }
 
 class _AccueilPageState extends State<Chargement>{
+
+  late String username = "";
+
   @override
   void initState() {
     super.initState();
+    retrieveStringValue();
     Future.delayed(Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
@@ -24,6 +28,15 @@ class _AccueilPageState extends State<Chargement>{
         ),
       );
     });
+  }
+  retrieveStringValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? value = prefs.getString("username");
+    if (value != null) {
+      setState(() {
+        username = value;
+      });
+    }
   }
   @override
   Widget build(BuildContext context){
@@ -69,7 +82,7 @@ class _AccueilPageState extends State<Chargement>{
                   height:50,
                 ),*/
                 Text(
-                  "Bienvenue jeune padawan",
+                  "Bienvenue $username",
                   style : TextStyle(fontSize: screenSize.width/16)
                 )
               ]
