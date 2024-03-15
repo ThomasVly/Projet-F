@@ -19,6 +19,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   void initState() {
     super.initState();
     _loadTheme();
+    retrieveBoolValue();
   }
   @override
   void didChangeDependencies() {
@@ -43,12 +44,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   bool showPasswordFields = false;
   late bool digicodeForgot;
   late bool passwordForgot;
-
-  @override
-  void initState() {
-    super.initState();
-    retrieveBoolValue();
-  }
 
   void checkInput(String input) {
     setState(() {
