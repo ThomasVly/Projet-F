@@ -58,7 +58,7 @@ class _MotDePassePageState extends State<MotDePassePage> {
                         fit: BoxFit.scaleDown,
                         child: Text(
                           "[Insérer nom de l'application]",
-                          style: TextStyle(fontSize: 24.0, color: Colors.black),
+                          style: TextStyle(fontSize: 24.0),
                         ),
                       ),
                     ),

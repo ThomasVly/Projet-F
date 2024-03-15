@@ -42,15 +42,11 @@ class _NavBarState extends State<NavBar> {
       Accueil(title: "notes",),
       Calendar(title: "calendar",),
       Chargement(title: 'yousk2'),
-      Parametres(title: 'settings'),
       Icon(
         Icons.calendar_today,
         size: 150,
       ),
-      Icon(
-        Icons.settings,
-        size: 150,
-      ),
+      Parametres(title: 'settings'),
     ];
 
     return Scaffold(

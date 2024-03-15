@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/classes/themes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Parametres extends StatefulWidget{
   const Parametres({super.key, required this.title});
@@ -12,6 +14,28 @@ class Parametres extends StatefulWidget{
 }
 
 class _ParametresState extends State<Parametres>{
+  late bool _isDarkMode =false;
+  
+  @override
+  void initState() {
+    super.initState();
+    _loadTheme();
+  }
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (ModalRoute.of(context)!.isCurrent) {
+      _loadTheme();
+    }
+  }
+
+  Future<void> _loadTheme() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _isDarkMode = prefs.getDouble('theme') == 1.0;
+    });
+  }
+
   @override
   Widget build(BuildContext context){
     Size screenSize = MediaQuery.of(context).size;
@@ -33,43 +57,102 @@ class _ParametresState extends State<Parametres>{
             ),*/
         
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 
                 /*const SizedBox(
                   width:50,
                 ),*/
-                Image.asset(
-                  'images/logo.png',
-                  width : (screenSize.width/2),
-                  height: (screenSize.height/2),
+                Image.asset(  
+                  _isDarkMode
+                  ?'images/whiteparametres.png'
+                  :'images/blackparametres.png',
+                  width : (screenSize.width/8),
+                  height: (screenSize.height/8),
                 ),
+                Text(
+                  'Paramètres',
+                  style : TextStyle(fontSize: screenSize.width/8),
+                )
                 
                 // Vous pouvez ajouter d'autres éléments de la ligne ici si nécessaire
               ],
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                /*SizedBox(
+                const SizedBox(
                   height:50,
-                ),*/
+                ),
+                Image.asset(
+                  _isDarkMode
+                  ? 'images/whiteprofil.png' :
+                  'images/blackprofil.png',
+                  width : (screenSize.width/16),
+                  height: (screenSize.height/16),
+                ),
+                const SizedBox(
+                  width:50,
+                ),
                 Text(
-                  "Bienvenue jeune padawan",
+                  "Mon profil",
                   style : TextStyle(fontSize: screenSize.width/16)
                 )
               ]
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                GestureDetector(
+                  onTap: () {
+                    // Action à exécuter lors du clic sur le bouton "Thèmes"
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Themes(title: "theme")),
+                    );
+                  },
+                  child: Row(
+                    children: <Widget>[
+                      Image.asset(
+                        _isDarkMode?
+                        'images/whitepersonnalisation.png':
+                        'images/blackpersonnalisation.png',
+                        width: (screenSize.width / 16),
+                        height: (screenSize.height / 16),
+                      ),
+                      const SizedBox(
+                        width: 50,
+                      ),
+                      Text(
+                        "Thèmes",
+                        style: TextStyle(fontSize: screenSize.width / 16),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Image.asset(
-                  'images/gif-diary.gif',
-                  width : (screenSize.width/4),
-                  height: (screenSize.height/4),
+                  _isDarkMode?
+                  'images/whitenotif.png':
+                  'images/blacknotif.png',
+                  width : (screenSize.width/16),
+                  height: (screenSize.height/16),
                 ),
+                const SizedBox(
+                  width:50,
+                ),
+                Text(
+                  "Notifications et rappels",
+                  style : TextStyle(fontSize: screenSize.width/16)
+                )
+                
               ]
             )
+            
           ],
         ),
        
