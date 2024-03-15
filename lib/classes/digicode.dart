@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/classes/mot_de_passe.dart';
 import 'package:flutter_application_1/classes/navbar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DigicodePage extends StatefulWidget {
   const DigicodePage({Key? key, required this.title}) : super(key: key);
@@ -13,6 +14,23 @@ class DigicodePage extends StatefulWidget {
 
 class _DigicodePageState extends State<DigicodePage> {
   String _input = ''; // Variable pour stocker les chiffres entrés
+  late String digicode = "";
+
+  @override
+  void initState() {
+    super.initState();
+    retrieveStringValue();
+  }
+
+  retrieveStringValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? value = prefs.getString("password");
+    if (value != null) {
+      setState(() {
+        digicode = value;
+      });
+    }
+  }
 
   // Fonction pour ajouter un chiffre au code entré
   void _addToInput(String digit) {
@@ -38,7 +56,7 @@ class _DigicodePageState extends State<DigicodePage> {
 
   // Fonction pour vérifier le code entré
   void checkInput() {
-    if (_input == '123456') {
+    if (_input == "$digicode") {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) =>const NavBar(title:"accueil"), 

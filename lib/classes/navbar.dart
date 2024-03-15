@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'chargement.dart';
 import 'calendrier.dart';
 import 'accueil.dart';
+import 'notes.dart';
 
 
 
@@ -45,10 +46,7 @@ class _NavBarState extends State<NavBar> {
         Icons.calendar_today,
         size: 150,
       ),
-      Icon(
-        Icons.settings,
-        size: 150,
-      ),
+      Notes(title: "notes",)
     ];
 
     return Scaffold(

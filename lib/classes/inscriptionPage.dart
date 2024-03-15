@@ -91,7 +91,7 @@ class _InscriptionPageState extends State<InscriptionPage> {
             ),
           ),
           Positioned(
-            top: 400,
+            top: 300,     //ajouter 100 px
             child: Container(
               height: 450,
               width: MediaQuery.of(context).size.width - 40,
@@ -113,6 +113,7 @@ class _InscriptionPageState extends State<InscriptionPage> {
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: TextFormField(
+                      controller: _usernameController,
                       decoration: InputDecoration(
                         labelText: 'Nom d\'utilisateur',
                         border: OutlineInputBorder(),
@@ -125,6 +126,7 @@ class _InscriptionPageState extends State<InscriptionPage> {
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: TextFormField(
+                      controller: _passwordController,
                       obscureText: true,
                       decoration: InputDecoration(
                         labelText: 'Code chiffré',
@@ -159,6 +161,7 @@ class _InscriptionPageState extends State<InscriptionPage> {
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: TextFormField(
+                      controller: _securityAnswerController,
                       decoration: InputDecoration(
                         labelText: 'Réponse à la question de sécurité',
                         border: OutlineInputBorder(),

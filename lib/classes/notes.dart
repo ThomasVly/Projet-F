@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-
 
 class Notes extends StatefulWidget {
   const Notes({super.key, required this.title});
@@ -41,7 +38,7 @@ class _NotesState extends State<Notes> {
                   },
                 ),
                 ElevatedButton(
-                  child: const Text('Retrieve Text'),
+                  child: const Text('Terminer la Note'),
                   onPressed: () {
                     ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text(_controller.text)));
