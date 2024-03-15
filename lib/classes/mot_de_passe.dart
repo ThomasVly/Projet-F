@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_application_1/classes/digicode.dart';
 import 'package:flutter_application_1/classes/navbar.dart';
-import 'package:flutter_application_1/classes/forgotPassword.dart';
+import 'package:flutter_application_1/classes/forgot_password.dart';
 
 class MotDePassePage extends StatefulWidget {
   const MotDePassePage({Key? key, required this.title}) : super(key: key);
@@ -74,8 +74,6 @@ class _MotDePassePageState extends State<MotDePassePage> {
               ),
             ),
 
-            //SizedBox(height: buttonSizeHeight * 0.05),
-
             //Affichage du selecteur entre digicode et mdp
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -142,16 +140,13 @@ class _MotDePassePageState extends State<MotDePassePage> {
             ),
 
             // Affichage du code entré
-            //if (errorText.isNotEmpty) {
-              // Afficher le message d'erreur uniquement s'il n'est pas vide
-              FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text(
-                  '$errorText',
-                  style: const TextStyle(fontSize: 24.0, color: Colors.red),
-                ),
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                errorText,
+                style: const TextStyle(fontSize: 24.0, color: Colors.red),
               ),
-            //},
+            ),
 
             const SizedBox(height: 20.0),
 
@@ -201,7 +196,7 @@ class _MotDePassePageState extends State<MotDePassePage> {
               },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0), // Définir un rayon de coin
+                  borderRadius: BorderRadius.circular(10.0), // Définir un rayon de coin
                 ),
               ),
               child: Container(
@@ -209,7 +204,7 @@ class _MotDePassePageState extends State<MotDePassePage> {
                 height: screenHeight * 0.075,
                 decoration: BoxDecoration(
                   color: unselectedGrey, // Couleur de fond fixe
-                  borderRadius: BorderRadius.circular(20.0), // Définir un rayon de coin
+                  borderRadius: BorderRadius.circular(10.0), // Définir un rayon de coin
                 ),
                 alignment: Alignment.center,
                 child: const Padding(
