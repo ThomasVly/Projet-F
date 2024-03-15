@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 
 class Accueil extends StatefulWidget {
-  const Accueil({Key? key, required this.title}) : super(key: key);
+  const Accueil({super.key, required this.title});
 
   final String title;
 
@@ -35,7 +35,7 @@ class _AccueilState extends State<Accueil> {
     final scrollOffset = (selectedDateIndex * 78.0) - (screenWidth / 2 - 60);
     _scrollController.animateTo(
       scrollOffset,
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
       curve: Curves.easeInOut,
     );
   }
@@ -57,13 +57,13 @@ class _AccueilState extends State<Accueil> {
         actions: <Widget>[
           IconButton(
             icon: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Color.fromARGB(
                     255, 189, 208, 218), // Arrière-plan bleu-gris
                 shape: BoxShape.circle,
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: Icon(
                   Icons.search,
                   color: Colors.purpleAccent,
@@ -75,7 +75,7 @@ class _AccueilState extends State<Accueil> {
             },
           ),
           IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.folder,
               color: Color.fromARGB(
                   255, 115, 81, 170), // Couleur bleue pour l'icône de dossier
@@ -92,15 +92,15 @@ class _AccueilState extends State<Accueil> {
       ),
       body: Column(
         children: [
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Text(
             DateFormat('MMMM yyyy').format(now),
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Row(
             children: [
-              Spacer(
+              const Spacer(
                   flex:
                       1), // Espace vide équivalent à la moitié de la largeur de l'écran
               Expanded(
@@ -129,12 +129,12 @@ class _AccueilState extends State<Accueil> {
                                 ? 100
                                 : 70,
                             alignment: Alignment.center,
-                            margin: EdgeInsets.symmetric(horizontal: 4),
+                            margin: const EdgeInsets.symmetric(horizontal: 4),
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: selectedDate != null &&
                                       selectedDate.day == i + 1
-                                  ? Color.fromARGB(255, 139, 89, 213)
+                                  ? const Color.fromARGB(255, 139, 89, 213)
                                   : Colors.grey,
                             ),
                             child: Stack(
@@ -160,7 +160,7 @@ class _AccueilState extends State<Accueil> {
                                     bottom:
                                         -20, // Ajustez cette valeur selon votre préférence
                                     child: Container(
-                                      padding: EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                           horizontal: 8, vertical: 4),
                                       decoration: BoxDecoration(
                                         color: Colors.black54,
@@ -176,12 +176,12 @@ class _AccueilState extends State<Accueil> {
                   ),
                 ),
               ),
-              Spacer(
+              const Spacer(
                   flex:
                       1), // Espace vide équivalent à la moitié de la largeur de l'écran
             ],
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(20.0),
@@ -191,7 +191,7 @@ class _AccueilState extends State<Accueil> {
                   padding: const EdgeInsets.all(20.0),
                   child: Text(
                     "Il n'y a pas de notes pour le ${DateFormat('dd/MM/yyyy').format(selectedDate)}",
-                    style: TextStyle(fontSize: 18),
+                    style: const TextStyle(fontSize: 18),
                   ),
                 ),
               ),
@@ -215,7 +215,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Accueil(title: 'Mon Journal Intime'),
+      home: const Accueil(title: 'Mon Journal Intime'),
     );
   }
 }

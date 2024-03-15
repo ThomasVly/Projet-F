@@ -24,7 +24,7 @@ class _DigicodePageState extends State<DigicodePage> {
 
   retrieveStringValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? value = prefs.getString("password");
+    String? value = prefs.getString("digicode");
     if (value != null) {
       setState(() {
         digicode = value;

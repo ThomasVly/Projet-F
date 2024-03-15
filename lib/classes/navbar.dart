@@ -3,7 +3,6 @@ import 'package:flutter_application_1/classes/parametres.dart';
 import 'chargement.dart';
 import 'calendrier.dart';
 import 'accueil.dart';
-import 'notes.dart';
 
 
 
@@ -41,12 +40,12 @@ class _NavBarState extends State<NavBar> {
     const List<Widget> _pages = <Widget>[
 
       Accueil(title: "notes",),
-      Calendar(title: "calendar",),
       Chargement(title: 'yousk2'),
       Icon(
-        Icons.calendar_today,
+        Icons.note_add,
         size: 150,
       ),
+      Calendar(title: "calendar",),
       Parametres(title: 'settings'),
     ];
 

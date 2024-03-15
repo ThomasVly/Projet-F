@@ -11,6 +11,7 @@ class InscriptionPage extends StatefulWidget {
 class _InscriptionPageState extends State<InscriptionPage> {
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  TextEditingController _digicodeController = TextEditingController();
   TextEditingController _securityAnswerController = TextEditingController();
   String _selectedSecurityQuestion = 'Votre animal de compagnie préféré?';
 
@@ -45,7 +46,7 @@ class _InscriptionPageState extends State<InscriptionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Inscription'),
+        title: const Text('Inscription'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -53,15 +54,15 @@ class _InscriptionPageState extends State<InscriptionPage> {
           children: [
             Container(
               height: MediaQuery.of(context).size.height * 0.4,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage('images/logo.png'),
                   fit: BoxFit.cover,
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
+            const Padding(
+              padding: EdgeInsets.all(20.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -84,9 +85,9 @@ class _InscriptionPageState extends State<InscriptionPage> {
               ),
             ),
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 20),
+              margin: const EdgeInsets.symmetric(horizontal: 20),
               decoration: BoxDecoration(
-                color: Color.fromARGB(179, 187, 127, 199),
+                color: const Color.fromARGB(179, 187, 127, 199),
                 borderRadius: BorderRadius.circular(15),
                 boxShadow: [
                   BoxShadow(
@@ -103,30 +104,38 @@ class _InscriptionPageState extends State<InscriptionPage> {
                   children: [
                     TextFormField(
                       controller: _usernameController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Nom d\'utilisateur',
                         border: OutlineInputBorder(),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     TextFormField(
                       controller: _passwordController,
                       obscureText: true,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
+                        labelText: 'Mot de Passe',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    TextFormField(
+                      controller: _digicodeController,
+                      obscureText: true,
+                      decoration: const InputDecoration(
                         labelText: 'Code chiffré',
                         border: OutlineInputBorder(),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Container(
                       width: MediaQuery.of(context).size.width - 40,
                       child: DropdownButtonFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Question de sécurité',
                           border: OutlineInputBorder(),
                         ),
                         value: _selectedSecurityQuestion,
-                        style: TextStyle(fontSize: 11),
+                        style: const TextStyle(fontSize: 11),
                         items: securityQuestions.map((question) {
                           return DropdownMenuItem(
                             value: question,
@@ -140,15 +149,15 @@ class _InscriptionPageState extends State<InscriptionPage> {
                         },
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     TextFormField(
                       controller: _securityAnswerController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Réponse à la question de sécurité',
                         border: OutlineInputBorder(),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     ElevatedButton(
                       onPressed: () async {
                         SharedPreferences prefs =
@@ -158,6 +167,8 @@ class _InscriptionPageState extends State<InscriptionPage> {
                         await prefs.setString(
                             'password', _passwordController.text);
                         await prefs.setString(
+                            'digicode', _digicodeController.text);
+                        await prefs.setString(
                             'securityQuestion', _selectedSecurityQuestion);
                         await prefs.setString(
                             'securityAnswer', _securityAnswerController.text);
@@ -166,13 +177,13 @@ class _InscriptionPageState extends State<InscriptionPage> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => DigicodePage(
+                            builder: (context) => const DigicodePage(
                               title: "Accueil",
                             ),
                           ),
                         );
                       },
-                      child: Text('Valider'),
+                      child: const Text('Valider'),
                     ),
                   ],
                 ),
