@@ -5,11 +5,8 @@ import 'calendrier.dart';
 import 'accueil.dart';
 import 'notes.dart';
 
-
-
 class NavBar extends StatefulWidget {
   const NavBar({super.key, required this.title});
-
 
   final String title;
 
@@ -18,8 +15,6 @@ class NavBar extends StatefulWidget {
 }
 
 class _NavBarState extends State<NavBar> {
-
-
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
@@ -37,11 +32,13 @@ class _NavBarState extends State<NavBar> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
 
-
     const List<Widget> _pages = <Widget>[
-
-      Accueil(title: "notes",),
-      Calendar(title: "calendar",),
+      Accueil(
+        title: "notes",
+      ),
+      Calendar(
+        title: "calendar",
+      ),
       Chargement(title: 'yousk2'),
       Icon(
         Icons.calendar_today,
@@ -51,39 +48,39 @@ class _NavBarState extends State<NavBar> {
     ];
 
     return Scaffold(
-
       appBar: AppBar(
         title: const Text(''),
       ),
-      
-      body : Center(
+      body: Center(
         child: _pages.elementAt(_selectedIndex),
       ),
-      bottomNavigationBar:BottomNavigationBar(
+      bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.house),
-            label: 'Calls',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.fast_rewind),
-            label: 'Camera',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.note_add),
-            label: 'Chats',
+            label: 'Accueil',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_today),
-            label: 'calendar',
+            label: 'calendrier',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+                Icons.add_circle_outline), // Icône "Ajouter" pour les notes
+            label: 'Notes', // Label pour les notes
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons
+                .view_list), // Icône de vue liste pour le résumé ou le récapitulatif
+            label: 'Récapitulatif ', // Label pour le résumé
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             label: 'settings',
           ),
         ],
-        currentIndex : _selectedIndex,
+        currentIndex: _selectedIndex,
         onTap: _onItemTapped,
       ),
     );
