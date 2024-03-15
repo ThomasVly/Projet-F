@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/classes/digicode.dart';
 import 'package:flutter_application_1/classes/mot_de_passe.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -40,6 +41,14 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   int nbEssais = 3;
 
   bool showPasswordFields = false;
+  late bool digicodeForgot;
+  late bool passwordForgot;
+
+  @override
+  void initState() {
+    super.initState();
+    retrieveBoolValue();
+  }
 
   void checkInput(String input) {
     setState(() {
@@ -55,20 +64,55 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   }
 
   void checkPassword(String password, String confirmPassword) {
-    setState(() {
+    setState(() async {
       if (password != confirmPassword) {
-        errorText = 'Les mots de passe ne correspondent pas.';
+        if (digicodeForgot){
+          errorText = 'Les digicodes ne correspondent pas.';
+        }
+        else if (passwordForgot){
+          errorText = 'Les mots de passe ne correspondent pas.';
+        }
+        
       } else {
-        // Vous pouvez ajouter ici la logique pour réinitialiser le mot de passe
-        errorText = 'Mot de passe réinitialisé avec succès.';
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const MotDePassePage(title: "Mot de passe"),
-          ),
-        );
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        if (digicodeForgot){
+          await prefs.setString(
+            'password', password);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const DigicodePage(title: "Mot de passe"),
+            ),
+          );
+        }
+        else if (passwordForgot){
+          await prefs.setString(
+            'password', password);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const MotDePassePage(title: "Mot de passe"),
+            ),
+          );
+        }
       }
     });
+  }
+
+  retrieveBoolValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? value = prefs.getBool("digicodeForgot");
+    bool? value2 = prefs.getBool("passwordForgot");
+    if (value != null) {
+      setState(() {
+        digicodeForgot = value;
+      });
+    }
+    if (value2 != null) {
+      setState(() {
+        passwordForgot = value2;
+      });
+    }
   }
 
   @override
@@ -139,6 +183,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         ),
                       ),
                       SizedBox(height: screenHeight * 0.05,),
+
                       // Boite d'affichage de la question secrète.
                       Container(
                         width: screenWidth * 0.8,
@@ -158,6 +203,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           ),
                         ),
                       ),
+
                       Container(
                         alignment: Alignment.center,
                         child: Row(
@@ -172,12 +218,114 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       SizedBox(height: screenHeight * 0.05,),
                     ],
                   );
-                } else {
+                } else if (showPasswordFields && passwordForgot) {
                   return Column(
                     children: [
+                      
+                      Container(
+                        width: screenWidth * 0.8,
+                        decoration: BoxDecoration(
+                          color: selectBlue,// Couleur de fond fixe
+                          borderRadius: BorderRadius.circular(10.0), // Définir un rayon de coin
+                        ),
+                        alignment: Alignment.center,
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10.0),
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown, // Ajuste la taille du texte pour s'adapter à la boîte
+                            child: Text(
+                              'Nouveau mot de passe :',
+                              style: TextStyle(fontSize: 24.0, color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      // Boite de texte pour le nouveau mot de passe
                       TextInput(controller: newPasswordController),
+
                       SizedBox(height: screenHeight * 0.05,),
+
+                      Container(
+                        width: screenWidth * 0.8,
+                        decoration: BoxDecoration(
+                          color: selectBlue,// Couleur de fond fixe
+                          borderRadius: BorderRadius.circular(10.0), // Définir un rayon de coin
+                        ),
+                        alignment: Alignment.center,
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10.0),
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown, // Ajuste la taille du texte pour s'adapter à la boîte
+                            child: Text(
+                              'Confirmer le mot de passe :',
+                              style: TextStyle(fontSize: 24.0, color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      // Boite de texte pour la confirmation du mot de passe
                       TextInput(controller: confirmPasswordController),
+                    ],
+                  );
+                } else if (showPasswordFields && digicodeForgot) {
+                  return Column(
+                    children: [
+                      
+                      Container(
+                        width: screenWidth * 0.8,
+                        decoration: BoxDecoration(
+                          color: selectBlue,// Couleur de fond fixe
+                          borderRadius: BorderRadius.circular(10.0), // Définir un rayon de coin
+                        ),
+                        alignment: Alignment.center,
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10.0),
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown, // Ajuste la taille du texte pour s'adapter à la boîte
+                            child: Text(
+                              'Nouveau digicode :',
+                              style: TextStyle(fontSize: 24.0, color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      // Boite de texte pour le nouveau mot de passe
+                      TextInput(controller: newPasswordController),
+
+                      SizedBox(height: screenHeight * 0.05,),
+
+                      Container(
+                        width: screenWidth * 0.8,
+                        decoration: BoxDecoration(
+                          color: selectBlue,// Couleur de fond fixe
+                          borderRadius: BorderRadius.circular(10.0), // Définir un rayon de coin
+                        ),
+                        alignment: Alignment.center,
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10.0),
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown, // Ajuste la taille du texte pour s'adapter à la boîte
+                            child: Text(
+                              'Confirmer le digicode :',
+                              style: TextStyle(fontSize: 24.0, color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      // Boite de texte pour la confirmation du mot de passe
+                      TextInput(controller: confirmPasswordController),
+                    ],
+                  );
+                } else {
+                  return const Column(
+                    children: [
+                      Text(
+                        'ERROR',
+                      )
                     ],
                   );
                 }

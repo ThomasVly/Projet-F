@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_application_1/classes/digicode.dart';
 import 'package:flutter_application_1/classes/navbar.dart';
 import 'package:flutter_application_1/classes/forgot_password.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MotDePassePage extends StatefulWidget {
   const MotDePassePage({Key? key, required this.title}) : super(key: key);
@@ -186,7 +187,12 @@ class _MotDePassePageState extends State<MotDePassePage> {
 
             // Bouton "Mot de passe oublié ?"
             TextButton(
-              onPressed: (){
+              onPressed: () async{
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                await prefs.setBool(
+                  'digicodeForgot', false);
+                await prefs.setBool(
+                  'passwordForgot', true);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
