@@ -17,10 +17,13 @@ class _AccueilState extends State<Accueil> {
   late SharedPreferences _prefs;
   late DateTime selectedDate;
   late ScrollController _scrollController;
+  late String note = "";
+  var temp = [];
 
   @override
   void initState() {
     super.initState();
+    retrieveStringValue();
     _initPreferences();
     selectedDate = DateTime.now();
     _scrollController = ScrollController();
@@ -28,6 +31,20 @@ class _AccueilState extends State<Accueil> {
       // Centrer automatiquement la bulle sélectionnée
       _scrollToSelectedDate();
     });
+
+  }
+
+  retrieveStringValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString("21/01/24", "titre<>text<>#joyeux<>Happy");
+    String? value = prefs.getString("21/01/24");
+    if (value != null) {
+      setState(() {
+        note = value;
+      });
+    }
+    temp = note.split("<>");
+    print(temp);
   }
 
   void _scrollToSelectedDate() {
@@ -195,7 +212,7 @@ class _AccueilState extends State<Accueil> {
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Text(
-                    "Il n'y a pas de notes pour le ${DateFormat('dd/MM/yyyy').format(selectedDate)}",
+                    "Il n'y a pas de notes pour le ${DateFormat('dd/MM/yyyy').format(selectedDate)},\ntitre:${temp[0]}\ntexte:${temp[1]}\ntag:${temp[2]}\nemotion:${temp[3]}",
                     style: const TextStyle(fontSize: 18),
                   ),
                 ),
