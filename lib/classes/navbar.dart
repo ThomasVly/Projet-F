@@ -3,8 +3,7 @@ import 'package:flutter_application_1/classes/parametres.dart';
 import 'chargement.dart';
 import 'calendrier.dart';
 import 'accueil.dart';
-import 'notes.dart';
-import 'dossiers.dart';
+import 'recap.dart';
 
 const Color bottomNavBgColor = Color.fromARGB(192, 129, 61, 212);
 
@@ -32,10 +31,7 @@ class _NavBarState extends State<NavBar> {
       Accueil(title: "notes"),
       Calendar(title: "calendar"),
       Chargement(title: 'yousk2'),
-      Icon(
-        Icons.note_add,
-        size: 150,
-      ),
+      Recap(title: "Recapitulatif"),
       Parametres(title: 'settings'),
     ];
 
