@@ -20,6 +20,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     super.initState();
     _loadTheme();
     retrieveBoolValue();
+    retrieveSecretQuestion();
   }
   @override
   void didChangeDependencies() {
@@ -37,7 +38,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   }
 
   String errorText = ' ';
-  String questionText = 'Quelle est la couleur ?';
+  late String questionText = '';
+  late String answerText = '';
 
   int nbEssais = 3;
 
@@ -45,67 +47,106 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   late bool digicodeForgot;
   late bool passwordForgot;
 
-  void checkInput(String input) {
+  void checkInput(String input) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? answerValue = prefs.getString("securityAnswer");
     setState(() {
-      
-      if (input == 'BLEU') {
-        nbEssais = 3;
-        showPasswordFields = true;
-      } else {
-        errorText = '$input est une mauvaise réponse.\n Il vous reste $nbEssais essais';
-        nbEssais = nbEssais - 1;
+      if (answerValue != null) {
+        answerText = answerValue;
       }
     });
+    
+    if (input == answerText) {
+      nbEssais = 3;
+      setState((){
+        showPasswordFields = true;
+        errorText = ' ';
+      });
+    } else {
+      if (nbEssais > 1) {
+        nbEssais = nbEssais - 1;
+        setState(() {
+          errorText = '$input est une mauvaise réponse.\n Il vous reste $nbEssais essais';
+        });
+      } else if (nbEssais == 0) {
+        setState(() {
+          errorText = '$input est une mauvaise réponse.\n Il ne vous reste plus aucun essais';
+        });
+      }
+    }
   }
 
-  void checkPassword(String password, String confirmPassword) {
-    setState(() async {
-      if (password != confirmPassword) {
-        if (digicodeForgot){
+  void checkPassword(String password, String confirmPassword) async {
+    if (password != confirmPassword) {
+      if (digicodeForgot){
+        setState(() {
           errorText = 'Les digicodes ne correspondent pas.';
-        }
-        else if (passwordForgot){
-          errorText = 'Les mots de passe ne correspondent pas.';
-        }
-        
-      } else {
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        if (digicodeForgot){
-          await prefs.setString(
-            'password', password);
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const DigicodePage(title: "Mot de passe"),
-            ),
-          );
-        }
-        else if (passwordForgot){
-          await prefs.setString(
-            'password', password);
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const MotDePassePage(title: "Mot de passe"),
-            ),
-          );
-        }
+        });
       }
-    });
+      else if (passwordForgot){
+        setState(() {
+          errorText = 'Les mots de passe ne correspondent pas.';
+        });
+      }
+    } else if (password == '' || confirmPassword == ''){
+      if (digicodeForgot){
+        setState(() {
+          errorText = 'Veuillez remplir le digicode et sa confirmation';
+        });
+      }
+      else if (passwordForgot){
+        setState(() {
+          errorText = 'Veuillez remplir le mot de passe et sa confirmation';
+        });
+      }
+    } else {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      if (digicodeForgot){
+        await prefs.setString(
+          'digicode', password);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const DigicodePage(title: "Mot de passe"),
+          ),
+        );
+      }
+      else if (passwordForgot){
+        await prefs.setString(
+          'password', password);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const MotDePassePage(title: "Mot de passe"),
+          ),
+        );
+      }
+    }
   }
+  
 
   retrieveBoolValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool? value = prefs.getBool("digicodeForgot");
-    bool? value2 = prefs.getBool("passwordForgot");
-    if (value != null) {
+    bool? bool_value = prefs.getBool("digicodeForgot");
+    bool? bool_value2 = prefs.getBool("passwordForgot");
+    if (bool_value != null) {
       setState(() {
-        digicodeForgot = value;
+        digicodeForgot = bool_value;
       });
     }
-    if (value2 != null) {
+    if (bool_value2 != null) {
       setState(() {
-        passwordForgot = value2;
+        passwordForgot = bool_value2;
+      });
+    }
+  }
+
+  retrieveSecretQuestion() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? questionValue = prefs.getString("securityQuestion");
+    if (questionValue != null){
+      setState(() {
+        questionText = questionValue;
       });
     }
   }
@@ -216,7 +257,17 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 } else if (showPasswordFields && passwordForgot) {
                   return Column(
                     children: [
-                      
+
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          errorText,
+                          style: const TextStyle(fontSize: 24.0, color: Colors.red),
+                        ),
+                      ),
+
+                      SizedBox(height: screenHeight * 0.05,),
+
                       Container(
                         width: screenWidth * 0.8,
                         decoration: BoxDecoration(
@@ -267,7 +318,16 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 } else if (showPasswordFields && digicodeForgot) {
                   return Column(
                     children: [
-                      
+
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          errorText,
+                          style: const TextStyle(fontSize: 24.0, color: Colors.red),
+                        ),
+                      ),
+
+                      SizedBox(height: screenHeight * 0.05,),
                       Container(
                         width: screenWidth * 0.8,
                         decoration: BoxDecoration(
