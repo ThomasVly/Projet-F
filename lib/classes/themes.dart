@@ -23,6 +23,7 @@ class _ThemesState extends State<Themes> {
 
   Future<void> _loadPreferences() async {
     _prefs = await SharedPreferences.getInstance();
+
     setState(() {
       _sliderValue = _prefs.getDouble('theme') ?? 0.0;
     });
@@ -33,9 +34,8 @@ class _ThemesState extends State<Themes> {
       _sliderValue = value;
     });
     await _prefs.setDouble('theme', value);
-    bool isDarkMode = value ==1.0;
+    bool isDarkMode = value == 1.0;
     MyApp.updateTheme(context, isDarkMode);
-
   }
 
   @override

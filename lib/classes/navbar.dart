@@ -4,12 +4,12 @@ import 'chargement.dart';
 import 'calendrier.dart';
 import 'accueil.dart';
 import 'notes.dart';
+import 'dossiers.dart';
 
-
+const Color bottomNavBgColor = Color.fromARGB(192, 129, 61, 212);
 
 class NavBar extends StatefulWidget {
-  const NavBar({super.key, required this.title});
-
+  const NavBar({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -18,8 +18,6 @@ class NavBar extends StatefulWidget {
 }
 
 class _NavBarState extends State<NavBar> {
-
-
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
@@ -30,18 +28,9 @@ class _NavBarState extends State<NavBar> {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-
-
     const List<Widget> _pages = <Widget>[
-
-      Accueil(title: "notes",),
-      Calendar(title: "calendar",),
+      Accueil(title: "notes"),
+      Calendar(title: "calendar"),
       Chargement(title: 'yousk2'),
       Icon(
         Icons.calendar_today,
@@ -51,40 +40,59 @@ class _NavBarState extends State<NavBar> {
     ];
 
     return Scaffold(
-
       appBar: AppBar(
         title: const Text(''),
       ),
-      
-      body : Center(
+      body: Center(
         child: _pages.elementAt(_selectedIndex),
       ),
-      bottomNavigationBar:BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.house),
-            label: 'Calls',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.fast_rewind),
-            label: 'Camera',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.note_add),
-            label: 'Chats',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today),
-            label: 'calendar',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'settings',
-          ),
-        ],
-        currentIndex : _selectedIndex,
-        onTap: _onItemTapped,
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(27)),
+          color: bottomNavBgColor,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.8),
+              spreadRadius: 2,
+              blurRadius: 7,
+              offset: Offset(0, 3),
+            ),
+          ],
+        ),
+        child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: Colors.transparent,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.grey,
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
+          selectedIconTheme:
+              IconThemeData(size: 32), // Agrandir l'icône sélectionnée
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.house),
+              label: 'Accueil',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.calendar_today),
+              label: 'calendrier',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                  Icons.add_circle_outline), // Icône "Ajouter" pour les notes
+              label: 'Notes', // Label pour les notes
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons
+                  .history), // Icône de vue liste pour le résumé ou le récapitulatif
+              label: 'Récapitulatif ', // Label pour le résumé
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              label: 'Paramètres',
+            ),
+          ],
+        ),
       ),
     );
   }

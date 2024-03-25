@@ -43,8 +43,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   bool isDarkMode() {
-  return _isDarkMode;
-}
+    return _isDarkMode;
+  }
 
   @override
   Widget build(BuildContext context) {

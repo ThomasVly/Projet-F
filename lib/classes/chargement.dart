@@ -1,34 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/classes/digicode.dart';
 import 'package:flutter_application_1/classes/inscriptionPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Chargement extends StatefulWidget{
-  const Chargement({super.key, required this.title});
-
+class Chargement extends StatefulWidget {
+  const Chargement({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
-  State<Chargement> createState() => _AccueilPageState();
+  _ChargementState createState() => _ChargementState();
 }
 
-class _AccueilPageState extends State<Chargement>{
-
+class _ChargementState extends State<Chargement>
+    with SingleTickerProviderStateMixin {
   late String username = "";
+  late AnimationController _controller;
 
   @override
   void initState() {
     super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 3),
+    )..addListener(() {
+        setState(() {});
+      });
+
+    _controller.forward();
+
     retrieveStringValue();
     Future.delayed(Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) =>InscriptionPage(), 
+          builder: (context) => InscriptionPage(),
         ),
       );
     });
   }
+
   retrieveStringValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? value = prefs.getString("username");
@@ -38,70 +47,104 @@ class _AccueilPageState extends State<Chargement>{
       });
     }
   }
+
   @override
-  Widget build(BuildContext context){
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-     return Scaffold(
-      body: Align(
-        
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-          /*const Row(
-               mainAxisAlignment: MainAxisAlignment.center,    // Titre de haut de page
-               children: <Widget>[
-              Text(
-                'Journal Intime',
-              ),
-               ]
-            ),*/
-        
-            Row(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Stack(
+        children: [
+          // Logos en arrière-plan
+          Positioned(
+            left: 0,
+            top: 0,
+            child: Image.asset(
+              'images/logo.png',
+              width: screenSize.width / 4,
+              height: screenSize.height / 4,
+              color: Colors.grey.withOpacity(0.2),
+            ),
+          ),
+          Positioned(
+            right: 0,
+            top: 0,
+            child: Image.asset(
+              'images/logo.png',
+              width: screenSize.width / 4,
+              height: screenSize.height / 4,
+              color: Colors.grey.withOpacity(0.2),
+            ),
+          ),
+          Positioned(
+            left: 0,
+            bottom: 0,
+            child: Image.asset(
+              'images/logo.png',
+              width: screenSize.width / 4,
+              height: screenSize.height / 4,
+              color: Colors.grey.withOpacity(0.2),
+            ),
+          ),
+          Positioned(
+            right: 0,
+            bottom: 0,
+            child: Image.asset(
+              'images/logo.png',
+              width: screenSize.width / 4,
+              height: screenSize.height / 4,
+              color: Colors.grey.withOpacity(0.2),
+            ),
+          ),
+          // Contenu au centre de la page
+          Center(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                
-                /*const SizedBox(
-                  width:50,
-                ),*/
+                // Logo principal
                 Image.asset(
-                  
                   'images/logo.png',
-                  width : (screenSize.width/2),
-                  height: (screenSize.height/2),
+                  width: screenSize.width * 0.8,
+                  height: screenSize.height * 0.4,
                 ),
-                
-                // Vous pouvez ajouter d'autres éléments de la ligne ici si nécessaire
+                SizedBox(height: 18),
+                // Texte de bienvenue
+                Center(
+                  child: Text(
+                    "Bienvenue $username",
+                    style: TextStyle(
+                        fontSize: screenSize.width / 16, color: Colors.black),
+                  ),
+                ),
+                SizedBox(height: 18),
+                Center(
+                  child: Image.asset(
+                    'images/gif-diary.gif',
+                    width: screenSize.width / 3,
+                    height: screenSize.height / 5,
+                  ),
+                ),
+                // Barre de progressionv
+                LinearProgressIndicator(
+                  value: _controller.value,
+                  backgroundColor:
+                      const Color.fromARGB(255, 22, 22, 22).withOpacity(0.5),
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                      Color.fromARGB(255, 189, 66, 201)),
+                ),
+                SizedBox(height: 18),
+                // GIF centré
               ],
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                /*SizedBox(
-                  height:50,
-                ),*/
-                Text(
-                  "Bienvenue $username",
-                  style : TextStyle(fontSize: screenSize.width/16)
-                )
-              ]
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Image.asset(
-                  'images/gif-diary.gif',
-                  width : (screenSize.width/4),
-                  height: (screenSize.height/4),
-                ),
-              ]
-            )
-          ],
-        ),
-       
+          ),
+        ],
       ),
-       // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

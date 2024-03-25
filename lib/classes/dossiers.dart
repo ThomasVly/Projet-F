@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DossiersPage extends StatefulWidget {
   @override
@@ -7,6 +8,12 @@ class DossiersPage extends StatefulWidget {
 
 class _DossiersPageState extends State<DossiersPage> {
   List<String> dossiers = ['Dossier Favoris']; // Liste des dossiers
+
+  @override
+  void initState() {
+    super.initState();
+    _chargerDossiers();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +64,7 @@ class _DossiersPageState extends State<DossiersPage> {
                   String nouveauDossier = controller.text.trim();
                   if (nouveauDossier.isNotEmpty) {
                     dossiers.add(nouveauDossier);
+                    _sauvegarderDossiers(); // Sauvegarder les dossiers après l'ajout
                   }
                 });
                 Navigator.of(context).pop();
@@ -67,5 +75,19 @@ class _DossiersPageState extends State<DossiersPage> {
         );
       },
     );
+  }
+
+  // Fonction pour charger les dossiers depuis les préférences partagées
+  void _chargerDossiers() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      dossiers = prefs.getStringList('dossiers') ?? dossiers;
+    });
+  }
+
+  // Fonction pour sauvegarder les dossiers dans les préférences partagées
+  void _sauvegarderDossiers() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setStringList('dossiers', dossiers);
   }
 }

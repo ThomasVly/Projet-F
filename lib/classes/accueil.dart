@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/classes/dossiers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
+import 'RecherchePage.dart';
 
 class Accueil extends StatefulWidget {
   const Accueil({Key? key, required this.title}) : super(key: key);
@@ -71,6 +72,10 @@ class _AccueilState extends State<Accueil> {
               ),
             ),
             onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => RecherchePage()),
+              );
               // Code à exécuter lorsqu'on appuie sur l'icône de recherche
             },
           ),
