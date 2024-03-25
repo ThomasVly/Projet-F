@@ -60,8 +60,7 @@ void saveNote() async {
   emoji = _emotions[index]['name'];
   String dateString = '$_selectedDate'; 
   String date = dateString;
-  prefs.setString(date,"titre : $titre <>, texte : $texte <>, #tag : $tags <>, emoji : $emoji <>");
-  debugPrint(prefs.getString(date));
+  prefs.setString(date,"titre : $titre <>, texte : $texte <>, #tag : $tags <>, emoji : $emoji");
   showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -102,6 +101,44 @@ void saveNote() async {
                   setState(() {
                     _selectedDate = picked;
                   });
+                  String emoji='';
+                  String dateString = '$_selectedDate';
+                  String date = dateString;
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  String? noteData = prefs.getString(date);
+
+                  if (noteData != null) {
+                    // Analyser les données récupérées et mettre à jour les champs de titre, texte et tags
+                    List<String> parts = noteData.split("<>, ");
+                    _controllertitre.text = parts[0].split(" : ")[1];
+                    _controllertexte.text = parts[1].split(" : ")[1];
+                    emoji= parts[3].split(" : ")[1];
+                    for (int i = 0; i < _emotions.length; i++) {
+                      if (_emotions[i]['name'] == emoji) {
+                        setState(() {
+                          isButtonSelectedList[i] = true;
+                        });
+                      } else {
+                        setState(() {
+                          isButtonSelectedList[i] = false;
+                        });
+                      }
+                    } 
+                    String tagsString = parts[2].split(" : ")[1];
+                    tagsString = tagsString.substring(1, tagsString.length - 2);
+                    setState(() {
+                      tags = tagsString.split(", ");
+                    });
+                  } else {
+                    _controllertitre.clear();
+                    _controllertexte.clear();
+                    for (int i = 0; i < _emotions.length; i++) {
+                      isButtonSelectedList[i]= false;
+                    }
+                    setState(() {
+                      tags.clear();
+                    });
+                  }
                 }
               },
               controller: TextEditingController(
@@ -113,13 +150,13 @@ void saveNote() async {
                 hintText: 'Sélectionner une date',
               ),
             ),
+
             TextField(
               controller: _controllertitre,
               decoration: InputDecoration(
                 hintText: 'Titre de la note',
               ),
               onSubmitted: (String value) {
-                debugPrint(value);
               },
             ),
             SizedBox(height : 20),
@@ -138,7 +175,6 @@ void saveNote() async {
                 ),
               ),
               onSubmitted: (String value) {
-                debugPrint(value);
               },
             ),
             SizedBox(height: 16),
@@ -213,11 +249,9 @@ void saveNote() async {
                         }
                       }
                     });
-                    // Action à effectuer lors du clic sur le bouton
                     final emotion = _emotions[index];
                     final name = emotion['name'];
                     final emoji = emotion['emoji'];
-                    debugPrint('$name : $emoji');
                   },
                   icon: Text(
                     _emotions[index]['emoji'],
