@@ -31,7 +31,7 @@ class _NavBarState extends State<NavBar> {
     const List<Widget> _pages = <Widget>[
       Accueil(title: "notes"),
       Calendar(title: "calendar"),
-      Chargement(title: 'yousk2'),
+      Notes(title: 'yousk2'),
       Icon(
         Icons.note_add,
         size: 150,
