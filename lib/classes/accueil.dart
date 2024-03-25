@@ -36,8 +36,16 @@ class _AccueilState extends State<Accueil> {
 
   retrieveStringValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString("21/01/24", "titre<>text<>#joyeux<>Happy");
-    String? value = prefs.getString("21/01/24");
+
+    await prefs.setString("25/03/2024", "titre<>text<>#joyeux<>Happy");
+    await prefs.setString("24/03/2024", "titre<>text<>#joyeux<>Sad");
+    await prefs.setString("23/03/2024", "titre<>text<>#joyeux<>SSJ");
+    await prefs.setString("22/03/2024", "titre<>text<>#joyeux<>Hungry");
+    await prefs.setString("21/03/2024", "titre<>text<>#joyeux<>Happy");
+    await prefs.setString("20/03/2024", "titre<>text<>#joyeux<>Neutral");
+    await prefs.setString("19/03/2024", "titre<>text<>#joyeux<>Happy");
+
+    String? value = prefs.getString("25/03/2024");
     if (value != null) {
       setState(() {
         note = value;
