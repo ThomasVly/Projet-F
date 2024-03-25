@@ -125,7 +125,6 @@ class _DigicodePageState extends State<DigicodePage> {
               ),
             ),
 
-
             //SizedBox(height: buttonSizeHeight * 0.05),
 
             //Affichage du selecteur entre digicode et mdp
