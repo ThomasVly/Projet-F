@@ -36,7 +36,6 @@ class _NavBarState extends State<NavBar> {
         Icons.note_add,
         size: 150,
       ),
-      Calendar(title: "calendar",),
       Parametres(title: 'settings'),
     ];
 
