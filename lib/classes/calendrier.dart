@@ -1,9 +1,5 @@
-// Copyright 2019 Aleksander Woźniak
-// SPDX-License-Identifier: Apache-2.0
-
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
-
 
 class Calendar extends StatefulWidget {
   const Calendar({super.key, required this.title});
