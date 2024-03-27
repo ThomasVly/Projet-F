@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/classes/themes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'design.dart';
 
-class Parametres extends StatefulWidget{
-  const Parametres({super.key, required this.title});
-
+class Parametres extends StatefulWidget {
+  const Parametres({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
   State<Parametres> createState() => _ParametresState();
-
 }
 
-class _ParametresState extends State<Parametres>{
-  late bool _isDarkMode =false;
-  
+class _ParametresState extends State<Parametres> {
+  late bool _isDarkMode = false;
+
   @override
   void initState() {
     super.initState();
     _loadTheme();
   }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -37,127 +37,111 @@ class _ParametresState extends State<Parametres>{
   }
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-     return Scaffold(
-      body: Align(
-        
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-          /*const Row(
-               mainAxisAlignment: MainAxisAlignment.center,    // Titre de haut de page
-               children: <Widget>[
-              Text(
-                'Journal Intime',
-              ),
-               ]
-            ),*/
-        
-            Row(
+    BoxDecoration? backgroundDecoration;
+    if (!_isDarkMode) {
+      backgroundDecoration = AppDesign.buildBackgroundDecoration();
+    }
+
+    return Scaffold(
+      body: Container(
+        decoration: backgroundDecoration,
+        child: Align(
+          alignment: Alignment.topCenter,
+          child: SingleChildScrollView(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                
-                /*const SizedBox(
-                  width:50,
-                ),*/
-                Image.asset(  
-                  _isDarkMode
-                  ?'images/whiteparametres.png'
-                  :'images/blackparametres.png',
-                  width : (screenSize.width/8),
-                  height: (screenSize.height/8),
-                ),
-                Text(
-                  'Paramètres',
-                  style : TextStyle(fontSize: screenSize.width/8),
-                )
-                
-                // Vous pouvez ajouter d'autres éléments de la ligne ici si nécessaire
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                const SizedBox(
-                  height:50,
-                ),
-                Image.asset(
-                  _isDarkMode
-                  ? 'images/whiteprofil.png' :
-                  'images/blackprofil.png',
-                  width : (screenSize.width/16),
-                  height: (screenSize.height/16),
-                ),
-                const SizedBox(
-                  width:50,
-                ),
-                Text(
-                  "Mon profil",
-                  style : TextStyle(fontSize: screenSize.width/16)
-                )
-              ]
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                GestureDetector(
-                  onTap: () {
-                    // Action à exécuter lors du clic sur le bouton "Thèmes"
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Themes(title: "theme")),
-                    );
-                  },
-                  child: Row(
-                    children: <Widget>[
-                      Image.asset(
-                        _isDarkMode?
-                        'images/whitepersonnalisation.png':
-                        'images/blackpersonnalisation.png',
-                        width: (screenSize.width / 16),
-                        height: (screenSize.height / 16),
-                      ),
-                      const SizedBox(
-                        width: 50,
-                      ),
-                      Text(
-                        "Thèmes",
-                        style: TextStyle(fontSize: screenSize.width / 16),
-                      ),
-                    ],
+                SizedBox(height: 50),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: Image.asset(
+                    _isDarkMode
+                        ? 'images/whiteparametres.png'
+                        : 'images/blackparametres.png',
+                    width: (screenSize.width / 5),
+                    height: (screenSize.height / 5),
                   ),
                 ),
+                SizedBox(height: 8),
+                Text(
+                  'Paramètres',
+                  style: TextStyle(
+                    fontSize: screenSize.width / 10,
+                    color: _isDarkMode ? Colors.white : Colors.black,
+                  ),
+                ),
+                SizedBox(height: 30),
+                buildParametreItem(
+                  iconPath: _isDarkMode
+                      ? 'images/whiteprofil.png'
+                      : 'images/blackprofil.png',
+                  text: 'Mon profil',
+                  onTap: () {
+                    // Action à exécuter lors du clic sur "Mon profil"
+                  },
+                ),
+                buildParametreItem(
+                  iconPath: _isDarkMode
+                      ? 'images/whitepersonnalisation.png'
+                      : 'images/blackpersonnalisation.png',
+                  text: 'Thèmes',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Themes(title: "theme")),
+                    );
+                  },
+                ),
+                buildParametreItem(
+                  iconPath: _isDarkMode
+                      ? 'images/whitenotif.png'
+                      : 'images/blacknotif.png',
+                  text: 'Notifications et rappels',
+                  onTap: () {
+                    // Action à exécuter lors du clic sur "Notifications et rappels"
+                  },
+                ),
               ],
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Image.asset(
-                  _isDarkMode?
-                  'images/whitenotif.png':
-                  'images/blacknotif.png',
-                  width : (screenSize.width/16),
-                  height: (screenSize.height/16),
-                ),
-                const SizedBox(
-                  width:50,
-                ),
-                Text(
-                  "Notifications et rappels",
-                  style : TextStyle(fontSize: screenSize.width/16)
-                )
-                
-              ]
-            )
-            
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildParametreItem(
+      {required String iconPath,
+      required String text,
+      required VoidCallback onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        child: Row(
+          children: <Widget>[
+            Image.asset(
+              iconPath,
+              width: 32,
+              height: 32,
+            ),
+            SizedBox(width: 20),
+            Text(
+              text,
+              style: TextStyle(fontSize: 20),
+            ),
+            Spacer(),
+            Icon(
+              Icons.arrow_forward_ios,
+              size: 20,
+              color: Color.fromARGB(255, 143, 0, 100),
+            ),
           ],
         ),
-       
       ),
-       // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

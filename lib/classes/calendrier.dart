@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:flutter_application_1/classes/themes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'design.dart';
 import 'event.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -33,7 +36,7 @@ class _CalendarState extends State<Calendar> {
   ];
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     _selectedDay = _focusedDay;
     _selectedNotes = ValueNotifier(_getNotesForDay(_selectedDay!));
@@ -43,10 +46,14 @@ class _CalendarState extends State<Calendar> {
 
   void retrieveNotesList() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString("21/03/2024", "titre<>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum<>#joyeux<>Joie");
-    await prefs.setString("28/03/2024", "titre<>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum<>#joyeux<>Joie");
-    await prefs.setString("01/03/2024", "titre<>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum<>#joyeux<>Joie");
-    await prefs.setString("02/03/2024", "titre<>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum<>#joyeux<>Joie");
+    await prefs.setString("21/03/2024",
+        "titre<>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum<>#joyeux<>Joie");
+    await prefs.setString("28/03/2024",
+        "titre<>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum<>#joyeux<>Joie");
+    await prefs.setString("01/03/2024",
+        "titre<>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum<>#joyeux<>Joie");
+    await prefs.setString("02/03/2024",
+        "titre<>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum<>#joyeux<>Joie");
     notes.clear(); // Effacer les données précédentes de la carte
 
     // Définir l'intervalle de dates (du 1er janvier 2020 au 1er janvier 2025)
@@ -54,12 +61,15 @@ class _CalendarState extends State<Calendar> {
     DateTime endDate = DateTime(2025, 1, 1);
 
     // Parcourir toutes les dates dans l'intervalle
-    for (DateTime date_i = startDate; date_i.isBefore(endDate); date_i = date_i.add(const Duration(days: 1))) {
-      String? noteValue = prefs.getString(DateFormat('dd/MM/yyyy').format(date_i));
+    for (DateTime date_i = startDate;
+        date_i.isBefore(endDate);
+        date_i = date_i.add(const Duration(days: 1))) {
+      String? noteValue =
+          prefs.getString(DateFormat('dd/MM/yyyy').format(date_i));
       if (noteValue != null) {
         // Diviser la valeur en différentes parties
         List<String> noteParts = noteValue.split("<>");
-        
+
         // Extraire les tags de la partie des tags
         List<String> tags = [];
         for (String part in noteParts[2].split('#')) {
@@ -69,12 +79,11 @@ class _CalendarState extends State<Calendar> {
         }
         // Créer un objet Note à partir des parties divisées
         Note note = Note(
-          noteParts[0], // title
-          noteParts[1], // text
-          noteParts[3], // emotion
-          date_i.toUtc().add(const Duration(hours: 1)),
-          tags: tags
-        );
+            noteParts[0], // title
+            noteParts[1], // text
+            noteParts[3], // emotion
+            date_i.toUtc().add(const Duration(hours: 1)),
+            tags: tags);
         // Ajouter la note à la liste des notes pour cette date
         if (notes.containsKey(date_i)) {
           notes[date_i.toUtc().add(const Duration(hours: 1))]!.add(note);
@@ -91,49 +100,50 @@ class _CalendarState extends State<Calendar> {
     return notes[day] ?? [];
   }
 
+  late bool _isDarkMode = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Calendrier'),
-      ),
-      body: Column(
-        children: [
+        appBar: AppBar(
+          title: const Text('Calendrier'),
+        ),
+        body: Column(children: [
           TableCalendar(
-            calendarBuilders: CalendarBuilders(
-              defaultBuilder: (context, date, _) {
-                if (notes.containsKey(date)) {
-                  return Container(
-                    margin: const EdgeInsets.all(4),
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Color.fromARGB(255, 11, 94, 219),
-                    ),
-                    child: Center(
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            top: -15, // Modifier la position pour déplacer vers le haut
-                            right: -15, // Modifier la position pour le coin haut gauche
-                            child: SizedBox(
-                              width: 30,
-                              height: 30,
-                              child: _getEmotionEmoji(date),
-                            ),
+            calendarBuilders:
+                CalendarBuilders(defaultBuilder: (context, date, _) {
+              if (notes.containsKey(date)) {
+                return Container(
+                  margin: const EdgeInsets.all(4),
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color.fromARGB(255, 11, 94, 219),
+                  ),
+                  child: Center(
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          top:
+                              -15, // Modifier la position pour déplacer vers le haut
+                          right:
+                              -15, // Modifier la position pour le coin haut gauche
+                          child: SizedBox(
+                            width: 30,
+                            height: 30,
+                            child: _getEmotionEmoji(date),
                           ),
-                          Text(
-                            '${date.day}',
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                        ],
-                      ),
+                        ),
+                        Text(
+                          '${date.day}',
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      ],
                     ),
-                  );
-                }
-                return null;
+                  ),
+                );
               }
-            ),
-            
+              return null;
+            }),
             firstDay: DateTime(2020, 1, 1),
             lastDay: DateTime(2025, 1, 1),
             focusedDay: _focusedDay,
@@ -167,64 +177,65 @@ class _CalendarState extends State<Calendar> {
             },
           ),
           Expanded(
-            child: ValueListenableBuilder(
-              valueListenable: _selectedNotes,
-              builder: (context, value, _) {
-                return ListView.builder(
-                  itemCount: value.length,
-                  itemBuilder: (context, index){
-                    final Note note = value[index];
-                    final DateTime dateNote = note.date;
-                    return Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                      decoration: BoxDecoration(
-                        border: Border.all(),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: ListTile(
-                        onTap: ()=>print(""), // action à effectuer lors du clic sur une note
-                        title: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // Titre de la note
-                            Text(
-                              note.title,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
+              child: ValueListenableBuilder(
+                  valueListenable: _selectedNotes,
+                  builder: (context, value, _) {
+                    return ListView.builder(
+                        itemCount: value.length,
+                        itemBuilder: (context, index) {
+                          final Note note = value[index];
+                          final DateTime dateNote = note.date;
+                          return Container(
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 4),
+                            decoration: BoxDecoration(
+                              border: Border.all(),
+                              borderRadius: BorderRadius.circular(12),
                             ),
-                            SizedBox(height: 8), // Espacement entre le titre et la date
+                            child: ListTile(
+                              onTap: () => print(
+                                  ""), // action à effectuer lors du clic sur une note
+                              title: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // Titre de la note
+                                  Text(
+                                    note.title,
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                      height:
+                                          8), // Espacement entre le titre et la date
 
-                            // Date de la note
-                            Text(
-                              DateFormat.yMMMd('fr_FR').format(note.date),
-                              style: const TextStyle(
-                                fontSize: 16,
-                                color: Colors.grey,
+                                  // Date de la note
+                                  Text(
+                                    DateFormat.yMMMd('fr_FR').format(note.date),
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              // Emoji correspondant à l'humeur de la note
+                              leading: SizedBox(
+                                child: _getEmotionEmoji(dateNote),
+                              ),
+                              // Texte de la note
+                              subtitle: Text(
+                                note.text,
+                                maxLines:
+                                    2, // Limite le texte à 2 lignes pour un aperçu
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
-                          ],
-                        ),
-                        // Emoji correspondant à l'humeur de la note
-                        leading: SizedBox(
-                          child: _getEmotionEmoji(dateNote),
-                        ),
-                        // Texte de la note
-                        subtitle: Text(
-                          note.text,
-                          maxLines: 2, // Limite le texte à 2 lignes pour un aperçu
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    );
-                  }
-                );
-              }
-            )
-          )
-      ])
-    );
+                          );
+                        });
+                  }))
+        ]));
   }
 
   Widget _getEmotionEmoji(DateTime date) {
@@ -242,8 +253,7 @@ class _CalendarState extends State<Calendar> {
         );
       }
     }
-    return const SizedBox.shrink(); // Retourne un widget vide si aucune émotion n'est trouvée
+    return const SizedBox
+        .shrink(); // Retourne un widget vide si aucune émotion n'est trouvée
   }
 }
-
-
