@@ -20,6 +20,15 @@ class _AccueilState extends State<Accueil> {
   late String note = "";
   var temp = [];
 
+  final List<Map<String, dynamic>> _emotions = [
+    {'name': 'Joie', 'emoji': '😊'},
+    {'name': 'Tristesse', 'emoji': '😢'},
+    {'name': 'Colère', 'emoji': '😡'},
+    {'name': 'Amour', 'emoji': '😍'},
+    {'name': 'Choc', 'emoji': '😱'},
+    {'name': 'Peur', 'emoji': '😖'},
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -37,13 +46,13 @@ class _AccueilState extends State<Accueil> {
   retrieveStringValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    await prefs.setString("25/03/2024", "titre<>text<>#joyeux<>Happy");
-    await prefs.setString("24/03/2024", "titre<>text<>#joyeux<>Sad");
-    await prefs.setString("23/03/2024", "titre<>text<>#joyeux<>SSJ");
-    await prefs.setString("22/03/2024", "titre<>text<>#joyeux<>Hungry");
-    await prefs.setString("21/03/2024", "titre<>text<>#joyeux<>Happy");
-    await prefs.setString("20/03/2024", "titre<>text<>#joyeux<>Neutral");
-    await prefs.setString("19/03/2024", "titre<>text<>#joyeux<>Happy");
+    await prefs.setString("25/03/2024", "titre<>text<>#joyeux<>Joie");
+    await prefs.setString("24/03/2024", "titre<>text<>#joyeux<>Tristesse");
+    await prefs.setString("23/03/2024", "titre<>text<>#joyeux<>Colère");
+    await prefs.setString("22/03/2024", "titre<>text<>#joyeux<>Amour");
+    await prefs.setString("21/03/2024", "titre<>text<>#joyeux<>Joie");
+    await prefs.setString("20/03/2024", "titre<>text<>#joyeux<>Amour");
+    await prefs.setString("19/03/2024", "titre<>text<>#joyeux<>Joie");
 
     String? value = prefs.getString("25/03/2024");
     if (value != null) {
