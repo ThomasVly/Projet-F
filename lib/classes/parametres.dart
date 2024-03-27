@@ -161,9 +161,9 @@ class _ParametresState extends State<Parametres> {
                 )
               ],
             )
-          ],
+          ),
         ),
-      ),
+      );
     );
   }
 }
