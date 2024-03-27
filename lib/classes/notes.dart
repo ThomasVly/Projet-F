@@ -108,11 +108,9 @@ void saveNote() async {
                   if (noteData != null) {
                     // Analyser les données récupérées et mettre à jour les champs de titre, texte et tags
                     List<String> parts = noteData.split("<>");
-                    print(parts);
-                    print("temp");
-                    _controllertitre.text = parts[0].split(" : ")[1];
-                    _controllertexte.text = parts[1].split(" : ")[1];
-                    emoji= parts[3].split(" : ")[1];
+                    _controllertitre.text = parts[0];
+                    _controllertexte.text = parts[1];
+                    emoji= parts[3];
                     for (int i = 0; i < _emotions.length; i++) {
                       if (_emotions[i]['name'] == emoji) {
                         setState(() {
@@ -124,8 +122,9 @@ void saveNote() async {
                         });
                       }
                     } 
-                    String tagsString = parts[2].split(" : ")[1];
-                    tagsString = tagsString.substring(1, tagsString.length - 2);
+                    String tagsString = parts[2];
+                    print(tagsString);
+                    tagsString = tagsString.substring(1, tagsString.length - 1);
                     setState(() {
                       tags = tagsString.split(", ");
                     });
