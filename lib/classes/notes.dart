@@ -1,7 +1,6 @@
-import 'dart:convert';
-import 'dart:html' as html;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class Notes extends StatefulWidget {
   const Notes({Key? key, required this.title}) : super(key: key);
@@ -58,7 +57,7 @@ void saveNote() async {
   }
 
   emoji = _emotions[index]['name'];
-  String dateString = '$_selectedDate'; 
+  String dateString = DateFormat('dd/MM/yyyy').format(_selectedDate!);
   String date = dateString;
   prefs.setString(date,"titre : $titre <>, texte : $texte <>, #tag : $tags <>, emoji : $emoji");
   showDialog(
@@ -102,10 +101,10 @@ void saveNote() async {
                     _selectedDate = picked;
                   });
                   String emoji='';
-                  String dateString = '$_selectedDate';
-                  String date = dateString;
+                  String dateString = DateFormat('dd/MM/yyyy').format(_selectedDate!);
+                  print(dateString);
                   SharedPreferences prefs = await SharedPreferences.getInstance();
-                  String? noteData = prefs.getString(date);
+                  String? noteData = prefs.getString(dateString);
 
                   if (noteData != null) {
                     // Analyser les données récupérées et mettre à jour les champs de titre, texte et tags
