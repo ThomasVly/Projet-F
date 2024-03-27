@@ -19,11 +19,12 @@ class _RecapState extends State<Recap> {
   List<String> temp = [];
 
   Map<String, double> dataMap = {
-    "Happy": 0,
-    "Sad": 0,
-    "Hungry": 0,
-    "Neutral": 0,
-    "SSJ": 0
+    '😊' : 0,
+    '😢' : 0,
+    '😡' : 0,
+    '😍' : 0,
+    '😱' : 0,
+    '😖' : 0
   };
 
   @override
@@ -41,7 +42,12 @@ class _RecapState extends State<Recap> {
       String? value = prefs.getString(DateFormat('dd/MM/yyyy').format(now.subtract(Duration(days: i))));
       if (value != null) {
         setState(() {
-          dataMap[value.split("<>")[3]] = (dataMap[value.split("<>")[3]] ?? 0) + 1;
+          if (value.split("<>")[3] == 'Joie'){dataMap['😊'] = (dataMap['😊'] ?? 0) + 1;}
+          if (value.split("<>")[3] == 'Tristesse'){dataMap['😢'] = (dataMap['😢'] ?? 0) + 1;}
+          if (value.split("<>")[3] == 'Colère'){dataMap['😡'] = (dataMap['😡'] ?? 0) + 1;}
+          if (value.split("<>")[3] == 'Amour'){dataMap['😍'] = (dataMap['😍'] ?? 0) + 1;}
+          if (value.split("<>")[3] == 'Choc'){dataMap['😱'] = (dataMap['😱'] ?? 0) + 1;}
+          if (value.split("<>")[3] == 'Peur'){dataMap['😖'] = (dataMap['😖'] ?? 0) + 1;}
         });
       }
     }

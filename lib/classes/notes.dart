@@ -59,7 +59,7 @@ void saveNote() async {
   emoji = _emotions[index]['name'];
   String dateString = DateFormat('dd/MM/yyyy').format(_selectedDate!);
   String date = dateString;
-  prefs.setString(date,"titre : $titre <>, texte : $texte <>, #tag : $tags <>, emoji : $emoji");
+  prefs.setString(date,"${titre}<>${texte}<>${tags}<>${emoji}");
   showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -102,13 +102,14 @@ void saveNote() async {
                   });
                   String emoji='';
                   String dateString = DateFormat('dd/MM/yyyy').format(_selectedDate!);
-                  print(dateString);
                   SharedPreferences prefs = await SharedPreferences.getInstance();
                   String? noteData = prefs.getString(dateString);
 
                   if (noteData != null) {
                     // Analyser les données récupérées et mettre à jour les champs de titre, texte et tags
-                    List<String> parts = noteData.split("<>, ");
+                    List<String> parts = noteData.split("<>");
+                    print(parts);
+                    print("temp");
                     _controllertitre.text = parts[0].split(" : ")[1];
                     _controllertexte.text = parts[1].split(" : ")[1];
                     emoji= parts[3].split(" : ")[1];
