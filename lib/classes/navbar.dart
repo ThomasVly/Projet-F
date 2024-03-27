@@ -5,6 +5,7 @@ import 'calendrier.dart';
 import 'accueil.dart';
 import 'notes.dart';
 import 'dossiers.dart';
+import 'design.dart';
 
 const Color bottomNavBgColor = Color.fromARGB(192, 129, 61, 212);
 
@@ -29,7 +30,7 @@ class _NavBarState extends State<NavBar> {
   @override
   Widget build(BuildContext context) {
     const List<Widget> _pages = <Widget>[
-      Accueil(title: "notes"),
+      Accueil(title: "Mon journal"),
       Calendar(title: "calendar"),
       Chargement(title: 'yousk2'),
       Icon(

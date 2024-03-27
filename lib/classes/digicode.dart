@@ -35,7 +35,7 @@ class _DigicodePageState extends State<DigicodePage> {
 
   // Fonction pour ajouter un chiffre au code entré
   void _addToInput(String digit) {
-    if (_input.length <6) {
+    if (_input.length < 6) {
       setState(() {
         _input += digit;
       });
@@ -43,7 +43,7 @@ class _DigicodePageState extends State<DigicodePage> {
     if (_input.length == 6) {
       checkInput();
     }
-    if (_input.length >6) {
+    if (_input.length > 6) {
       _clearInput();
     }
   }
@@ -60,37 +60,39 @@ class _DigicodePageState extends State<DigicodePage> {
     if (_input == "$digicode") {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) =>const NavBar(title:"accueil"), 
+          builder: (context) => const NavBar(title: "accueil"),
         ),
       );
-    }
-    else {
+    } else {
       _input = "ERROR!";
     }
   }
 
   double calculateButtonSizeWidth(BuildContext context, int gridColumns) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double gridWidth = screenWidth * 0.8; // Utilise 80% de la largeur de l'écran pour la grille
-    double buttonSize = gridWidth / gridColumns; // Calcule la taille des boutons en fonction du nombre de colonnes
+    double gridWidth = screenWidth *
+        0.8; // Utilise 80% de la largeur de l'écran pour la grille
+    double buttonSize = gridWidth /
+        gridColumns; // Calcule la taille des boutons en fonction du nombre de colonnes
     return buttonSize;
   }
 
   double calculateButtonSizeHeight(BuildContext context, int gridColumns) {
     double screenHeight = MediaQuery.of(context).size.height;
-    double gridHeight = screenHeight * 0.4; // Utilise 80% de la largeur de l'écran pour la grille
-    double buttonSize = gridHeight / gridColumns; // Calcule la taille des boutons en fonction du nombre de colonnes
+    double gridHeight = screenHeight *
+        0.4; // Utilise 80% de la largeur de l'écran pour la grille
+    double buttonSize = gridHeight /
+        gridColumns; // Calcule la taille des boutons en fonction du nombre de colonnes
     return buttonSize;
   }
 
   @override
   Widget build(BuildContext context) {
-
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     double buttonSizeWidth = calculateButtonSizeWidth(context, 3);
     double buttonSizeHeight = calculateButtonSizeHeight(context, 3);
-    const Color selectBlue =  Color(0xff1774CA);
+    const Color selectBlue = Color.fromARGB(192, 129, 61, 212);
     const Color unselectedGrey = Color(0xffD9D9D9);
 
     return Scaffold(
@@ -110,7 +112,9 @@ class _DigicodePageState extends State<DigicodePage> {
                       width: screenWidth * 0.16,
                       height: screenHeight * 0.08,
                     ),
-                    SizedBox(width: screenWidth * 0.05), // Ajoute un espace entre l'image et le texte
+                    SizedBox(
+                        width: screenWidth *
+                            0.05), // Ajoute un espace entre l'image et le texte
                     const Flexible(
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
@@ -125,7 +129,6 @@ class _DigicodePageState extends State<DigicodePage> {
               ),
             ),
 
-
             //SizedBox(height: buttonSizeHeight * 0.05),
 
             //Affichage du selecteur entre digicode et mdp
@@ -136,7 +139,7 @@ class _DigicodePageState extends State<DigicodePage> {
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: InkWell(
-                    onTap: (){},
+                    onTap: () {},
                     child: Container(
                       width: screenWidth * 0.19,
                       height: screenHeight * 0.1,
@@ -163,7 +166,8 @@ class _DigicodePageState extends State<DigicodePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const MotDePassePage(title: "Mot de passe"),
+                          builder: (context) =>
+                              const MotDePassePage(title: "Mot de passe"),
                         ),
                       );
                     },
@@ -179,10 +183,12 @@ class _DigicodePageState extends State<DigicodePage> {
                       child: const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 10.0),
                         child: FittedBox(
-                          fit: BoxFit.scaleDown, // Ajuste la taille du texte pour s'adapter à la boîte
+                          fit: BoxFit
+                              .scaleDown, // Ajuste la taille du texte pour s'adapter à la boîte
                           child: Text(
                             'MDP',
-                            style: TextStyle(fontSize: 24.0, color: Colors.black),
+                            style:
+                                TextStyle(fontSize: 24.0, color: Colors.black),
                           ),
                         ),
                       ),
@@ -198,7 +204,8 @@ class _DigicodePageState extends State<DigicodePage> {
             FittedBox(
               fit: BoxFit.scaleDown,
               child: Text(
-                'Code:  ${_input.split('').join(' ')}' + ' _ ' * (6 - _input.length),
+                'Code:  ${_input.split('').join(' ')}' +
+                    ' _ ' * (6 - _input.length),
                 style: const TextStyle(fontSize: 24.0),
               ),
             ),
@@ -227,10 +234,12 @@ class _DigicodePageState extends State<DigicodePage> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10.0),
                         child: FittedBox(
-                          fit: BoxFit.scaleDown, // Ajuste la taille du texte pour s'adapter à la boîte
+                          fit: BoxFit
+                              .scaleDown, // Ajuste la taille du texte pour s'adapter à la boîte
                           child: Text(
                             '$digit',
-                            style: const TextStyle(fontSize: 24.0, color: Colors.black),
+                            style: const TextStyle(
+                                fontSize: 24.0, color: Colors.black),
                           ),
                         ),
                       ),
@@ -261,10 +270,12 @@ class _DigicodePageState extends State<DigicodePage> {
                       child: const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 10.0),
                         child: FittedBox(
-                          fit: BoxFit.scaleDown, // Ajuste la taille du texte pour s'adapter à la boîte
+                          fit: BoxFit
+                              .scaleDown, // Ajuste la taille du texte pour s'adapter à la boîte
                           child: Text(
                             '0',
-                            style: TextStyle(fontSize: 24.0, color: Colors.black),
+                            style:
+                                TextStyle(fontSize: 24.0, color: Colors.black),
                           ),
                         ),
                       ),
@@ -282,17 +293,19 @@ class _DigicodePageState extends State<DigicodePage> {
                       height: buttonSizeHeight,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.white,
+                        color: Color.fromARGB(57, 129, 61, 212),
                         border: Border.all(color: Colors.black, width: 3.0),
                       ),
                       alignment: Alignment.center,
                       child: const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 10.0),
                         child: FittedBox(
-                          fit: BoxFit.scaleDown, // Ajuste la taille du texte pour s'adapter à la boîte
+                          fit: BoxFit
+                              .scaleDown, // Ajuste la taille du texte pour s'adapter à la boîte
                           child: Text(
                             'Effacer',
-                            style: TextStyle(fontSize: 24.0, color: Colors.black),
+                            style:
+                                TextStyle(fontSize: 24.0, color: Colors.black),
                           ),
                         ),
                       ),
@@ -304,22 +317,22 @@ class _DigicodePageState extends State<DigicodePage> {
 
             // Bouton "Mot de passe oublié ?"
             TextButton(
-              onPressed: () async{
+              onPressed: () async {
                 SharedPreferences prefs = await SharedPreferences.getInstance();
-                await prefs.setBool(
-                  'digicodeForgot', true);
-                await prefs.setBool(
-                  'passwordForgot', false);
+                await prefs.setBool('digicodeForgot', true);
+                await prefs.setBool('passwordForgot', false);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const ForgotPasswordPage(title: "Mot de passe oublié"),
+                    builder: (context) =>
+                        const ForgotPasswordPage(title: "Mot de passe oublié"),
                   ),
                 );
               },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0), // Définir un rayon de coin
+                  borderRadius:
+                      BorderRadius.circular(20.0), // Définir un rayon de coin
                 ),
               ),
               child: Container(
@@ -327,13 +340,15 @@ class _DigicodePageState extends State<DigicodePage> {
                 height: screenHeight * 0.075,
                 decoration: BoxDecoration(
                   color: unselectedGrey, // Couleur de fond fixe
-                  borderRadius: BorderRadius.circular(20.0), // Définir un rayon de coin
+                  borderRadius:
+                      BorderRadius.circular(20.0), // Définir un rayon de coin
                 ),
                 alignment: Alignment.center,
                 child: const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10.0),
                   child: FittedBox(
-                    fit: BoxFit.scaleDown, // Ajuste la taille du texte pour s'adapter à la boîte
+                    fit: BoxFit
+                        .scaleDown, // Ajuste la taille du texte pour s'adapter à la boîte
                     child: Text(
                       'Mot de passe oublié ?',
                       style: TextStyle(fontSize: 24.0, color: Colors.black),
@@ -342,7 +357,6 @@ class _DigicodePageState extends State<DigicodePage> {
                 ),
               ),
             ),
-
           ],
         ),
       ),

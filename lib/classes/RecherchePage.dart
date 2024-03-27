@@ -38,7 +38,7 @@ class _RecherchePageState extends State<RecherchePage> {
                   fontSize: 16,
                   fontStyle: FontStyle.italic,
                   decoration: TextDecoration.underline,
-                  color: Color.fromARGB(255, 105, 90, 146),
+                  color: Color.fromARGB(255, 185, 159, 255),
                 ),
               ),
             ],
