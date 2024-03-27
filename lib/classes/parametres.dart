@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/classes/digicode.dart';
+import 'package:flutter_application_1/classes/profilDigicode.dart';
 import 'package:flutter_application_1/classes/themes.dart';
+import 'package:flutter_application_1/classes/profil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'design.dart';
 
@@ -20,6 +23,7 @@ class _ParametresState extends State<Parametres> {
     super.initState();
     _loadTheme();
   }
+
 
   @override
   void didChangeDependencies() {
@@ -69,79 +73,98 @@ class _ParametresState extends State<Parametres> {
                 Text(
                   'Paramètres',
                   style: TextStyle(
-                    fontSize: screenSize.width / 10,
+                    fontSize: screenSize.width / 8,
                     color: _isDarkMode ? Colors.white : Colors.black,
                   ),
-                ),
-                SizedBox(height: 30),
-                buildParametreItem(
-                  iconPath: _isDarkMode
-                      ? 'images/whiteprofil.png'
-                      : 'images/blackprofil.png',
-                  text: 'Mon profil',
-                  onTap: () {
-                    // Action à exécuter lors du clic sur "Mon profil"
-                  },
-                ),
-                buildParametreItem(
-                  iconPath: _isDarkMode
-                      ? 'images/whitepersonnalisation.png'
-                      : 'images/blackpersonnalisation.png',
-                  text: 'Thèmes',
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Themes(title: "theme")),
-                    );
-                  },
-                ),
-                buildParametreItem(
-                  iconPath: _isDarkMode
-                      ? 'images/whitenotif.png'
-                      : 'images/blacknotif.png',
-                  text: 'Notifications et rappels',
-                  onTap: () {
-                    // Action à exécuter lors du clic sur "Notifications et rappels"
-                  },
-                ),
+                )
               ],
             ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget buildParametreItem(
-      {required String iconPath,
-      required String text,
-      required VoidCallback onTap}) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-        child: Row(
-          children: <Widget>[
-            Image.asset(
-              iconPath,
-              width: 32,
-              height: 32,
+            GestureDetector(
+              onTap: () {
+                // Naviguer vers UserProfile
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                   builder: (context) => const PDigicodePage(title: "Accueil",
+                   ),
+                  ),
+                );
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  Image.asset(
+                    _isDarkMode ? 'images/whiteprofil.png' : 'images/blackprofil.png',
+                    width: (screenSize.width / 10),
+                    height: (screenSize.height / 10),
+                  ),
+                  const SizedBox(
+                    width: 50,
+                  ),
+                  Text(
+                    "Mon profil",
+                    style: TextStyle(
+                      fontSize: screenSize.width / 16,
+                      color: _isDarkMode ? Colors.white : Colors.black,
+                    ),
+                  )
+                ],
+              ),
             ),
-            SizedBox(width: 20),
-            Text(
-              text,
-              style: TextStyle(fontSize: 20),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Themes(title: "theme")),
+                );
+              },
+              child: Row(
+                children: <Widget>[
+                  Image.asset(
+                    _isDarkMode ? 'images/whitepersonnalisation.png' : 'images/blackpersonnalisation.png',
+                    width: (screenSize.width / 10),
+                    height: (screenSize.height / 10),
+                  ),
+                  const SizedBox(
+                    width: 50,
+                  ),
+                  Text(
+                    "Thèmes",
+                    style: TextStyle(
+                      fontSize: screenSize.width / 16,
+                      color: _isDarkMode ? Colors.white : Colors.black,
+                    ),
+                  ),
+                ],
+              ),
             ),
-            Spacer(),
-            Icon(
-              Icons.arrow_forward_ios,
-              size: 20,
-              color: Color.fromARGB(255, 143, 0, 100),
-            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Image.asset(
+                  _isDarkMode ? 'images/whitenotif.png' : 'images/blacknotif.png',
+                  width: (screenSize.width / 10),
+                  height: (screenSize.height / 10),
+                ),
+                const SizedBox(
+                  width: 50,
+                ),
+                Text(
+                  "Notifications et rappels",
+                  style: TextStyle(
+                    fontSize: screenSize.width / 16,
+                    color: _isDarkMode ? Colors.white : Colors.black,
+                  ),
+                )
+              ],
+            )
           ],
         ),
       ),
     );
   }
 }
+

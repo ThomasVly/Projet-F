@@ -91,6 +91,14 @@ flutter:
     - images\whitemoon.png
     - images\whitesun.png
     - images\blacksun.png
+    - images\chien.png
+    - images\grenouille.png
+    - images\perroquet.png
+    - images\singe.png
+    - images\tortue.png
+    - images\manchot.png
+    - images\tigre.png
+   
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
