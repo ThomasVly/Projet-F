@@ -1,5 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class Notes extends StatefulWidget {
   const Notes({Key? key, required this.title}) : super(key: key);
@@ -56,9 +57,9 @@ void saveNote() async {
   }
 
   emoji = _emotions[index]['name'];
-  String dateString = '$_selectedDate'; 
+  String dateString = DateFormat('dd/MM/yyyy').format(_selectedDate!);
   String date = dateString;
-  prefs.setString(date,"titre : $titre <>, texte : $texte <>, #tag : $tags <>, emoji : $emoji");
+  prefs.setString(date,"${titre}<>${texte}<>${tags}<>${emoji}");
   showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -100,17 +101,16 @@ void saveNote() async {
                     _selectedDate = picked;
                   });
                   String emoji='';
-                  String dateString = '$_selectedDate';
-                  String date = dateString;
+                  String dateString = DateFormat('dd/MM/yyyy').format(_selectedDate!);
                   SharedPreferences prefs = await SharedPreferences.getInstance();
-                  String? noteData = prefs.getString(date);
+                  String? noteData = prefs.getString(dateString);
 
                   if (noteData != null) {
                     // Analyser les données récupérées et mettre à jour les champs de titre, texte et tags
-                    List<String> parts = noteData.split("<>, ");
-                    _controllertitre.text = parts[0].split(" : ")[1];
-                    _controllertexte.text = parts[1].split(" : ")[1];
-                    emoji= parts[3].split(" : ")[1];
+                    List<String> parts = noteData.split("<>");
+                    _controllertitre.text = parts[0];
+                    _controllertexte.text = parts[1];
+                    emoji= parts[3];
                     for (int i = 0; i < _emotions.length; i++) {
                       if (_emotions[i]['name'] == emoji) {
                         setState(() {
@@ -122,8 +122,9 @@ void saveNote() async {
                         });
                       }
                     } 
-                    String tagsString = parts[2].split(" : ")[1];
-                    tagsString = tagsString.substring(1, tagsString.length - 2);
+                    String tagsString = parts[2];
+                    print(tagsString);
+                    tagsString = tagsString.substring(1, tagsString.length - 1);
                     setState(() {
                       tags = tagsString.split(", ");
                     });

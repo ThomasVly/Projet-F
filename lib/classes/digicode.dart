@@ -197,7 +197,7 @@ class _DigicodePageState extends State<DigicodePage> {
             FittedBox(
               fit: BoxFit.scaleDown,
               child: Text(
-                'Code:  ${_input.split('').join(' ')}' + ' _ ' * (6 - _input.length),
+                'Code: ${_input.split('').map((char) => '*').join(' ')}' + ' _ ' * (6 - _input.length),
                 style: const TextStyle(fontSize: 24.0),
               ),
             ),
