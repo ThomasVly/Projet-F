@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/classes/mot_de_passe.dart';
-import 'package:flutter_application_1/classes/navbar.dart';
 import 'package:flutter_application_1/classes/forgot_password.dart';
 import 'package:flutter_application_1/classes/profil.dart';
 import 'package:flutter_application_1/classes/profilMotDePasse.dart';
