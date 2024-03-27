@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter_application_1/classes/themes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'design.dart';
 import 'event.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 class Calendar extends StatefulWidget {
@@ -47,13 +45,13 @@ class _CalendarState extends State<Calendar> {
   void retrieveNotesList() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString("21/03/2024",
-        "titre<>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum<>#joyeux<>Joie");
+        "titre<>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum<>#joyeux#vie<>Joie");
     await prefs.setString("28/03/2024",
-        "titre<>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum<>#joyeux<>Joie");
+        "titre<>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum<>#joyeux#vie<>Joie");
     await prefs.setString("01/03/2024",
-        "titre<>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum<>#joyeux<>Joie");
+        "titre<>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum<>#joyeux#vie<>Joie");
     await prefs.setString("02/03/2024",
-        "titre<>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum<>#joyeux<>Joie");
+        "titre<>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum<>#joyeux#vie<>Joie");
     notes.clear(); // Effacer les données précédentes de la carte
 
     // Définir l'intervalle de dates (du 1er janvier 2020 au 1er janvier 2025)
@@ -117,22 +115,11 @@ class _CalendarState extends State<Calendar> {
                   margin: const EdgeInsets.all(4),
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Color.fromARGB(255, 11, 94, 219),
+                    color: Color.fromARGB(255, 139, 89, 213),
                   ),
                   child: Center(
                     child: Stack(
                       children: [
-                        Positioned(
-                          top:
-                              -15, // Modifier la position pour déplacer vers le haut
-                          right:
-                              -15, // Modifier la position pour le coin haut gauche
-                          child: SizedBox(
-                            width: 30,
-                            height: 30,
-                            child: _getEmotionEmoji(date),
-                          ),
-                        ),
                         Text(
                           '${date.day}',
                           style: const TextStyle(color: Colors.white),
@@ -176,66 +163,93 @@ class _CalendarState extends State<Calendar> {
               _focusedDay = focusedDay;
             },
           ),
-          Expanded(
-              child: ValueListenableBuilder(
-                  valueListenable: _selectedNotes,
-                  builder: (context, value, _) {
-                    return ListView.builder(
-                        itemCount: value.length,
-                        itemBuilder: (context, index) {
-                          final Note note = value[index];
-                          final DateTime dateNote = note.date;
-                          return Container(
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 4),
-                            decoration: BoxDecoration(
-                              border: Border.all(),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: ListTile(
-                              onTap: () => print(
-                                  ""), // action à effectuer lors du clic sur une note
-                              title: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  // Titre de la note
-                                  Text(
-                                    note.title,
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                      height:
-                                          8), // Espacement entre le titre et la date
 
-                                  // Date de la note
-                                  Text(
-                                    DateFormat.yMMMd('fr_FR').format(note.date),
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ],
+          Expanded(
+            child: ValueListenableBuilder(
+              valueListenable: _selectedNotes,
+              builder: (context, value, _) {
+                if (value.isEmpty) {
+                  return const Center(
+                    child: Text(
+                      "Tu n'as pas écrit de note pour cette date",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  );
+                } else {
+                  return ListView.builder(
+                    itemCount: value.length,
+                    itemBuilder: (context, index) {
+                      final Note note = value[index];
+                      final DateTime dateNote = note.date;
+                      return Container(
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: ListTile(
+                          onTap: () => print(""), // action à effectuer lors du clic sur une note
+                          title: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Titre de la note
+                              Text(
+                                note.title,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                              // Emoji correspondant à l'humeur de la note
-                              leading: SizedBox(
-                                child: _getEmotionEmoji(dateNote),
+
+                              const SizedBox(height: 8), // Espacement entre le titre et la date
+
+                              // Date de la note
+                              Text(
+                                DateFormat.yMMMd('fr_FR').format(note.date),
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.grey,
+                                ),
                               ),
-                              // Texte de la note
-                              subtitle: Text(
-                                note.text,
-                                maxLines:
-                                    2, // Limite le texte à 2 lignes pour un aperçu
-                                overflow: TextOverflow.ellipsis,
+
+                              const SizedBox(height: 8), // Espacement entre la date et les tags
+
+                              // Tags de la note
+                              Wrap(
+                                spacing: 4,
+                                runSpacing: 4,
+                                children: note.tags.map((tag) => Chip(label: Text(tag))).toList(),
                               ),
-                            ),
-                          );
-                        });
-                  }))
-        ]));
+                            ],
+                          ),
+                          // Emoji correspondant à l'humeur de la note
+                          leading: SizedBox(
+                            child: _getEmotionEmoji(dateNote),
+                          ),
+                          // Texte de la note
+                          subtitle: Text(
+                            note.text,
+                            maxLines: 2, // Limite le texte à 2 lignes pour un aperçu
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                }
+              },
+            ),
+          )
+        ]
+      )
+    );
   }
 
   Widget _getEmotionEmoji(DateTime date) {
