@@ -7,9 +7,10 @@ import 'dart:io';
 import 'design.dart';
 
 class Notes extends StatefulWidget {
-  const Notes({Key? key, required this.title}) : super(key: key);
+  const Notes({Key? key, required this.title, required this.selectedDate}) : super(key: key);
 
   final String title;
+  final DateTime selectedDate;
 
   @override
   State<Notes> createState() => _NotesState();
@@ -18,13 +19,16 @@ class Notes extends StatefulWidget {
 class _NotesState extends State<Notes> {
   late File _imageFile = File('');
   late bool favori=false;
-  bool isButtonSelected = false; 
-  String imagePath = '';
   late TextEditingController _controllertitre;
   late TextEditingController _controllertexte; // Déclaration de la variable _imageFile
   late SharedPreferences _prefs;
-  DateTime? _selectedDate;
   late List<bool> isButtonSelectedList = List.filled(_emotions.length, false);
+
+  bool isButtonSelected = false; 
+  String imagePath = '';
+  
+  late DateTime _selectedDate;
+  
   final List<Map<String, dynamic>> _emotions = [
     {'name': 'Joie', 'emoji': '😊'},
     {'name': 'Tristesse', 'emoji': '😢'},
@@ -33,7 +37,9 @@ class _NotesState extends State<Notes> {
     {'name': 'Choc', 'emoji': '😱'},
     {'name': 'Peur', 'emoji': '😖'},
   ];
+
   List<String> tags = [];
+
   @override
   void initState() {
     super.initState();
@@ -41,6 +47,8 @@ class _NotesState extends State<Notes> {
     _controllertexte = TextEditingController();
     late File _imageFile = File('');
     late bool favori=false;
+    _selectedDate = widget.selectedDate;
+    loadNote(_selectedDate);
   }
 
   @override
@@ -65,8 +73,7 @@ class _NotesState extends State<Notes> {
     }
 
   emoji = _emotions[index]['name'];
-  String dateString = DateFormat('dd/MM/yyyy').format(_selectedDate!);
-  String date = dateString;
+  String date = DateFormat('dd/MM/yyyy').format(_selectedDate);
   String imagePath = _imageFile.path.isNotEmpty ? _imageFile.path : '';
   if(date.isNotEmpty && titre.isNotEmpty && texte.isNotEmpty && emoji.isNotEmpty) {
     prefs.setString(date,"${titre}<>${texte}<>${tags}<>${emoji}<>${imagePath}<>${favori}");
@@ -110,6 +117,56 @@ class _NotesState extends State<Notes> {
   }
 }
  
+  void loadNote(DateTime selectedDate) async {
+    String emoji = '';
+    String dateString = DateFormat('dd/MM/yyyy').format(selectedDate);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? noteData = prefs.getString(dateString);
+    if (noteData != null) {
+      // Analyser les données récupérées et mettre à jour les champs de titre, texte et tags
+      List<String> parts = noteData.split("<>");
+      _controllertitre.text = parts[0];
+      _controllertexte.text = parts[1];
+      if (parts.length >=5){
+        imagePath = parts[4];
+        if (parts[5]=='true'){
+          favori=true;
+        } else {
+          favori=false;
+        }
+      } else {
+        imagePath = '';
+      }
+      emoji= parts[3];
+      for (int i = 0; i < _emotions.length; i++) {
+        if (_emotions[i]['name'] == emoji) {
+          setState(() {
+            isButtonSelectedList[i] = true;
+          });
+        } else {
+          setState(() {
+            isButtonSelectedList[i] = false;
+          });
+        }
+      }
+      String tagsString = parts[2];
+      tagsString = tagsString.substring(1, tagsString.length - 1);
+      setState(() {
+        tags = tagsString.split(", ");
+        _imageFile = File(imagePath);
+      });
+    } else {
+      _controllertitre.clear();
+      _controllertexte.clear();
+      imagePath='';
+      for (int i = 0; i < _emotions.length; i++) {
+        isButtonSelectedList[i] = false;
+      }
+      setState(() {
+        tags.clear();
+      });
+    }
+  }
 
 Future <void> _getImage() async {
   final picker = ImagePicker();
@@ -165,7 +222,7 @@ Future <void> _getImage() async {
               onTap: () async {
                 final DateTime? picked = await showDatePicker(
                   context: context,
-                  initialDate: _selectedDate ?? DateTime.now(),
+                  initialDate: _selectedDate,
                   firstDate: DateTime(2000),
                   lastDate: DateTime(2101),
                 );
@@ -174,73 +231,19 @@ Future <void> _getImage() async {
                     _imageFile = File('');
                     _selectedDate = picked;
                   });
-                  String emoji = '';
-                  String dateString =
-                      DateFormat('dd/MM/yyyy').format(_selectedDate!);
-                  SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
-                  String? noteData = prefs.getString(dateString);
-                  if (noteData != null) {
-                    // Analyser les données récupérées et mettre à jour les champs de titre, texte et tags
-                    List<String> parts = noteData.split("<>");
-                    _controllertitre.text = parts[0];
-                    _controllertexte.text = parts[1];
-                    if (parts.length >=5){
-                      imagePath = parts[4];
-                      if (parts[5]=='true'){
-                        favori=true;
-                      }
-                      else{
-                        favori=false;
-                      }
-                    }
-                    else {
-                      imagePath = '';
-                    }
-                    emoji= parts[3];
-                    for (int i = 0; i < _emotions.length; i++) {
-                      if (_emotions[i]['name'] == emoji) {
-                        setState(() {
-                          isButtonSelectedList[i] = true;
-                        });
-                      } else {
-                        setState(() {
-                          isButtonSelectedList[i] = false;
-                        });
-                      }
-                    }
-                    String tagsString = parts[2];
-                    print(tagsString);
-                    tagsString = tagsString.substring(1, tagsString.length - 1);
-                    setState(() {
-                      tags = tagsString.split(", ");
-                      _imageFile = File(imagePath);
-                    });
-                  } else {
-                    _controllertitre.clear();
-                    _controllertexte.clear();
-                    imagePath='';
-                    for (int i = 0; i < _emotions.length; i++) {
-                      isButtonSelectedList[i] = false;
-                    }
-                    setState(() {
-                      tags.clear();
-                    });
-                  }
+                  loadNote(_selectedDate);
                 }
               },
               controller: TextEditingController(
-                text: _selectedDate != null
-                    ? '${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}'
-                    : '',
+                text:  '${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}',
               ),
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'Sélectionner une date',
               ),
             ),
             TextField(
               controller: _controllertitre,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'Titre de la note',
               ),
               onSubmitted: (String value) {},
@@ -249,7 +252,7 @@ Future <void> _getImage() async {
               decoration: AppDesign
                   .buildBackgroundDecoration(), // Couleur de fond de votre choix
               padding:
-                  EdgeInsets.all(13.0), // Rembourrage intérieur du conteneur
+                  const EdgeInsets.all(13.0), // Rembourrage intérieur du conteneur
               child: SizedBox(
                 height: 330,
                 child: TextField(
@@ -257,8 +260,8 @@ Future <void> _getImage() async {
                   maxLines: 10,
                   decoration: InputDecoration(
                     hintText: 'Texte de la note',
-                    hintStyle: TextStyle(fontSize: 16.0),
-                    contentPadding: EdgeInsets.all(45.0),
+                    hintStyle: const TextStyle(fontSize: 16.0),
+                    contentPadding: const EdgeInsets.all(45.0),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),
@@ -268,7 +271,7 @@ Future <void> _getImage() async {
                 ),
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Wrap(
               spacing: 8.0, // Espacement horizontal entre les boutons de tag
               runSpacing:
@@ -283,12 +286,12 @@ Future <void> _getImage() async {
                             ''; // Variable pour stocker le nouveau tag saisi
 
                         return AlertDialog(
-                          title: Text('Ajouter un Tag'),
+                          title: const Text('Ajouter un Tag'),
                           content: TextField(
                             onChanged: (value) {
                               newTag = value;
                             },
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               hintText: 'Entrez un tag',
                             ),
                           ),
@@ -297,7 +300,7 @@ Future <void> _getImage() async {
                               onPressed: () {
                                 Navigator.pop(context);
                               },
-                              child: Text('Annuler'),
+                              child: const Text('Annuler'),
                             ),
                             TextButton(
                               onPressed: () {
@@ -306,14 +309,14 @@ Future <void> _getImage() async {
                                 });
                                 Navigator.pop(context);
                               },
-                              child: Text('Enregistrer'),
+                              child: const Text('Enregistrer'),
                             ),
                           ],
                         );
                       },
                     );
                   },
-                  child: Text('+ Tag'),
+                  child: const Text('+ Tag'),
                 ),
                 // Afficher les boutons de tag
                 ...tags.map((tag) => ElevatedButton(
