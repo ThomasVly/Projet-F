@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
 
 class DossiersPage extends StatefulWidget {
   @override
@@ -9,85 +10,57 @@ class DossiersPage extends StatefulWidget {
 class _DossiersPageState extends State<DossiersPage> {
   List<String> dossiers = ['Dossier Favoris']; // Liste des dossiers
 
+  final DateTime startDate = DateTime(2020, 1, 1);
+  final DateTime endDate = DateTime(2025, 1, 1);
+  List<String> stockEmo = [];
+  List<String> stockTxt = [];
+
   @override
   void initState() {
     super.initState();
-    _chargerDossiers();
+  }
+
+  void retrieveNotesList() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    for (DateTime date_i = startDate;
+    date_i.isBefore(endDate);
+    date_i = date_i.add(const Duration(days: 1))) {
+      String? noteValue =
+      prefs.getString(DateFormat('dd/MM/yyyy').format(date_i));
+      if (noteValue != null) {
+        if (noteValue.split("<>")[5] == "true"){stockEmo.add(noteValue.split("<>")[3]);stockTxt.add(noteValue.split("<>")[0]);}
+
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Dossiers'),
+        title: Text('Favoris'),
       ),
       body: ListView.builder(
         itemCount: dossiers.length,
         itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            title: Text(dossiers[index]),
-          );
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _ajouterDossier(); // Appeler la fonction pour ajouter un nouveau dossier
-        },
-        tooltip: 'Ajouter un dossier',
-        child: Icon(Icons.add),
+          return ListView.builder(
+             itemCount: stockEmo.length,
+            itemBuilder: (context, index) {
+            return ListTile(
+               leading: Text(
+              stockEmo[index], // Assuming emotions are emoji characters
+              style: TextStyle(fontSize: 40),
+               ),
+               subtitle: Text(
+                  "${DateFormat(stockTxt[index])}",
+                  style: TextStyle(fontSize: 40),
+                  )
+              );
+              }
+             );
+            }
       ),
     );
-  }
-
-  // Fonction pour ajouter un nouveau dossier
-  void _ajouterDossier() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        TextEditingController controller = TextEditingController();
-        return AlertDialog(
-          title: Text('Ajouter un dossier'),
-          content: TextField(
-            controller: controller,
-            decoration: InputDecoration(hintText: 'Nom du dossier'),
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Annuler'),
-            ),
-            TextButton(
-              onPressed: () {
-                setState(() {
-                  String nouveauDossier = controller.text.trim();
-                  if (nouveauDossier.isNotEmpty) {
-                    dossiers.add(nouveauDossier);
-                    _sauvegarderDossiers(); // Sauvegarder les dossiers après l'ajout
-                  }
-                });
-                Navigator.of(context).pop();
-              },
-              child: Text('Ajouter'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  // Fonction pour charger les dossiers depuis les préférences partagées
-  void _chargerDossiers() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      dossiers = prefs.getStringList('dossiers') ?? dossiers;
-    });
-  }
-
-  // Fonction pour sauvegarder les dossiers dans les préférences partagées
-  void _sauvegarderDossiers() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setStringList('dossiers', dossiers);
   }
 }
