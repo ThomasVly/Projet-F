@@ -228,11 +228,11 @@ class _MotDePassePageState extends State<MotDePassePage> {
               ),
               child: Container(
                 width: screenWidth * 0.5,
-                height: screenHeight * 0.075,
+                height: screenHeight * 0.070,
                 decoration: BoxDecoration(
                   color: unselectedGrey, // Couleur de fond fixe
                   borderRadius:
-                      BorderRadius.circular(10.0), // Définir un rayon de coin
+                      BorderRadius.circular(20.0), // Définir un rayon de coin
                 ),
                 alignment: Alignment.center,
                 child: const Padding(

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_application_1/classes/digicode.dart';
-import 'package:flutter_application_1/classes/navbar.dart';
+import 'package:flutter_application_1/classes/profilDigicode.dart';
 import 'package:flutter_application_1/classes/forgot_password.dart';
 import 'package:flutter_application_1/classes/profil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -50,16 +48,13 @@ class _PMotDePassePageState extends State<PMotDePassePage> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    const Color selectBlue =  Color(0xff1774CA);
+    const Color selectBlue = Color.fromARGB(192, 129, 61, 212);
     const Color unselectedGrey = Color(0xffD9D9D9);
     final TextEditingController passwordController = TextEditingController();
-    
 
     return Scaffold(
       body: Align(
@@ -78,7 +73,9 @@ class _PMotDePassePageState extends State<PMotDePassePage> {
                       width: screenWidth * 0.16,
                       height: screenHeight * 0.08,
                     ),
-                    SizedBox(width: screenWidth * 0.05), // Ajoute un espace entre l'image et le texte
+                    SizedBox(
+                        width: screenWidth *
+                            0.05), // Ajoute un espace entre l'image et le texte
                     const Flexible(
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
@@ -101,17 +98,18 @@ class _PMotDePassePageState extends State<PMotDePassePage> {
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: InkWell(
-                    onTap: (){
+                    onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const DigicodePage(title: "Digicode"),
+                          builder: (context) =>
+                              const PDigicodePage(title: "Digicode"),
                         ),
                       );
                     },
                     child: Container(
-                      width: screenWidth*0.19,
-                      height: screenHeight*0.1,
+                      width: screenWidth * 0.19,
+                      height: screenHeight * 0.1,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.white,
@@ -120,8 +118,8 @@ class _PMotDePassePageState extends State<PMotDePassePage> {
                       alignment: Alignment.center,
                       child: Image.asset(
                         'images/digicode.png',
-                        width: screenWidth*0.12,
-                        height: screenHeight*0.06,
+                        width: screenWidth * 0.12,
+                        height: screenHeight * 0.06,
                         color: Colors.black,
                       ),
                     ),
@@ -132,10 +130,10 @@ class _PMotDePassePageState extends State<PMotDePassePage> {
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: InkWell(
-                    onTap: (){},
+                    onTap: () {},
                     child: Container(
-                      width: screenWidth*0.19,
-                      height: screenHeight*0.1,
+                      width: screenWidth * 0.19,
+                      height: screenHeight * 0.1,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: selectBlue,
@@ -145,10 +143,12 @@ class _PMotDePassePageState extends State<PMotDePassePage> {
                       child: const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 10.0),
                         child: FittedBox(
-                          fit: BoxFit.scaleDown, // Ajuste la taille du texte pour s'adapter à la boîte
+                          fit: BoxFit
+                              .scaleDown, // Ajuste la taille du texte pour s'adapter à la boîte
                           child: Text(
                             'MDP',
-                            style: TextStyle(fontSize: 24.0, color: Colors.white),
+                            style:
+                                TextStyle(fontSize: 24.0, color: Colors.white),
                           ),
                         ),
                       ),
@@ -184,10 +184,10 @@ class _PMotDePassePageState extends State<PMotDePassePage> {
                       checkInput(password);
                     },
                     child: Container(
-                      width: screenWidth*0.1,
+                      width: screenWidth * 0.1,
                       decoration: BoxDecoration(
                         shape: BoxShape.rectangle,
-                        color: Colors.green,
+                        color: Color.fromARGB(255, 243, 61, 234),
                         borderRadius: BorderRadius.circular(20.0),
                       ),
                       child: const Text(
@@ -201,40 +201,44 @@ class _PMotDePassePageState extends State<PMotDePassePage> {
               ),
             ),
 
-            SizedBox(height: screenHeight * 0.5,),
+            SizedBox(
+              height: screenHeight * 0.5,
+            ),
 
             // Bouton "Mot de passe oublié ?"
             TextButton(
-              onPressed: () async{
+              onPressed: () async {
                 SharedPreferences prefs = await SharedPreferences.getInstance();
-                await prefs.setBool(
-                  'digicodeForgot', false);
-                await prefs.setBool(
-                  'passwordForgot', true);
+                await prefs.setBool('digicodeForgot', false);
+                await prefs.setBool('passwordForgot', true);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const ForgotPasswordPage(title: "Mot de passe oublié"),
+                    builder: (context) =>
+                        const ForgotPasswordPage(title: "Mot de passe oublié"),
                   ),
                 );
               },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0), // Définir un rayon de coin
+                  borderRadius:
+                      BorderRadius.circular(10.0), // Définir un rayon de coin
                 ),
               ),
               child: Container(
                 width: screenWidth * 0.5,
-                height: screenHeight * 0.075,
+                height: screenHeight * 0.070,
                 decoration: BoxDecoration(
                   color: unselectedGrey, // Couleur de fond fixe
-                  borderRadius: BorderRadius.circular(10.0), // Définir un rayon de coin
+                  borderRadius:
+                      BorderRadius.circular(20.0), // Définir un rayon de coin
                 ),
                 alignment: Alignment.center,
                 child: const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10.0),
                   child: FittedBox(
-                    fit: BoxFit.scaleDown, // Ajuste la taille du texte pour s'adapter à la boîte
+                    fit: BoxFit
+                        .scaleDown, // Ajuste la taille du texte pour s'adapter à la boîte
                     child: Text(
                       'Mot de passe oublié ?',
                       style: TextStyle(fontSize: 24.0, color: Colors.black),
@@ -243,14 +247,11 @@ class _PMotDePassePageState extends State<PMotDePassePage> {
                 ),
               ),
             ),
-
           ],
         ),
       ),
     );
   }
-
-  
 
   void main() {
     runApp(MaterialApp(
@@ -275,7 +276,8 @@ class _PasswordInputState extends State<PasswordInput> {
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: TextField(
-        controller: widget.controller, // Utilisation du contrôleur passé en paramètre
+        controller:
+            widget.controller, // Utilisation du contrôleur passé en paramètre
         obscureText: true,
         decoration: InputDecoration(
           hintText: 'Entrer le mot de passe',

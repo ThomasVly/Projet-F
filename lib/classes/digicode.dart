@@ -203,11 +203,15 @@ class _DigicodePageState extends State<DigicodePage> {
             // Affichage du code entré
             FittedBox(
               fit: BoxFit.scaleDown,
-              child: Text(
-                'Code: ${_input.split('').map((char) => '*').join(' ')}' +
-                    ' _ ' * (6 - _input.length),
-                style: const TextStyle(fontSize: 24.0),
-              ),
+              child: _input != 'ERROR!' ? 
+                Text(
+                  'Code: ${_input.split('').map((char) => '*').join(' ')}' + ' _ ' * (6 - _input.length),
+                  style: const TextStyle(fontSize: 24.0),
+                ) :
+                const Text(
+                  'Code: E R R O R !',
+                  style: TextStyle(fontSize: 24.0),
+                ),
             ),
 
             const SizedBox(height: 20.0),
@@ -337,7 +341,7 @@ class _DigicodePageState extends State<DigicodePage> {
               ),
               child: Container(
                 width: screenWidth * 0.5,
-                height: screenHeight * 0.075,
+                height: screenHeight * 0.070,
                 decoration: BoxDecoration(
                   color: unselectedGrey, // Couleur de fond fixe
                   borderRadius:
@@ -357,6 +361,7 @@ class _DigicodePageState extends State<DigicodePage> {
                 ),
               ),
             ),
+            const SizedBox(height: 10.0),
           ],
         ),
       ),
