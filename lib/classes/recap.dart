@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'design.dart';
 
 class Recap extends StatefulWidget {
-  const Recap({super.key, required this.title});
+  const Recap({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -15,18 +16,18 @@ class Recap extends StatefulWidget {
 class _RecapState extends State<Recap> {
   late TextEditingController _controller;
   late DateTime now;
-  late String utilisable ;
+  late String utilisable;
   List<String> temp = [];
   double jour = 7;
   var text = "hebdomadaire";
 
   Map<String, double> dataMap = {
-    '😊' : 0,
-    '😢' : 0,
-    '😡' : 0,
-    '😍' : 0,
-    '😱' : 0,
-    '😖' : 0
+    '😊': 0,
+    '😢': 0,
+    '😡': 0,
+    '😍': 0,
+    '😱': 0,
+    '😖': 0
   };
 
   @override
@@ -40,16 +41,28 @@ class _RecapState extends State<Recap> {
   retrieveStringValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    for (var i =0; i<jour; i++) {
+    for (var i = 0; i < jour; i++) {
       String? value = prefs.getString(DateFormat('dd/MM/yyyy').format(now.subtract(Duration(days: i))));
       if (value != null) {
         setState(() {
-          if (value.split("<>")[3] == 'Joie'){dataMap['😊'] = (dataMap['😊'] ?? 0) + 1;}
-          if (value.split("<>")[3] == 'Tristesse'){dataMap['😢'] = (dataMap['😢'] ?? 0) + 1;}
-          if (value.split("<>")[3] == 'Colère'){dataMap['😡'] = (dataMap['😡'] ?? 0) + 1;}
-          if (value.split("<>")[3] == 'Amour'){dataMap['😍'] = (dataMap['😍'] ?? 0) + 1;}
-          if (value.split("<>")[3] == 'Choc'){dataMap['😱'] = (dataMap['😱'] ?? 0) + 1;}
-          if (value.split("<>")[3] == 'Peur'){dataMap['😖'] = (dataMap['😖'] ?? 0) + 1;}
+          if (value.split("<>")[3] == 'Joie') {
+            dataMap['😊'] = (dataMap['😊'] ?? 0) + 1;
+          }
+          if (value.split("<>")[3] == 'Tristesse') {
+            dataMap['😢'] = (dataMap['😢'] ?? 0) + 1;
+          }
+          if (value.split("<>")[3] == 'Colère') {
+            dataMap['😡'] = (dataMap['😡'] ?? 0) + 1;
+          }
+          if (value.split("<>")[3] == 'Amour') {
+            dataMap['😍'] = (dataMap['😍'] ?? 0) + 1;
+          }
+          if (value.split("<>")[3] == 'Choc') {
+            dataMap['😱'] = (dataMap['😱'] ?? 0) + 1;
+          }
+          if (value.split("<>")[3] == 'Peur') {
+            dataMap['😖'] = (dataMap['😖'] ?? 0) + 1;
+          }
         });
       }
     }
@@ -59,7 +72,7 @@ class _RecapState extends State<Recap> {
     return list.where((item) => item == element).length;
   }
 
-  void change_day(){
+  void change_day() {
     dataMap.clear();
     retrieveStringValue();
   }
@@ -72,36 +85,58 @@ class _RecapState extends State<Recap> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text("Le récapitulatif est à partir du ${DateFormat.yMd().format(now)}, il est $text"),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.8, // Adjust the width as per your requirement
-              height: MediaQuery.of(context).size.width * 0.8, // Adjust the height as per your requirement
-              child: PieChart(
-                  dataMap: dataMap,
-                  legendOptions: LegendOptions(legendTextStyle: TextStyle(fontSize: 20)),
-              ),
-            ),
-            Slider(
-              min: 7.0,
-              max: 50.0,
-              value: jour,
-              onChanged: (value) {
-                setState(() {
-                  jour = value;
-                  change_day();
-                });
-              },
-            ),
-            Text("Le récapitulatif comprends les ${jour.toInt()} derniers jours"),
-          ],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "Recapitulatif",
+          style: AppDesign.titleStyle,
         ),
-      ),      
+      ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Expanded(
+                child: Stack(
+                  children: [
+                    PieChart(
+                      dataMap: dataMap,
+                      legendOptions: LegendOptions(
+                        legendPosition: LegendPosition.bottom,
+                        legendTextStyle: TextStyle(fontSize: 16),
+                      ),
+                    ),
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      child: Container(
+                        alignment: Alignment.center,
+                        margin: EdgeInsets.only(bottom: 20), // Ajustez cet espacement selon votre besoin
+                        
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Slider(
+                min: 7.0,
+                max: 50.0,
+                value: jour,
+                onChanged: (value) {
+                  setState(() {
+                    jour = value;
+                    change_day();
+                  });
+                },
+              ),
+              Text("Le récapitulatif comprends les ${jour.toInt()} derniers jours"),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

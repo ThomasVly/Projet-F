@@ -20,7 +20,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   late SharedPreferences _prefs;
-  late bool _isDarkMode;
+  late bool _isDarkMode=false;
 
   @override
   void initState() {

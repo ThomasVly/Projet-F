@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/classes/dossiers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,18 +12,23 @@ class Accueil extends StatefulWidget {
   const Accueil({super.key, required this.title});
 
   final String title;
+  
 
   @override
   State<Accueil> createState() => _AccueilState();
 }
 
-class _AccueilState extends State<Accueil> {
+class _AccueilState extends State<Accueil> with TickerProviderStateMixin{
+  late AnimationController _animationController;
+  late Animation<double> _animation;
+  late String _userAvatar = 'images/manchot.png';
   late bool _isDarkMode = false;
   late SharedPreferences _prefs;
   late DateTime selectedDate;
   late ScrollController _scrollController;
   late String note = "";
   var temp = [];
+  late bool showMotivationMessage = false;
 
   final List<Map<String, dynamic>> _emotions = [
     {'name': 'Joie', 'emoji': '😊'},
@@ -32,19 +39,94 @@ class _AccueilState extends State<Accueil> {
     {'name': 'Peur', 'emoji': '😖'},
   ];
 
+  // Liste de messages de motivation
+  final List<String> _motivationMessages = [
+    "Rien n'est impossible, la volonté aide à l'atteindre.",
+    "Chaque jour est une nouvelle opportunité pour réussir.",
+    "Le succès n'est pas final, l'échec n'est pas fatal : c'est le courage de continuer qui compte.",
+    "L'avenir appartient à ceux qui croient en la beauté de leurs rêves.",
+    "Vous êtes plus fort que vous ne le pensez, plus courageux que vous ne le croyez, et plus proche que vous ne le réalisez.",
+  ];
+
   @override
   void initState() {
     super.initState();
     retrieveStringValue();
     _initPreferences();
+    super.initState();
+    loadUserAvatar();
     selectedDate = DateTime.now();
     _scrollController = ScrollController();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       // Centrer automatiquement la bulle sélectionnée
       _scrollToSelectedDate();
+    
     });
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
+
+    _animation = Tween<double>(
+      begin: 0.0,
+      end: -20.0,
+    ).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeInOut,
+      ),
+    );
+
+    _animateBubbleRepeatedly();
+
   }
 
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+
+  void _animateBubbleRepeatedly() {
+  _animationController.repeat(reverse: true); // Répéter l'animation en boucle
+}
+
+  void loadUserAvatar() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _userAvatar = prefs.getString('avatar') ?? _userAvatar;
+    });
+  }
+  
+  void _showRandomMotivationMessage(BuildContext context) {
+  // Sélectionner un message aléatoire
+  final Random random = Random();
+  final int randomIndex = random.nextInt(_motivationMessages.length);
+  final String randomMessage = _motivationMessages[randomIndex];
+  // Afficher le message dans un Tooltip
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Tooltip(
+        message: randomMessage,
+        child: AlertDialog(
+          title: Text("On se motive !!"),
+          content: Text(randomMessage),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Fermer'),
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+  
   retrieveStringValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString("25/03/2024", "Jour<>Nuit<>[j]<>Amour");
@@ -94,7 +176,8 @@ class _AccueilState extends State<Accueil> {
       "Novembre",
       "Décembre"
     ];
-
+  
+  
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -145,6 +228,31 @@ class _AccueilState extends State<Accueil> {
         child: Column(
           children: [
             const SizedBox(height: 20),
+            // Affichage de l'avatar de l'utilisateur
+             AnimatedBuilder(
+              animation: _animationController,
+              builder: (context, child) {
+                return Transform.translate(
+                  offset: Offset(0.0, _animation.value),
+                  child: GestureDetector(
+                    onTap: () {
+                      _showRandomMotivationMessage(context);
+                      
+                    },
+                    child: Tooltip(
+                      message: 'On se motive',
+                      child: CircleAvatar(
+                        backgroundImage: AssetImage(_userAvatar),
+                        radius: 30,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+            const SizedBox(height: 10),
+         
+            
             Text(
               '${moisEnFrancais[now.month - 1]} ${now.year}',
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -234,7 +342,7 @@ class _AccueilState extends State<Accueil> {
                         1), // Espace vide équivalent à la moitié de la largeur de l'écran
               ],
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 25),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
@@ -253,6 +361,7 @@ class _AccueilState extends State<Accueil> {
           ],
         ),
       ),
+      
     );
   }
 }
