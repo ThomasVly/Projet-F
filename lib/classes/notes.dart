@@ -17,6 +17,7 @@ class Notes extends StatefulWidget {
 
 class _NotesState extends State<Notes> {
   late File _imageFile = File('');
+  late bool favori=false;
   bool isButtonSelected = false; 
   String imagePath = '';
   late TextEditingController _controllertitre;
@@ -39,6 +40,7 @@ class _NotesState extends State<Notes> {
     _controllertitre = TextEditingController();
     _controllertexte = TextEditingController();
     late File _imageFile = File('');
+    late bool favori=false;
   }
 
   @override
@@ -65,9 +67,7 @@ class _NotesState extends State<Notes> {
   emoji = _emotions[index]['name'];
   String dateString = DateFormat('dd/MM/yyyy').format(_selectedDate!);
   String date = dateString;
-  bool favori = false;
   String imagePath = _imageFile.path.isNotEmpty ? _imageFile.path : '';
-  debugPrint("Le CHEMIIIIIIIIIIIIIIIIIIN $imagePath");
   if(date.isNotEmpty && titre.isNotEmpty && texte.isNotEmpty && emoji.isNotEmpty) {
     prefs.setString(date,"${titre}<>${texte}<>${tags}<>${emoji}<>${imagePath}<>${favori}");
     showDialog(
@@ -132,7 +132,7 @@ Future <void> _getImage() async {
         child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
@@ -142,6 +142,22 @@ Future <void> _getImage() async {
                     // Vous pouvez également spécifier d'autres styles de texte si nécessaire
                   ),
                 ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        favori = !favori;
+                      });
+                    },
+                    child: Icon(
+                      Icons.star,
+                      color: favori ? Colors.yellow : Colors.grey,
+                    ),
+                  ),
               ],
             ),
             TextFormField(
@@ -164,7 +180,6 @@ Future <void> _getImage() async {
                   SharedPreferences prefs =
                       await SharedPreferences.getInstance();
                   String? noteData = prefs.getString(dateString);
-
                   if (noteData != null) {
                     // Analyser les données récupérées et mettre à jour les champs de titre, texte et tags
                     List<String> parts = noteData.split("<>");
@@ -172,6 +187,12 @@ Future <void> _getImage() async {
                     _controllertexte.text = parts[1];
                     if (parts.length >=5){
                       imagePath = parts[4];
+                      if (parts[5]=='true'){
+                        favori=true;
+                      }
+                      else{
+                        favori=false;
+                      }
                     }
                     else {
                       imagePath = '';
