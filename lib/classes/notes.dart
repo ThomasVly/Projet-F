@@ -132,7 +132,12 @@ Future <void> _getImage() async {
                     List<String> parts = noteData.split("<>");
                     _controllertitre.text = parts[0];
                     _controllertexte.text = parts[1];
-                    imagePath = parts[4];
+                    if (parts.length == 5){
+                      imagePath = parts[4];
+                    }
+                    else {
+                      imagePath = '';
+                    }
                     emoji= parts[3];
                     for (int i = 0; i < _emotions.length; i++) {
                       if (_emotions[i]['name'] == emoji) {
