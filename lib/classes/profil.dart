@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/classes/accueil.dart';
+import 'package:flutter_application_1/classes/navbar.dart';
+import 'package:flutter_application_1/classes/parametres.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserProfile extends StatefulWidget {
@@ -32,7 +35,7 @@ class _UserProfileState extends State<UserProfile> {
   void initState() {
     super.initState();
     loadUserData();
-    _selectedAvatar = 'images/avatar1.png';
+    _selectedAvatar = 'images/manchot.png';
   }
 
   void loadUserData() async {
@@ -176,7 +179,12 @@ class _UserProfileState extends State<UserProfile> {
                 await prefs.setString('avatar', _selectedAvatar);
                 await prefs.setString('digicode', _digicodeController.text);
 
-                // Naviguer où vous voulez après avoir enregistré les paramètres
+                Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                      builder: (context) =>const NavBar(title:"acceuil"), 
+                      ),
+                   );
+                 
               },
               child: Text('Enregistrer'),
             ),
