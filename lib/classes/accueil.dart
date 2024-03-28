@@ -55,9 +55,8 @@ class _AccueilState extends State<Accueil> {
         note = value;
       });
     }
-    temp = note.split("<>");
-    print(temp);
   }
+  
 
   void _scrollToSelectedDate() {
     final screenWidth = MediaQuery.of(context).size.width;

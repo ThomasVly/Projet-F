@@ -77,11 +77,12 @@ class _CalendarState extends State<Calendar> {
         }
         // Créer un objet Note à partir des parties divisées
         Note note = Note(
-            noteParts[0], // title
-            noteParts[1], // text
-            noteParts[3], // emotion
-            date_i.toUtc().add(const Duration(hours: 1)),
-            tags: tags);
+          noteParts[0], // title
+          noteParts[1], // text
+          noteParts[3], // emotion
+          date_i.toUtc().add(const Duration(hours: 1)),
+          tags: tags
+        );
         // Ajouter la note à la liste des notes pour cette date
         if (notes.containsKey(date_i)) {
           notes[date_i.toUtc().add(const Duration(hours: 1))]!.add(note);
