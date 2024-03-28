@@ -24,8 +24,6 @@ class _AccueilState extends State<Accueil> {
   var temp = [];
   String textToPrint = "";
   String emotion = "";
-  
-
 
   final List<Map<String, dynamic>> _emotions = [
     {'name': 'Joie', 'emoji': '😊'},
@@ -51,7 +49,7 @@ class _AccueilState extends State<Accueil> {
 
   retrieveStringValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String dateString =DateFormat('dd/MM/yyyy').format(selectedDate);
+    String dateString = DateFormat('dd/MM/yyyy').format(selectedDate);
 
     String? value = prefs.getString(dateString);
     if (value != null) {
@@ -59,16 +57,27 @@ class _AccueilState extends State<Accueil> {
         note = value;
         textToPrint = note.split("<>")[0];
 
-        if (note.split("<>")[3]=="Joie"){emotion = '😊';}
-        if (note.split("<>")[3]=="Tristesse"){emotion = '😢';}
-        if (note.split("<>")[3]=="Colère"){emotion = '😡';}
-        if (note.split("<>")[3]=="Amour"){emotion = '😍';}
-        if (note.split("<>")[3]=="Choc"){emotion = '😱';}
-        if (note.split("<>")[3]=="Peur"){emotion = '😖';}
+        if (note.split("<>")[3] == "Joie") {
+          emotion = '😊';
+        }
+        if (note.split("<>")[3] == "Tristesse") {
+          emotion = '😢';
+        }
+        if (note.split("<>")[3] == "Colère") {
+          emotion = '😡';
+        }
+        if (note.split("<>")[3] == "Amour") {
+          emotion = '😍';
+        }
+        if (note.split("<>")[3] == "Choc") {
+          emotion = '😱';
+        }
+        if (note.split("<>")[3] == "Peur") {
+          emotion = '😖';
+        }
       });
     }
   }
-  
 
   void _scrollToSelectedDate() {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -179,8 +188,9 @@ class _AccueilState extends State<Accueil> {
                           GestureDetector(
                             onTap: () {
                               setState(() {
-                                textToPrint ="Il n'y a pas de notes pour le ${DateFormat('dd/MM/yyyy').format(selectedDate.add(Duration(days: 1)))}";
-                                note="";
+                                textToPrint =
+                                    "Il n'y a pas de notes pour le ${DateFormat('dd/MM/yyyy').format(selectedDate.add(Duration(days: 1)))}";
+                                note = "";
                                 emotion = "";
                                 retrieveStringValue();
                                 selectedDate =
@@ -250,30 +260,42 @@ class _AccueilState extends State<Accueil> {
                         1), // Espace vide équivalent à la moitié de la largeur de l'écran
               ],
             ),
-
-
-            const SizedBox(height: 20),
+            const SizedBox(height: 25),
             Expanded(
-              child: Container(
-                  padding: EdgeInsets.all(8.0), // Adjust padding as needed
+              child: Center(
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  height: MediaQuery.of(context).size.height *
+                      0.45, // 80% of screen width
                   decoration: BoxDecoration(
                     color: Colors.grey[200], // Change color as needed
-                    border: Border.all(color: Colors.black), // Change color as needed
-                    borderRadius: BorderRadius.circular(15), // Adjust the radius as needed
+                    border: Border.all(
+                        color: Colors.black), // Change color as needed
+                    borderRadius: BorderRadius.circular(
+                        15), // Adjust the radius as needed
                   ),
-                  child: ListTile(
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0), // Adjust padding as needed
+                    child: ListTile(
                       leading: Text(
                         emotion,
-                        style: TextStyle(fontSize: 40),
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                      title: Text(
+                        "${DateFormat('dd/MM/yyyy').format(selectedDate)}",
+                        style: AppDesign.titleStyle,
                       ),
                       subtitle: Text(
-                        "${DateFormat('dd/MM/yyyy').format(selectedDate)} : $textToPrint",
-                        style: TextStyle(fontSize: 40),
-                      )
-                  )
+                        "$textToPrint",
+                        style: AppDesign.bodyStyle,
+                      ),
+                    ),
+                  ),
+                ),
               ),
-            )
-
+            ),
           ],
         ),
       ),

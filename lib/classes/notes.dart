@@ -17,11 +17,12 @@ class Notes extends StatefulWidget {
 
 class _NotesState extends State<Notes> {
   late File _imageFile = File('');
-  late bool favori=false;
-  bool isButtonSelected = false; 
+  late bool favori = false;
+  bool isButtonSelected = false;
   String imagePath = '';
   late TextEditingController _controllertitre;
-  late TextEditingController _controllertexte; // Déclaration de la variable _imageFile
+  late TextEditingController
+      _controllertexte; // Déclaration de la variable _imageFile
   late SharedPreferences _prefs;
   DateTime? _selectedDate;
   late List<bool> isButtonSelectedList = List.filled(_emotions.length, false);
@@ -40,7 +41,7 @@ class _NotesState extends State<Notes> {
     _controllertitre = TextEditingController();
     _controllertexte = TextEditingController();
     late File _imageFile = File('');
-    late bool favori=false;
+    late bool favori = false;
   }
 
   @override
@@ -64,72 +65,73 @@ class _NotesState extends State<Notes> {
       }
     }
 
-  emoji = _emotions[index]['name'];
-  String dateString = DateFormat('dd/MM/yyyy').format(_selectedDate!);
-  String date = dateString;
-  String imagePath = _imageFile.path.isNotEmpty ? _imageFile.path : '';
-  if(date.isNotEmpty && titre.isNotEmpty && texte.isNotEmpty && emoji.isNotEmpty) {
-    prefs.setString(date,"${titre}<>${texte}<>${tags}<>${emoji}<>${imagePath}<>${favori}");
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Note enregistrée'),
-          content: Text('Votre note a été enregistrée avec succès.'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-  else{
-  showDialog(
-    context : context,
-    builder: (BuildContext context){
-      return AlertDialog(
-        title: Text('Erreur'),
-        content : Text('Vous devez au minimum entrer le titre, le texte, et la date'),
-        actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('OK'),
-            ),
-          ],
+    emoji = _emotions[index]['name'];
+    String dateString = DateFormat('dd/MM/yyyy').format(_selectedDate!);
+    String date = dateString;
+    String imagePath = _imageFile.path.isNotEmpty ? _imageFile.path : '';
+    if (date.isNotEmpty &&
+        titre.isNotEmpty &&
+        texte.isNotEmpty &&
+        emoji.isNotEmpty) {
+      prefs.setString(date,
+          "${titre}<>${texte}<>${tags}<>${emoji}<>${imagePath}<>${favori}");
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Note enregistrée'),
+            content: Text('Votre note a été enregistrée avec succès.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
       );
+    } else {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Erreur'),
+              content: Text(
+                  'Vous devez au minimum entrer le titre, le texte, et la date'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          });
     }
-
-  );
   }
-}
- 
 
-Future <void> _getImage() async {
-  final picker = ImagePicker();
-  final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+  Future<void> _getImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-  if (pickedFile != null) {
-    // Faire quelque chose avec l'image sélectionnée
-    // Par exemple, afficher l'image dans votre interface utilisateur
-    setState(() {
-      _imageFile = File(pickedFile.path);
-    });
+    if (pickedFile != null) {
+      // Faire quelque chose avec l'image sélectionnée
+      // Par exemple, afficher l'image dans votre interface utilisateur
+      setState(() {
+        _imageFile = File(pickedFile.path);
+      });
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
+        child: Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             const Row(
@@ -148,16 +150,16 @@ Future <void> _getImage() async {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        favori = !favori;
-                      });
-                    },
-                    child: Icon(
-                      Icons.star,
-                      color: favori ? Colors.yellow : Colors.grey,
-                    ),
+                  onPressed: () {
+                    setState(() {
+                      favori = !favori;
+                    });
+                  },
+                  child: Icon(
+                    Icons.star,
+                    color: favori ? Colors.yellow : Colors.grey,
                   ),
+                ),
               ],
             ),
             TextFormField(
@@ -185,19 +187,17 @@ Future <void> _getImage() async {
                     List<String> parts = noteData.split("<>");
                     _controllertitre.text = parts[0];
                     _controllertexte.text = parts[1];
-                    if (parts.length >=5){
+                    if (parts.length >= 5) {
                       imagePath = parts[4];
-                      if (parts[5]=='true'){
-                        favori=true;
+                      if (parts[5] == 'true') {
+                        favori = true;
+                      } else {
+                        favori = false;
                       }
-                      else{
-                        favori=false;
-                      }
-                    }
-                    else {
+                    } else {
                       imagePath = '';
                     }
-                    emoji= parts[3];
+                    emoji = parts[3];
                     for (int i = 0; i < _emotions.length; i++) {
                       if (_emotions[i]['name'] == emoji) {
                         setState(() {
@@ -219,7 +219,7 @@ Future <void> _getImage() async {
                   } else {
                     _controllertitre.clear();
                     _controllertexte.clear();
-                    imagePath='';
+                    imagePath = '';
                     for (int i = 0; i < _emotions.length; i++) {
                       isButtonSelectedList[i] = false;
                     }
@@ -326,11 +326,9 @@ Future <void> _getImage() async {
                     )),
               ],
             ),
-            const SizedBox(
-              height:20
-            ),
+            const SizedBox(height: 20),
             Row(
-              mainAxisAlignment:MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
                 _emotions.length,
                 (index) => IconButton(
@@ -356,58 +354,46 @@ Future <void> _getImage() async {
                 ),
               ),
             ),
-            const SizedBox(
-              height:20
-            ),
-            Row(
-              mainAxisAlignment:MainAxisAlignment.center,
-              children: <Widget>[
-                ElevatedButton(
-                    onPressed: () {
-                      _getImage(); 
-                    },
-                    child: Icon(Icons.image),
-                  ),
+            const SizedBox(height: 20),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+              ElevatedButton(
+                onPressed: () {
+                  _getImage();
+                },
+                child: Icon(Icons.image),
+              ),
             ]),
             Row(
-              mainAxisAlignment:MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                _imageFile.path.isNotEmpty 
+                _imageFile.path.isNotEmpty
                     ? Image.file(
                         _imageFile,
-                        width: 200, 
+                        width: 200,
                         height: 200,
-                        fit: BoxFit.cover, 
+                        fit: BoxFit.cover,
                       )
-                    : Text(
-                      ""
-                    ),
-                      _imageFile.path.isNotEmpty 
-                      ?ElevatedButton(
-                            onPressed: () {
-                              setState((){
-                              imagePath='';
-                              _imageFile= File(""); 
-                              });
-                              String path=_imageFile.path;
-                            },
-                            child: Text('Suppr'),
-                          )
-                          : Text(""),      
+                    : Text(""),
+                _imageFile.path.isNotEmpty
+                    ? ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            imagePath = '';
+                            _imageFile = File("");
+                          });
+                          String path = _imageFile.path;
+                        },
+                        child: Text('Suppr'),
+                      )
+                    : Text(""),
               ],
             ),
-            Row(
-              mainAxisAlignment:MainAxisAlignment.center,
-                  children: <Widget>[
-                  ElevatedButton(
-                    onPressed: saveNote,
-                    child: Text("Sauvegarder")),
-              ]
-            ),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+              ElevatedButton(onPressed: saveNote, child: Text("Sauvegarder")),
+            ]),
           ],
         ),
       ),
-    )
-    );
+    ));
   }
 }
