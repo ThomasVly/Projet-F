@@ -17,6 +17,7 @@ class Notes extends StatefulWidget {
 
 class _NotesState extends State<Notes> {
   late File _imageFile = File('');
+  late bool favori=false;
   bool isButtonSelected = false; 
   String imagePath = '';
   late TextEditingController _controllertitre;
@@ -39,6 +40,7 @@ class _NotesState extends State<Notes> {
     _controllertitre = TextEditingController();
     _controllertexte = TextEditingController();
     late File _imageFile = File('');
+    late bool favori=false;
   }
 
   @override
@@ -66,8 +68,9 @@ class _NotesState extends State<Notes> {
   String dateString = DateFormat('dd/MM/yyyy').format(_selectedDate!);
   String date = dateString;
   String imagePath = _imageFile.path.isNotEmpty ? _imageFile.path : '';
-  prefs.setString(date,"${titre}<>${texte}<>${tags}<>${emoji}<>${imagePath}");
-  showDialog(
+  if(date.isNotEmpty && titre.isNotEmpty && texte.isNotEmpty && emoji.isNotEmpty) {
+    prefs.setString(date,"${titre}<>${texte}<>${tags}<>${emoji}<>${imagePath}<>${favori}");
+    showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -83,7 +86,28 @@ class _NotesState extends State<Notes> {
           ],
         );
       },
-    ); 
+    );
+  }
+  else{
+  showDialog(
+    context : context,
+    builder: (BuildContext context){
+      return AlertDialog(
+        title: Text('Erreur'),
+        content : Text('Vous devez au minimum entrer le titre, le texte, et la date'),
+        actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+      );
+    }
+
+  );
+  }
 }
  
 
@@ -108,6 +132,34 @@ Future <void> _getImage() async {
         child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  'Notes',
+                  style: TextStyle(
+                    fontSize: 24, // Taille de la police en points
+                    // Vous pouvez également spécifier d'autres styles de texte si nécessaire
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        favori = !favori;
+                      });
+                    },
+                    child: Icon(
+                      Icons.star,
+                      color: favori ? Colors.yellow : Colors.grey,
+                    ),
+                  ),
+              ],
+            ),
             TextFormField(
               readOnly: true,
               onTap: () async {
@@ -128,14 +180,19 @@ Future <void> _getImage() async {
                   SharedPreferences prefs =
                       await SharedPreferences.getInstance();
                   String? noteData = prefs.getString(dateString);
-
                   if (noteData != null) {
                     // Analyser les données récupérées et mettre à jour les champs de titre, texte et tags
                     List<String> parts = noteData.split("<>");
                     _controllertitre.text = parts[0];
                     _controllertexte.text = parts[1];
-                    if (parts.length == 5){
+                    if (parts.length >=5){
                       imagePath = parts[4];
+                      if (parts[5]=='true'){
+                        favori=true;
+                      }
+                      else{
+                        favori=false;
+                      }
                     }
                     else {
                       imagePath = '';
@@ -269,7 +326,11 @@ Future <void> _getImage() async {
                     )),
               ],
             ),
+            const SizedBox(
+              height:20
+            ),
             Row(
+              mainAxisAlignment:MainAxisAlignment.center,
               children: List.generate(
                 _emotions.length,
                 (index) => IconButton(
@@ -295,20 +356,21 @@ Future <void> _getImage() async {
                 ),
               ),
             ),
+            const SizedBox(
+              height:20
+            ),
             Row(
+              mainAxisAlignment:MainAxisAlignment.center,
               children: <Widget>[
                 ElevatedButton(
-                  onPressed: saveNote,
-                  child: Text("sauvegarder")),
-                  ElevatedButton(
                     onPressed: () {
                       _getImage(); 
                     },
-                    child: Text('Sélectionner une image'),
+                    child: Icon(Icons.image),
                   ),
-              ]
-            ),
+            ]),
             Row(
+              mainAxisAlignment:MainAxisAlignment.center,
               children: <Widget>[
                 _imageFile.path.isNotEmpty 
                     ? Image.file(
@@ -317,11 +379,11 @@ Future <void> _getImage() async {
                         height: 200,
                         fit: BoxFit.cover, 
                       )
-                    : Container(
-                        width: 200, 
-                        height: 200, 
-                      ),
-                      ElevatedButton(
+                    : Text(
+                      ""
+                    ),
+                      _imageFile.path.isNotEmpty 
+                      ?ElevatedButton(
                             onPressed: () {
                               setState((){
                               imagePath='';
@@ -330,9 +392,17 @@ Future <void> _getImage() async {
                               String path=_imageFile.path;
                             },
                             child: Text('Suppr'),
-                          ),
-
+                          )
+                          : Text(""),      
               ],
+            ),
+            Row(
+              mainAxisAlignment:MainAxisAlignment.center,
+                  children: <Widget>[
+                  ElevatedButton(
+                    onPressed: saveNote,
+                    child: Text("Sauvegarder")),
+              ]
             ),
           ],
         ),
