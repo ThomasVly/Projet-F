@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/classes/dossiers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,6 +26,7 @@ class _AccueilState extends State<Accueil> {
   var temp = [];
   String textToPrint = "";
   String emotion = "";
+  String photo = "";
 
   final List<Map<String, dynamic>> _emotions = [
     {'name': 'Joie', 'emoji': '😊'},
@@ -75,6 +78,7 @@ class _AccueilState extends State<Accueil> {
         if (note.split("<>")[3] == "Peur") {
           emotion = '😖';
         }
+        photo = note.split("<>")[4];
       });
     }
   }
@@ -175,7 +179,7 @@ class _AccueilState extends State<Accueil> {
               children: [
                 const Spacer(
                     flex:
-                        1), // Espace vide équivalent à la moitié de la largeur de l'écran
+                    1), // Espace vide équivalent à la moitié de la largeur de l'écran
                 Expanded(
                   flex: numberOfDaysInMonth,
                   child: SingleChildScrollView(
@@ -188,9 +192,8 @@ class _AccueilState extends State<Accueil> {
                           GestureDetector(
                             onTap: () {
                               setState(() {
-                                textToPrint =
-                                    "Il n'y a pas de notes pour le ${DateFormat('dd/MM/yyyy').format(selectedDate.add(Duration(days: 1)))}";
-                                note = "";
+                                textToPrint ="Il n'y a pas de notes pour le ${DateFormat('dd/MM/yyyy').format(selectedDate.add(Duration(days: 1)))}";
+                                note="";
                                 emotion = "";
                                 retrieveStringValue();
                                 selectedDate =
@@ -199,11 +202,11 @@ class _AccueilState extends State<Accueil> {
                             },
                             child: Container(
                               width: selectedDate != null &&
-                                      selectedDate.day == i + 1
+                                  selectedDate.day == i + 1
                                   ? 100
                                   : 70,
                               height: selectedDate != null &&
-                                      selectedDate.day == i + 1
+                                  selectedDate.day == i + 1
                                   ? 100
                                   : 70,
                               alignment: Alignment.center,
@@ -211,7 +214,7 @@ class _AccueilState extends State<Accueil> {
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: selectedDate != null &&
-                                        selectedDate.day == i + 1
+                                    selectedDate.day == i + 1
                                     ? const Color.fromARGB(255, 139, 89, 213)
                                     : Colors.grey,
                               ),
@@ -222,11 +225,11 @@ class _AccueilState extends State<Accueil> {
                                     '${i + 1}',
                                     style: TextStyle(
                                       color: selectedDate != null &&
-                                              selectedDate.day == i + 1
+                                          selectedDate.day == i + 1
                                           ? Colors.white
                                           : Colors.black,
                                       fontSize: selectedDate != null &&
-                                              selectedDate.day == i + 1
+                                          selectedDate.day == i + 1
                                           ? 18
                                           : 16,
                                     ),
@@ -236,14 +239,14 @@ class _AccueilState extends State<Accueil> {
                                       selectedDate == now)
                                     Positioned(
                                       bottom:
-                                          -20, // Ajustez cette valeur selon votre préférence
+                                      -20, // Ajustez cette valeur selon votre préférence
                                       child: Container(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 8, vertical: 4),
                                         decoration: BoxDecoration(
                                           color: Colors.black54,
                                           borderRadius:
-                                              BorderRadius.circular(20),
+                                          BorderRadius.circular(20),
                                         ),
                                       ),
                                     ),
@@ -257,7 +260,7 @@ class _AccueilState extends State<Accueil> {
                 ),
                 const Spacer(
                     flex:
-                        1), // Espace vide équivalent à la moitié de la largeur de l'écran
+                    1), // Espace vide équivalent à la moitié de la largeur de l'écran
               ],
             ),
             const SizedBox(height: 25),
@@ -276,7 +279,9 @@ class _AccueilState extends State<Accueil> {
                   ),
                   child: Padding(
                     padding: EdgeInsets.all(8.0), // Adjust padding as needed
-                    child: ListTile(
+                    child: Column(
+                    children: [
+                      ListTile(
                       leading: Text(
                         emotion,
                         style: TextStyle(
@@ -292,10 +297,21 @@ class _AccueilState extends State<Accueil> {
                         style: AppDesign.bodyStyle,
                       ),
                     ),
+                      if (photo != null && photo.isNotEmpty)
+                        Expanded(
+                          child: Image.file(
+                            File(photo),
+                            fit: BoxFit.contain,
+                            width: MediaQuery.of(context).size.width*0.6,
+                          ),
+                        ),
+                    ]
+                    ),
+                  )
                   ),
-                ),
               ),
             ),
+
           ],
         ),
       ),
