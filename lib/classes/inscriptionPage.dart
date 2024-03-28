@@ -160,28 +160,42 @@ class _InscriptionPageState extends State<InscriptionPage> {
                     const SizedBox(height: 10),
                     ElevatedButton(
                       onPressed: () async {
-                        SharedPreferences prefs =
-                            await SharedPreferences.getInstance();
-                        await prefs.setString(
-                            'username', _usernameController.text);
-                        await prefs.setString(
-                            'password', _passwordController.text);
-                        await prefs.setString(
-                            'digicode', _digicodeController.text);
-                        await prefs.setString(
-                            'securityQuestion', _selectedSecurityQuestion);
-                        await prefs.setString(
-                            'securityAnswer', _securityAnswerController.text);
-                        await prefs.setBool('isRegistered', true);
+                        if (_digicodeController.text.length == 6) {
+                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                          await prefs.setString('username', _usernameController.text);
+                          await prefs.setString('password', _passwordController.text);
+                          await prefs.setString('digicode', _digicodeController.text);
+                          await prefs.setString('securityQuestion', _selectedSecurityQuestion);
+                          await prefs.setString('securityAnswer', _securityAnswerController.text);
+                          await prefs.setBool('isRegistered', true);
 
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const DigicodePage(
-                              title: "Accueil",
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const DigicodePage(
+                                title: "Accueil",
+                              ),
                             ),
-                          ),
-                        );
+                          );
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text("Erreur"),
+                                content: Text("Le digicode doit contenir exactement 6 caractères."),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text("OK"),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }
                       },
                       child: const Text('Valider'),
                     ),
