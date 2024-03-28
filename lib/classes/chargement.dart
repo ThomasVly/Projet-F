@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/classes/inscriptionPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'design.dart';
+import 'package:flutter_application_1/classes/digicode.dart';
 
 class Chargement extends StatefulWidget {
   const Chargement({Key? key, required this.title}) : super(key: key);
@@ -17,12 +18,27 @@ class _ChargementState extends State<Chargement>
   late String username = "";
   late AnimationController _controller;
 
+  void checkIfUserIsRegistered() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isRegistered = prefs.getBool("isRegistered") ?? false;
+    if (isRegistered) {
+      // Rediriger l'utilisateur vers la page d'accueil si déjà enregistré
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => const DigicodePage(
+                title:
+                    "Accueil")), // Remplacez MyHomePage() par votre page d'accueil
+      );
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 3),
+      duration: const Duration(seconds: 3),
     )..addListener(() {
         setState(() {});
       });
@@ -30,7 +46,8 @@ class _ChargementState extends State<Chargement>
     _controller.forward();
 
     retrieveStringValue();
-    Future.delayed(Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 3), () {
+      checkIfUserIsRegistered();
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => InscriptionPage(),

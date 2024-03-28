@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/classes/digicode.dart';
 import 'package:flutter_application_1/classes/profilDigicode.dart';
 import 'package:flutter_application_1/classes/themes.dart';
-import 'package:flutter_application_1/classes/profil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'design.dart';
 
