@@ -5,9 +5,10 @@ import 'package:flutter_application_1/classes/design.dart';
 import 'package:intl/intl.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'design.dart';
 
 class Recap extends StatefulWidget {
-  const Recap({super.key, required this.title});
+  const Recap({Key? key, required this.title}) : super(key: key);
 
   final String title;
 

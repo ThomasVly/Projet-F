@@ -48,6 +48,8 @@ class _UserProfileState extends State<UserProfile> {
       _selectedAvatar = prefs.getString('avatar') ?? _selectedAvatar;
       _digicodeController.text = prefs.getString('digicode') ?? ''; // Charger le digicode
     });
+    
+    await prefs.setString('avatar', _selectedAvatar);
   }
 
   @override

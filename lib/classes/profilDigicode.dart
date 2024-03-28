@@ -97,6 +97,15 @@ class _PDigicodePageState extends State<PDigicodePage> {
     const Color unselectedGrey = Color(0xffD9D9D9);
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text("retour"),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ),
       body: Align(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
