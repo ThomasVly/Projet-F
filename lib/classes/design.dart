@@ -7,7 +7,7 @@ class AppDesign {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          Color.fromARGB(255, 184, 120, 168),
+          Color.fromARGB(207, 184, 120, 168),
           Color.fromARGB(255, 255, 255, 255),
         ],
       ),
@@ -26,9 +26,9 @@ class AppDesign {
   );
 
   static const TextStyle bodyStyle = TextStyle(
-    fontSize: 22,
-    fontWeight: FontWeight.w400,
-    color: Color.fromARGB(255, 74, 2, 116),
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: Color.fromARGB(255, 26, 1, 41),
   );
 
   // Spécifiez les tailles et les marges recommandées pour l'alignement des icônes dans l'interface utilisateur
