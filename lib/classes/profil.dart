@@ -7,10 +7,10 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
-  TextEditingController _usernameController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  TextEditingController _securityAnswerController = TextEditingController();
-  TextEditingController _digicodeController = TextEditingController(); // Ajout du contrôleur pour le digicode
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _securityAnswerController = TextEditingController();
+  final TextEditingController _digicodeController = TextEditingController(); // Ajout du contrôleur pour le digicode
   String _selectedSecurityQuestion = 'Votre animal de compagnie préféré?';
   String _selectedAvatar = 'images/avatar1.png';
   List<String> avatars = [
@@ -51,14 +51,14 @@ class _UserProfileState extends State<UserProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Mon profil'),
+        title: const Text('Mon profil'),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Informations Personnelles',
               style: TextStyle(
                 fontSize: 20,
@@ -66,7 +66,7 @@ class _UserProfileState extends State<UserProfile> {
                 color: Colors.blue,
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             // Champ de sélection d'avatar
             Center(
               child: CircleAvatar(
@@ -74,7 +74,7 @@ class _UserProfileState extends State<UserProfile> {
                 radius: 70,
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             // Boutons d'avatars
             Container(
               height: 100,
@@ -89,7 +89,7 @@ class _UserProfileState extends State<UserProfile> {
                       });
                     },
                     child: Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: CircleAvatar(
                         backgroundImage: AssetImage(avatars[index]),
                         radius: 30,
@@ -102,50 +102,57 @@ class _UserProfileState extends State<UserProfile> {
                 },
               ),
             ),
-            SizedBox(height: 20),
+
+            const SizedBox(height: 20),
+
             // Champ de saisie pour le nom d'utilisateur
             TextFormField(
               controller: _usernameController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Nom d\'utilisateur',
                 border: OutlineInputBorder(),
               ),
             ),
-            SizedBox(height: 10),
+
+            const SizedBox(height: 10),
+
             // Champ de saisie pour le mot de passe
             TextFormField(
               controller: _passwordController,
               obscureText: true,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Mot de Passe',
                 border: OutlineInputBorder(),
               ),
             ),
-            SizedBox(height: 10),
+
+            const SizedBox(height: 10),
+
             // Champ de saisie pour le digicode
             TextFormField(
               controller: _digicodeController,
               obscureText: true,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Digicode',
                 border: OutlineInputBorder(),
               ),
             ),
-            SizedBox(height: 10),
+
+            const SizedBox(height: 10),
+
             // Menu déroulant pour la question de sécurité
             DropdownButtonFormField(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Question de sécurité',
                 border: OutlineInputBorder(),
               ),
-              value: _selectedSecurityQuestion,
               items: [
                 for (String question in securityQuestions)
                   DropdownMenuItem(
                     value: question,
                     child: Text(
                       question,
-                      style: TextStyle(fontSize: 14),
+                      style: const TextStyle(fontSize: 14),
                     ),
                   ),
               ],
@@ -155,17 +162,20 @@ class _UserProfileState extends State<UserProfile> {
                 });
               },
             ),
-            SizedBox(height: 10),
+
+            const SizedBox(height: 10),
+
             // Champ de saisie pour la réponse à la question de sécurité
             TextFormField(
               controller: _securityAnswerController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Réponse à la question de sécurité',
                 border: OutlineInputBorder(),
               ),
             ),
 
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
+
             ElevatedButton(
               onPressed: () async {
                 SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -178,7 +188,7 @@ class _UserProfileState extends State<UserProfile> {
 
                 // Naviguer où vous voulez après avoir enregistré les paramètres
               },
-              child: Text('Enregistrer'),
+              child: const Text('Enregistrer'),
             ),
           ],
         ),

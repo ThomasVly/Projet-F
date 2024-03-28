@@ -76,94 +76,95 @@ class _ParametresState extends State<Parametres> {
                     fontSize: screenSize.width / 8,
                     color: _isDarkMode ? Colors.white : Colors.black,
                   ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    // Naviguer vers UserProfile
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                      builder: (context) => const PDigicodePage(title: "Accueil",
+                      ),
+                      ),
+                    );
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      const SizedBox(
+                        height: 50,
+                      ),
+                      Image.asset(
+                        _isDarkMode ? 'images/whiteprofil.png' : 'images/blackprofil.png',
+                        width: (screenSize.width / 10),
+                        height: (screenSize.height / 10),
+                      ),
+                      const SizedBox(
+                        width: 50,
+                      ),
+                      Text(
+                        "Mon profil",
+                        style: TextStyle(
+                          fontSize: screenSize.width / 16,
+                          color: _isDarkMode ? Colors.white : Colors.black,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Themes(title: "theme")),
+                    );
+                  },
+                  child: Row(
+                    children: <Widget>[
+                      Image.asset(
+                        _isDarkMode ? 'images/whitepersonnalisation.png' : 'images/blackpersonnalisation.png',
+                        width: (screenSize.width / 10),
+                        height: (screenSize.height / 10),
+                      ),
+                      const SizedBox(
+                        width: 50,
+                      ),
+                      Text(
+                        "Thèmes",
+                        style: TextStyle(
+                          fontSize: screenSize.width / 16,
+                          color: _isDarkMode ? Colors.white : Colors.black,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Image.asset(
+                      _isDarkMode ? 'images/whitenotif.png' : 'images/blacknotif.png',
+                      width: (screenSize.width / 10),
+                      height: (screenSize.height / 10),
+                    ),
+                    const SizedBox(
+                      width: 50,
+                    ),
+                    Text(
+                      "Notifications et rappels",
+                      style: TextStyle(
+                        fontSize: screenSize.width / 16,
+                        color: _isDarkMode ? Colors.white : Colors.black,
+                      ),
+                    )
+                  ],
                 )
               ],
             ),
-            GestureDetector(
-              onTap: () {
-                // Naviguer vers UserProfile
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                   builder: (context) => const PDigicodePage(title: "Accueil",
-                   ),
-                  ),
-                );
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  const SizedBox(
-                    height: 50,
-                  ),
-                  Image.asset(
-                    _isDarkMode ? 'images/whiteprofil.png' : 'images/blackprofil.png',
-                    width: (screenSize.width / 10),
-                    height: (screenSize.height / 10),
-                  ),
-                  const SizedBox(
-                    width: 50,
-                  ),
-                  Text(
-                    "Mon profil",
-                    style: TextStyle(
-                      fontSize: screenSize.width / 16,
-                      color: _isDarkMode ? Colors.white : Colors.black,
-                    ),
-                  )
-                ],
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Themes(title: "theme")),
-                );
-              },
-              child: Row(
-                children: <Widget>[
-                  Image.asset(
-                    _isDarkMode ? 'images/whitepersonnalisation.png' : 'images/blackpersonnalisation.png',
-                    width: (screenSize.width / 10),
-                    height: (screenSize.height / 10),
-                  ),
-                  const SizedBox(
-                    width: 50,
-                  ),
-                  Text(
-                    "Thèmes",
-                    style: TextStyle(
-                      fontSize: screenSize.width / 16,
-                      color: _isDarkMode ? Colors.white : Colors.black,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Image.asset(
-                  _isDarkMode ? 'images/whitenotif.png' : 'images/blacknotif.png',
-                  width: (screenSize.width / 10),
-                  height: (screenSize.height / 10),
-                ),
-                const SizedBox(
-                  width: 50,
-                ),
-                Text(
-                  "Notifications et rappels",
-                  style: TextStyle(
-                    fontSize: screenSize.width / 16,
-                    color: _isDarkMode ? Colors.white : Colors.black,
-                  ),
-                )
-              ],
-            )
+            
           ),
         ),
-      );
+      )
     );
   }
 }
