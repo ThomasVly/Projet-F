@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/classes/digicode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'chargement.dart';
 
 class InscriptionPage extends StatefulWidget {
   @override
@@ -9,10 +8,10 @@ class InscriptionPage extends StatefulWidget {
 }
 
 class _InscriptionPageState extends State<InscriptionPage> {
-  TextEditingController _usernameController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  TextEditingController _digicodeController = TextEditingController();
-  TextEditingController _securityAnswerController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _digicodeController = TextEditingController();
+  final TextEditingController _securityAnswerController = TextEditingController();
   String _selectedSecurityQuestion = 'Votre animal de compagnie préféré?';
 
   List<String> securityQuestions = [
@@ -21,25 +20,9 @@ class _InscriptionPageState extends State<InscriptionPage> {
     'Quel est le nom de votre professeur préféré?',
   ];
 
+  @override
   void initState() {
     super.initState();
-    // Vérifier si l'utilisateur est déjà enregistré lors du lancement de l'application
-    checkIfUserIsRegistered();
-  }
-
-  void checkIfUserIsRegistered() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool isRegistered = prefs.getBool("isRegistered") ?? false;
-    if (isRegistered) {
-      // Rediriger l'utilisateur vers la page d'accueil si déjà enregistré
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => const DigicodePage(
-                title:
-                    "Accueil")), // Remplacez MyHomePage() par votre page d'accueil
-      );
-    }
   }
 
   @override

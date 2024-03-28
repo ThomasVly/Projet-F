@@ -158,7 +158,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     double screenHeight = MediaQuery.of(context).size.height;
 
     const Color selectBlue =  Color(0xff1774CA);
-    const Color unselectedGrey = Color(0xffD9D9D9);
     final TextEditingController textInputController = TextEditingController();
     final TextEditingController newPasswordController= TextEditingController();
     final TextEditingController confirmPasswordController= TextEditingController();
