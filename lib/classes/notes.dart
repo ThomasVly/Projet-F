@@ -1,6 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'design.dart';
 
 class Notes extends StatefulWidget {
   const Notes({Key? key, required this.title}) : super(key: key);
@@ -12,7 +13,7 @@ class Notes extends StatefulWidget {
 }
 
 class _NotesState extends State<Notes> {
-  bool isButtonSelected = false; 
+  bool isButtonSelected = false;
   late TextEditingController _controllertitre;
   late TextEditingController _controllertexte;
   late SharedPreferences _prefs;
@@ -26,7 +27,7 @@ class _NotesState extends State<Notes> {
     {'name': 'Choc', 'emoji': '😱'},
     {'name': 'Peur', 'emoji': '😖'},
   ];
-  List<String> tags = []; 
+  List<String> tags = [];
   @override
   void initState() {
     super.initState();
@@ -41,26 +42,25 @@ class _NotesState extends State<Notes> {
     super.dispose();
   }
 
+  void saveNote() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-void saveNote() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-
-  int index = 0;
-  String emoji;
-  String titre = _controllertitre.text;
-  String texte = _controllertexte.text;
-  for (int i = 0; i < isButtonSelectedList.length; i++) {
-    if (isButtonSelectedList[i]) {
-      index = i;
-      break; 
+    int index = 0;
+    String emoji;
+    String titre = _controllertitre.text;
+    String texte = _controllertexte.text;
+    for (int i = 0; i < isButtonSelectedList.length; i++) {
+      if (isButtonSelectedList[i]) {
+        index = i;
+        break;
+      }
     }
-  }
 
-  emoji = _emotions[index]['name'];
-  String dateString = DateFormat('dd/MM/yyyy').format(_selectedDate!);
-  String date = dateString;
-  prefs.setString(date,"${titre}<>${texte}<>${tags}<>${emoji}");
-  showDialog(
+    emoji = _emotions[index]['name'];
+    String dateString = DateFormat('dd/MM/yyyy').format(_selectedDate!);
+    String date = dateString;
+    prefs.setString(date, "${titre}<>${texte}<>${tags}<>${emoji}");
+    showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -77,8 +77,7 @@ void saveNote() async {
         );
       },
     );
-  
-}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,9 +99,11 @@ void saveNote() async {
                   setState(() {
                     _selectedDate = picked;
                   });
-                  String emoji='';
-                  String dateString = DateFormat('dd/MM/yyyy').format(_selectedDate!);
-                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  String emoji = '';
+                  String dateString =
+                      DateFormat('dd/MM/yyyy').format(_selectedDate!);
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
                   String? noteData = prefs.getString(dateString);
 
                   if (noteData != null) {
@@ -110,7 +111,7 @@ void saveNote() async {
                     List<String> parts = noteData.split("<>");
                     _controllertitre.text = parts[0];
                     _controllertexte.text = parts[1];
-                    emoji= parts[3];
+                    emoji = parts[3];
                     for (int i = 0; i < _emotions.length; i++) {
                       if (_emotions[i]['name'] == emoji) {
                         setState(() {
@@ -121,7 +122,7 @@ void saveNote() async {
                           isButtonSelectedList[i] = false;
                         });
                       }
-                    } 
+                    }
                     String tagsString = parts[2];
                     print(tagsString);
                     tagsString = tagsString.substring(1, tagsString.length - 1);
@@ -132,7 +133,7 @@ void saveNote() async {
                     _controllertitre.clear();
                     _controllertexte.clear();
                     for (int i = 0; i < _emotions.length; i++) {
-                      isButtonSelectedList[i]= false;
+                      isButtonSelectedList[i] = false;
                     }
                     setState(() {
                       tags.clear();
@@ -149,50 +150,55 @@ void saveNote() async {
                 hintText: 'Sélectionner une date',
               ),
             ),
-
             TextField(
               controller: _controllertitre,
               decoration: InputDecoration(
                 hintText: 'Titre de la note',
               ),
-              onSubmitted: (String value) {
-              },
+              onSubmitted: (String value) {},
             ),
-            SizedBox(height : 20),
-            TextField(
-              controller: _controllertexte,
-              maxLines: 10,
-              decoration: InputDecoration(
-                hintText: 'Texte de la note',
-                // Vous pouvez utiliser le style pour définir la taille de la police
-                hintStyle: TextStyle(fontSize: 16.0), // Taille de la police
-                // Vous pouvez utiliser contentPadding pour définir le remplissage du contenu
-                contentPadding: EdgeInsets.all(10.0), // Remplissage du contenu
-                // Vous pouvez utiliser border pour définir le style de la bordure
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0), // Rayon de la bordure
+            Container(
+              decoration: AppDesign
+                  .buildBackgroundDecoration(), // Couleur de fond de votre choix
+              padding:
+                  EdgeInsets.all(13.0), // Rembourrage intérieur du conteneur
+              child: SizedBox(
+                height: 330,
+                child: TextField(
+                  controller: _controllertexte,
+                  maxLines: 10,
+                  decoration: InputDecoration(
+                    hintText: 'Texte de la note',
+                    hintStyle: TextStyle(fontSize: 16.0),
+                    contentPadding: EdgeInsets.all(45.0),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                  style: AppDesign.bodyStyle,
+                  onSubmitted: (String value) {},
                 ),
               ),
-              onSubmitted: (String value) {
-              },
             ),
             SizedBox(height: 16),
             Wrap(
               spacing: 8.0, // Espacement horizontal entre les boutons de tag
-              runSpacing: 8.0, // Espacement vertical entre les lignes de boutons de tag
+              runSpacing:
+                  8.0, // Espacement vertical entre les lignes de boutons de tag
               children: [
                 ElevatedButton(
                   onPressed: () {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        String newTag = ''; // Variable pour stocker le nouveau tag saisi
+                        String newTag =
+                            ''; // Variable pour stocker le nouveau tag saisi
 
                         return AlertDialog(
                           title: Text('Ajouter un Tag'),
                           content: TextField(
                             onChanged: (value) {
-                              newTag = value; 
+                              newTag = value;
                             },
                             decoration: InputDecoration(
                               hintText: 'Entrez un tag',
@@ -201,7 +207,7 @@ void saveNote() async {
                           actions: [
                             TextButton(
                               onPressed: () {
-                                Navigator.pop(context); 
+                                Navigator.pop(context);
                               },
                               child: Text('Annuler'),
                             ),
@@ -210,7 +216,7 @@ void saveNote() async {
                                 setState(() {
                                   tags.add(newTag);
                                 });
-                                Navigator.pop(context); 
+                                Navigator.pop(context);
                               },
                               child: Text('Enregistrer'),
                             ),
@@ -223,16 +229,15 @@ void saveNote() async {
                 ),
                 // Afficher les boutons de tag
                 ...tags.map((tag) => ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      tags.remove(tag);
-                    });
-                  },
-                  child: Text(tag + ' X'),
-                )),
+                      onPressed: () {
+                        setState(() {
+                          tags.remove(tag);
+                        });
+                      },
+                      child: Text(tag + ' X'),
+                    )),
               ],
             ),
-
             Row(
               children: List.generate(
                 _emotions.length,
@@ -254,18 +259,15 @@ void saveNote() async {
                   },
                   icon: Text(
                     _emotions[index]['emoji'],
-                    style: TextStyle(fontSize: isButtonSelectedList[index] ? 48 : 24),
+                    style: TextStyle(
+                        fontSize: isButtonSelectedList[index] ? 48 : 24),
                   ),
                 ),
               ),
             ),
-            Row(
-              children: <Widget>[
-                ElevatedButton(
-                  onPressed: saveNote,
-                  child: Text("sauvegarder"))
-              ]
-            )
+            Row(children: <Widget>[
+              ElevatedButton(onPressed: saveNote, child: Text("sauvegarder"))
+            ])
           ],
         ),
       ),
