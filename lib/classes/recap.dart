@@ -17,6 +17,8 @@ class _RecapState extends State<Recap> {
   late DateTime now;
   late String utilisable ;
   List<String> temp = [];
+  double jour = 7;
+  var text = "hebdomadaire";
 
   Map<String, double> dataMap = {
     '😊' : 0,
@@ -38,7 +40,7 @@ class _RecapState extends State<Recap> {
   retrieveStringValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    for (var i =0; i<7; i++) {
+    for (var i =0; i<jour; i++) {
       String? value = prefs.getString(DateFormat('dd/MM/yyyy').format(now.subtract(Duration(days: i))));
       if (value != null) {
         setState(() {
@@ -57,6 +59,11 @@ class _RecapState extends State<Recap> {
     return list.where((item) => item == element).length;
   }
 
+  void change_day(){
+    dataMap.clear();
+    retrieveStringValue();
+  }
+
   @override
   void dispose() {
     _controller.dispose();
@@ -71,15 +78,30 @@ class _RecapState extends State<Recap> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("Le récapitulatif est à partir du ${DateFormat.yMd().format(now)}"),
+            Text("Le récapitulatif est à partir du ${DateFormat.yMd().format(now)}, il est $text"),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.8, // Adjust the width as per your requirement
               height: MediaQuery.of(context).size.width * 0.8, // Adjust the height as per your requirement
-              child: PieChart(dataMap: dataMap),
+              child: PieChart(
+                  dataMap: dataMap,
+                  legendOptions: LegendOptions(legendTextStyle: TextStyle(fontSize: 20)),
+              ),
             ),
+            Slider(
+              min: 7.0,
+              max: 50.0,
+              value: jour,
+              onChanged: (value) {
+                setState(() {
+                  jour = value;
+                  change_day();
+                });
+              },
+            ),
+            Text("Le récapitulatif comprends les ${jour.toInt()} derniers jours"),
           ],
         ),
-      ),
+      ),      
     );
   }
 }
