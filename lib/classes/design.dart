@@ -7,8 +7,8 @@ class AppDesign {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          Color.fromARGB(207, 184, 120, 168),
           Color.fromARGB(255, 255, 255, 255),
+          Color.fromARGB(207, 184, 120, 168),
         ],
       ),
     );
