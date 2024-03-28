@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:flutter_application_1/classes/themes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'event.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'notes.dart';
 
 class Calendar extends StatefulWidget {
   const Calendar({super.key, required this.title});
@@ -99,7 +99,6 @@ class _CalendarState extends State<Calendar> {
     return notes[day] ?? [];
   }
 
-  late bool _isDarkMode = false;
 
   @override
   Widget build(BuildContext context) {
@@ -196,7 +195,12 @@ class _CalendarState extends State<Calendar> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: ListTile(
-                          onTap: () => print(""), // action à effectuer lors du clic sur une note
+                          onTap: () => 
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (context) => Notes(title:"yousk2", selectedDate: note.date)
+                            ),
+                          ), 
                           title: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

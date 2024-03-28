@@ -25,15 +25,17 @@ class _NavBarState extends State<NavBar> {
       _selectedIndex = index;
     });
   }
+  
+  DateTime dateNow = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
-    const List<Widget> _pages = <Widget>[
-      Accueil(title: "Mon journal"),
-      Calendar(title: "calendar"),
-      Notes(title: 'yousk2'),
-      Recap(title: "Recapitulatif"),
-      Parametres(title: 'settings'),
+    List<Widget> _pages = <Widget>[
+      const Accueil(title: "Mon journal"),
+      const Calendar(title: "calendar"),
+      Notes(title: 'yousk2',selectedDate: dateNow),
+      const Recap(title: "Recapitulatif"),
+      const Parametres(title: 'settings'),
     ];
 
     return Scaffold(
