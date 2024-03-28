@@ -41,11 +41,11 @@ dependencies:
 
   path_provider: any
 
+  image_picker: ^0.8.4+4
+
   intl:
 
   pie_chart: any
-
-  
 
 
 dev_dependencies:

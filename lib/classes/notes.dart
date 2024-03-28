@@ -1,6 +1,9 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+
 
 class Notes extends StatefulWidget {
   const Notes({Key? key, required this.title}) : super(key: key);
@@ -12,9 +15,11 @@ class Notes extends StatefulWidget {
 }
 
 class _NotesState extends State<Notes> {
+  late File _imageFile = File('');
   bool isButtonSelected = false; 
+  String imagePath = '';
   late TextEditingController _controllertitre;
-  late TextEditingController _controllertexte;
+  late TextEditingController _controllertexte; // Déclaration de la variable _imageFile
   late SharedPreferences _prefs;
   DateTime? _selectedDate;
   late List<bool> isButtonSelectedList = List.filled(_emotions.length, false);
@@ -32,6 +37,7 @@ class _NotesState extends State<Notes> {
     super.initState();
     _controllertitre = TextEditingController();
     _controllertexte = TextEditingController();
+    late File _imageFile = File('');
   }
 
   @override
@@ -59,7 +65,8 @@ void saveNote() async {
   emoji = _emotions[index]['name'];
   String dateString = DateFormat('dd/MM/yyyy').format(_selectedDate!);
   String date = dateString;
-  prefs.setString(date,"${titre}<>${texte}<>${tags}<>${emoji}");
+  String imagePath = _imageFile.path.isNotEmpty ? _imageFile.path : '';
+  prefs.setString(date,"${titre}<>${texte}<>${tags}<>${emoji}<>${imagePath}");
   showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -76,8 +83,21 @@ void saveNote() async {
           ],
         );
       },
-    );
-  
+    ); 
+}
+ 
+
+Future <void> _getImage() async {
+  final picker = ImagePicker();
+  final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+  if (pickedFile != null) {
+    // Faire quelque chose avec l'image sélectionnée
+    // Par exemple, afficher l'image dans votre interface utilisateur
+    setState(() {
+      _imageFile = File(pickedFile.path);
+    });
+  }
 }
 
   @override
@@ -85,6 +105,7 @@ void saveNote() async {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             TextFormField(
@@ -98,6 +119,7 @@ void saveNote() async {
                 );
                 if (picked != null && picked != _selectedDate) {
                   setState(() {
+                    _imageFile = File('');
                     _selectedDate = picked;
                   });
                   String emoji='';
@@ -110,6 +132,7 @@ void saveNote() async {
                     List<String> parts = noteData.split("<>");
                     _controllertitre.text = parts[0];
                     _controllertexte.text = parts[1];
+                    imagePath = parts[4];
                     emoji= parts[3];
                     for (int i = 0; i < _emotions.length; i++) {
                       if (_emotions[i]['name'] == emoji) {
@@ -127,10 +150,12 @@ void saveNote() async {
                     tagsString = tagsString.substring(1, tagsString.length - 1);
                     setState(() {
                       tags = tagsString.split(", ");
+                      _imageFile = File(imagePath);
                     });
                   } else {
                     _controllertitre.clear();
                     _controllertexte.clear();
+                    imagePath='';
                     for (int i = 0; i < _emotions.length; i++) {
                       isButtonSelectedList[i]= false;
                     }
@@ -239,7 +264,6 @@ void saveNote() async {
                 (index) => IconButton(
                   onPressed: () {
                     setState(() {
-                      // Parcourir la liste des boutons et définir l'état à false sauf pour celui cliqué
                       for (int i = 0; i < isButtonSelectedList.length; i++) {
                         if (i == index) {
                           isButtonSelectedList[i] = true;
@@ -263,12 +287,45 @@ void saveNote() async {
               children: <Widget>[
                 ElevatedButton(
                   onPressed: saveNote,
-                  child: Text("sauvegarder"))
+                  child: Text("sauvegarder")),
+                  ElevatedButton(
+                    onPressed: () {
+                      _getImage(); 
+                    },
+                    child: Text('Sélectionner une image'),
+                  ),
               ]
-            )
+            ),
+            Row(
+              children: <Widget>[
+                _imageFile.path.isNotEmpty 
+                    ? Image.file(
+                        _imageFile,
+                        width: 200, 
+                        height: 200,
+                        fit: BoxFit.cover, 
+                      )
+                    : Container(
+                        width: 200, 
+                        height: 200, 
+                      ),
+                      ElevatedButton(
+                            onPressed: () {
+                              setState((){
+                              imagePath='';
+                              _imageFile= File(""); 
+                              });
+                              String path=_imageFile.path;
+                            },
+                            child: Text('Suppr'),
+                          ),
+
+              ],
+            ),
           ],
         ),
       ),
+    )
     );
   }
 }
