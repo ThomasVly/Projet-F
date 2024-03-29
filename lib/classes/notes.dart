@@ -154,7 +154,6 @@ class _NotesState extends State<Notes> {
                       }
                     }
                     String tagsString = parts[2];
-                    print(tagsString);
                     tagsString = tagsString.substring(1, tagsString.length - 1);
                     setState(() {
                       tags = tagsString.split(", ");
@@ -172,6 +171,7 @@ class _NotesState extends State<Notes> {
                     });
                   }
   }
+  
   Future<void> _getImage() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -185,73 +185,78 @@ class _NotesState extends State<Notes> {
     }
   }
 
-  @override
+ @override
   Widget build(BuildContext context) {
-    return Center(
+    return Scaffold(
+      body: Center(
         child: Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+          padding: const EdgeInsets.all(16.0),
+          child: SingleChildScrollView(
+            child: Column(
               children: <Widget>[
-                Text(
-                  'Notes',
-                  style: TextStyle(
-                    fontSize: 24, // Taille de la police en points
-                    // Vous pouvez également spécifier d'autres styles de texte si nécessaire
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'Notes',
+                      style: TextStyle(
+                        fontSize: 24, // Taille de la police en points
+                        // Vous pouvez également spécifier d'autres styles de texte si nécessaire
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          favori = !favori;
+                        });
+                      },
+                      child: Icon(
+                        Icons.star,
+                        color: favori ? Colors.yellow : Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+                Container(
+                  child: TextFormField(
+                    readOnly: true,
+                    onTap: () async {
+                      final DateTime? picked = await showDatePicker(
+                        context: context,
+                        initialDate: _selectedDate,
+                        firstDate: DateTime(2000),
+                        lastDate: DateTime(2101),
+                      );
+                      if (picked != null && picked != _selectedDate) {
+                        setState(() {
+                          _imageFile = File('');
+                          _selectedDate = picked;
+                        });
+                        loadNote(_selectedDate);
+                      }
+                    },
+                    controller: TextEditingController(
+                      text: '${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}',
+                    ),
+                    decoration: const InputDecoration(
+                      hintText: 'Sélectionner une date',
+                    ),
                   ),
                 ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      favori = !favori;
-                    });
-                  },
-                  child: Icon(
-                    Icons.star,
-                    color: favori ? Colors.yellow : Colors.grey,
+                Container(
+                  child: TextField(
+                    controller: _controllertitre,
+                    decoration: const InputDecoration(
+                      hintText: 'Titre de la note',
+                    ),
+                    onSubmitted: (String value) {},
                   ),
                 ),
-              ],
-            ),
-            TextFormField(
-              readOnly: true,
-              onTap: () async {
-                final DateTime? picked = await showDatePicker(
-                  context: context,
-                  initialDate: _selectedDate,
-                  firstDate: DateTime(2000),
-                  lastDate: DateTime(2101),
-                );
-                if (picked != null && picked != _selectedDate) {
-                  setState(() {
-                    _imageFile = File('');
-                    _selectedDate = picked;
-                  });
-                  loadNote(_selectedDate);
-                }
-              },
-              controller: TextEditingController(
-                text:  '${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}',
-              ),
-              decoration: const InputDecoration(
-                hintText: 'Sélectionner une date',
-              ),
-            ),
-            TextField(
-              controller: _controllertitre,
-              decoration: const InputDecoration(
-                hintText: 'Titre de la note',
-              ),
-              onSubmitted: (String value) {},
-            ),
             Container(
               decoration: AppDesign
                   .buildBackgroundDecoration(), // Couleur de fond de votre choix
@@ -401,6 +406,6 @@ class _NotesState extends State<Notes> {
           ],
         ),
       ),
-    ));
+    )));
   }
 }

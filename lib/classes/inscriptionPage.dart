@@ -143,7 +143,8 @@ class _InscriptionPageState extends State<InscriptionPage> {
                     const SizedBox(height: 10),
                     ElevatedButton(
                       onPressed: () async {
-                        if (_digicodeController.text.length == 6) {
+                        if (RegExp(r'^[0-9]{6}$').hasMatch(_digicodeController.text)) {
+                          // Le digicode est composé de 6 chiffres
                           SharedPreferences prefs = await SharedPreferences.getInstance();
                           await prefs.setString('username', _usernameController.text);
                           await prefs.setString('password', _passwordController.text);
@@ -161,12 +162,13 @@ class _InscriptionPageState extends State<InscriptionPage> {
                             ),
                           );
                         } else {
+                          // Le digicode ne contient pas exactement 6 chiffres
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                title: Text("Erreur"),
-                                content: Text("Le digicode doit contenir exactement 6 caractères."),
+                                title: const Text("Erreur"),
+                                content: const Text("Le digicode doit contenir exactement 6 chiffres. (Pas de lettres ou autres caractères)"),
                                 actions: [
                                   TextButton(
                                     onPressed: () {

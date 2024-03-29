@@ -44,14 +44,6 @@ class _CalendarState extends State<Calendar> {
 
   void retrieveNotesList() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString("21/03/2024",
-        "titre<>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum<>#joyeux#vie<>Joie<><>true");
-    await prefs.setString("28/03/2024",
-        "titre<>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum<>#joyeux#vie<>Joie<><>false");
-    await prefs.setString("01/03/2024",
-        "drôle<>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum<>#joyeux<>Joie<><>false");
-    await prefs.setString("02/03/2024",
-        "titre<>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum<>#joyeux#vie<>Joie<><>false");
     notes.clear(); // Effacer les données précédentes de la carte
 
     // Définir l'intervalle de dates (du 1er janvier 2020 au 1er janvier 2025)
@@ -70,11 +62,14 @@ class _CalendarState extends State<Calendar> {
 
         // Extraire les tags de la partie des tags
         List<String> tags = [];
-        for (String part in noteParts[2].split('#')) {
+        String tagString = noteParts[2];
+        tagString = tagString.substring(1, tagString.length - 1);
+        for (String part in tagString.split(", ")) {
           if (part.isNotEmpty) {
             tags.add('#' + part.trim()); // Ajouter le '#' manquant
           }
         }
+
         // Créer un objet Note à partir des parties divisées
         Note note = Note(
           noteParts[0], // title
@@ -111,25 +106,124 @@ class _CalendarState extends State<Calendar> {
             calendarBuilders:
                 CalendarBuilders(defaultBuilder: (context, date, _) {
               if (notes.containsKey(date)) {
-                return Container(
-                  margin: const EdgeInsets.all(4),
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color.fromARGB(255, 139, 89, 213),
-                  ),
-                  child: Center(
-                    child: Stack(
-                      children: [
-                        Text(
-                          '${date.day}',
-                          style: const TextStyle(color: Colors.white),
-                        ),
-                      ],
+                List<Note> note = notes[date]!;
+                String emotion = note[0].emotion;
+                if (emotion == "Joie") {
+                  return Container(
+                    margin: const EdgeInsets.all(4),
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color.fromARGB(255, 215, 230, 6),
                     ),
-                  ),
-                );
+                    child: Center(
+                      child: Stack(
+                        children: [
+                          Text(
+                            '${date.day}',
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+                if (emotion == "Tristesse") {
+                  return Container(
+                    margin: const EdgeInsets.all(4),
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color.fromARGB(255, 94, 79, 221),
+                    ),
+                    child: Center(
+                      child: Stack(
+                        children: [
+                          Text(
+                            '${date.day}',
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+                if (emotion == "Colère") {
+                  return Container(
+                    margin: const EdgeInsets.all(4),
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color.fromARGB(255, 252, 75, 75),
+                    ),
+                    child: Center(
+                      child: Stack(
+                        children: [
+                          Text(
+                            '${date.day}',
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+                if (emotion == "Amour") {
+                  return Container(
+                    margin: const EdgeInsets.all(4),
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color.fromARGB(255, 252, 73, 228),
+                    ),
+                    child: Center(
+                      child: Stack(
+                        children: [
+                          Text(
+                            '${date.day}',
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+                if (emotion == "Choc") {
+                  return Container(
+                    margin: const EdgeInsets.all(4),
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color.fromARGB(255, 151, 241, 226),
+                    ),
+                    child: Center(
+                      child: Stack(
+                        children: [
+                          Text(
+                            '${date.day}',
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+                if (emotion == "Peur") {
+                  return Container(
+                    margin: const EdgeInsets.all(4),
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color.fromARGB(255, 71, 78, 116),
+                    ),
+                    child: Center(
+                      child: Stack(
+                        children: [
+                          Text(
+                            '${date.day}',
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+                return null;
               }
-              return null;
             }),
             firstDay: DateTime(2020, 1, 1),
             lastDay: DateTime(2025, 1, 1),
