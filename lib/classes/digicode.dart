@@ -80,7 +80,7 @@ class _DigicodePageState extends State<DigicodePage> {
   double calculateButtonSizeHeight(BuildContext context, int gridColumns) {
     double screenHeight = MediaQuery.of(context).size.height;
     double gridHeight = screenHeight *
-        0.4; // Utilise 80% de la largeur de l'écran pour la grille
+        0.35; // Utilise 80% de la largeur de l'écran pour la grille
     double buttonSize = gridHeight /
         gridColumns; // Calcule la taille des boutons en fonction du nombre de colonnes
     return buttonSize;
@@ -341,7 +341,7 @@ class _DigicodePageState extends State<DigicodePage> {
               ),
               child: Container(
                 width: screenWidth * 0.5,
-                height: screenHeight * 0.070,
+                height: screenHeight * 0.065,
                 decoration: BoxDecoration(
                   color: unselectedGrey, // Couleur de fond fixe
                   borderRadius:

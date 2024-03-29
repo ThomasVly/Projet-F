@@ -61,6 +61,10 @@ class _PMotDePassePageState extends State<PMotDePassePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
+
+            SizedBox(
+              height: screenHeight * 0.05,
+            ),
             // Affichage du logo et du nom de l'application
             Flexible(
               child: Padding(
@@ -202,7 +206,7 @@ class _PMotDePassePageState extends State<PMotDePassePage> {
             ),
 
             SizedBox(
-              height: screenHeight * 0.5,
+              height: screenHeight * 0.4,
             ),
 
             // Bouton "Mot de passe oublié ?"

@@ -81,7 +81,7 @@ class _PDigicodePageState extends State<PDigicodePage> {
   double calculateButtonSizeHeight(BuildContext context, int gridColumns) {
     double screenHeight = MediaQuery.of(context).size.height;
     double gridHeight = screenHeight *
-        0.4; // Utilise 80% de la largeur de l'écran pour la grille
+        0.30; // Utilise 80% de la largeur de l'écran pour la grille
     double buttonSize = gridHeight /
         gridColumns; // Calcule la taille des boutons en fonction du nombre de colonnes
     return buttonSize;
@@ -98,7 +98,7 @@ class _PDigicodePageState extends State<PDigicodePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("retour"),
+        title: Text("Retour"),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
@@ -130,7 +130,7 @@ class _PDigicodePageState extends State<PDigicodePage> {
                         fit: BoxFit.scaleDown,
                         child: Text(
                           "Diar-e",
-                          style: TextStyle(fontSize: 24.0),
+                          style: TextStyle(fontSize: 20.0),
                         ),
                       ),
                     ),
@@ -139,7 +139,6 @@ class _PDigicodePageState extends State<PDigicodePage> {
               ),
             ),
 
-            //SizedBox(height: buttonSizeHeight * 0.05),
 
             //Affichage du selecteur entre digicode et mdp
             Row(
@@ -207,23 +206,21 @@ class _PDigicodePageState extends State<PDigicodePage> {
               ],
             ),
 
-            //const SizedBox(height: 20.0),
-
             // Affichage du code entré
             FittedBox(
               fit: BoxFit.scaleDown,
               child: _input != 'ERROR!' ? 
                 Text(
                   'Code: ${_input.split('').map((char) => '*').join(' ')}' + ' _ ' * (6 - _input.length),
-                  style: const TextStyle(fontSize: 24.0),
+                  style: const TextStyle(fontSize: 20.0),
                 ) :
                 const Text(
                   'Code: E R R O R !',
-                  style: TextStyle(fontSize: 24.0),
+                  style: TextStyle(fontSize: 20.0),
                 ),
             ),
 
-            const SizedBox(height: 20.0),
+            const SizedBox(height: 5.0),
 
             // Cadran de 3x3 boutons
             GridView.count(
@@ -245,14 +242,14 @@ class _PDigicodePageState extends State<PDigicodePage> {
                       ),
                       alignment: Alignment.center,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: FittedBox(
                           fit: BoxFit
                               .scaleDown, // Ajuste la taille du texte pour s'adapter à la boîte
                           child: Text(
                             '$digit',
                             style: const TextStyle(
-                                fontSize: 24.0, color: Colors.black),
+                                fontSize: 20.0, color: Colors.black),
                           ),
                         ),
                       ),
@@ -350,7 +347,7 @@ class _PDigicodePageState extends State<PDigicodePage> {
               ),
               child: Container(
                 width: screenWidth * 0.5,
-                height: screenHeight * 0.070,
+                height: screenHeight * 0.050,
                 decoration: BoxDecoration(
                   color: unselectedGrey, // Couleur de fond fixe
                   borderRadius:
@@ -364,13 +361,12 @@ class _PDigicodePageState extends State<PDigicodePage> {
                         .scaleDown, // Ajuste la taille du texte pour s'adapter à la boîte
                     child: Text(
                       'Mot de passe oublié ?',
-                      style: TextStyle(fontSize: 24.0, color: Colors.black),
+                      style: TextStyle(fontSize: 20.0, color: Colors.black),
                     ),
                   ),
                 ),
               ),
             ),
-            const SizedBox(height: 10.0),
           ],
         ),
       ),

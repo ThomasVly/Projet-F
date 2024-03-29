@@ -55,7 +55,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         answerText = answerValue;
       }
     });
-    
+
     if (input == answerText) {
       nbEssais = 3;
       setState((){
@@ -103,7 +103,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       if (digicodeForgot){
         await prefs.setString(
-          'digicode', password);
+            'digicode', password);
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -113,7 +113,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       }
       else if (passwordForgot){
         await prefs.setString(
-          'password', password);
+            'password', password);
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -123,7 +123,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       }
     }
   }
-  
+
 
   retrieveBoolValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -180,7 +180,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     Image.asset(
                       _isDarkMode?
                       'images/whitelogo_forgot_password.png'
-                      : 'images/blacklogo_forgot_password.png',
+                          : 'images/blacklogo_forgot_password.png',
                       width: screenWidth * 0.20,
                       height: screenHeight * 0.10,
                     ),
@@ -209,7 +209,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       SizedBox(height: screenHeight * 0.075,),
-                      // Boite d'affichage du texte d'erreur  
+                      // Boite d'affichage du texte d'erreur
                       FittedBox(
                         fit: BoxFit.scaleDown,
                         child: Text(
@@ -423,7 +423,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   ),
                 ),
               ),
-            ), 
+            ),
 
             SizedBox(height: screenHeight * 0.05,),
 
@@ -479,4 +479,3 @@ class _TextInputState extends State<TextInput> {
     );
   }
 }
-
