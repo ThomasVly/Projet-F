@@ -22,6 +22,7 @@ class _RecherchePageState extends State<RecherchePage> {
     {'name': 'Amour', 'emoji': '😍'},
     {'name': 'Choc', 'emoji': '😱'},
     {'name': 'Peur', 'emoji': '😖'},
+    {'name': 'Réinitialiser', 'emoji': '🔄'},
   ];
 
   DateTime parseDate(String dateString) {
@@ -231,11 +232,18 @@ class _RecherchePageState extends State<RecherchePage> {
                   style: TextStyle(fontSize: 24),
                 ),
                 onTap: () {
-                  // Appliquer le filtre correspondant à l'émotion
-                  setState(() {
-                    _selectedEmotion.value = emotion['name'];
-                  });
-                  // Appliquer le filtre correspondant à l'émotion
+                  if (emotion['name'] == 'Réinitialiser') {
+                    // Réinitialiser les filtres
+                    setState(() {
+                      _selectedEmotion.value = null;
+                      _searchText = ''; // Réinitialiser la recherche
+                    });
+                  } else {
+                    // Appliquer le filtre correspondant à l'émotion
+                    setState(() {
+                      _selectedEmotion.value = emotion['name'];
+                    });
+                  }
                   Navigator.pop(context);
                 },
               );
