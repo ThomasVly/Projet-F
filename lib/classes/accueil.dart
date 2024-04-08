@@ -14,13 +14,12 @@ class Accueil extends StatefulWidget {
   const Accueil({super.key, required this.title});
 
   final String title;
-  
 
   @override
   State<Accueil> createState() => _AccueilState();
 }
 
-class _AccueilState extends State<Accueil> with TickerProviderStateMixin{
+class _AccueilState extends State<Accueil> with TickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _animation;
   late String _userAvatar = 'images/manchot.png';
@@ -65,7 +64,6 @@ class _AccueilState extends State<Accueil> with TickerProviderStateMixin{
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       // Centrer automatiquement la bulle sélectionnée
       _scrollToSelectedDate();
-    
     });
     _animationController = AnimationController(
       vsync: this,
@@ -83,7 +81,6 @@ class _AccueilState extends State<Accueil> with TickerProviderStateMixin{
     );
 
     _animateBubbleRepeatedly();
-
   }
 
   @override
@@ -92,10 +89,9 @@ class _AccueilState extends State<Accueil> with TickerProviderStateMixin{
     super.dispose();
   }
 
-
   void _animateBubbleRepeatedly() {
-  _animationController.repeat(reverse: true); // Répéter l'animation en boucle
-}
+    _animationController.repeat(reverse: true); // Répéter l'animation en boucle
+  }
 
   void loadUserAvatar() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -103,35 +99,35 @@ class _AccueilState extends State<Accueil> with TickerProviderStateMixin{
       _userAvatar = prefs.getString('avatar') ?? _userAvatar;
     });
   }
-  
+
   void _showRandomMotivationMessage(BuildContext context) {
-  // Sélectionner un message aléatoire
-  final Random random = Random();
-  final int randomIndex = random.nextInt(_motivationMessages.length);
-  final String randomMessage = _motivationMessages[randomIndex];
-  // Afficher le message dans un Tooltip
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return Tooltip(
-        message: randomMessage,
-        child: AlertDialog(
-          title: Text("On se motive !!"),
-          content: Text(randomMessage),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Fermer'),
-            ),
-          ],
-        ),
-      );
-    },
-  );
-}
-  
+    // Sélectionner un message aléatoire
+    final Random random = Random();
+    final int randomIndex = random.nextInt(_motivationMessages.length);
+    final String randomMessage = _motivationMessages[randomIndex];
+    // Afficher le message dans un Tooltip
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Tooltip(
+          message: randomMessage,
+          child: AlertDialog(
+            title: Text("On se motive !!"),
+            content: Text(randomMessage),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('Fermer'),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   retrieveStringValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String dateString = DateFormat('dd/MM/yyyy').format(selectedDate);
@@ -209,8 +205,7 @@ class _AccueilState extends State<Accueil> with TickerProviderStateMixin{
       "Novembre",
       "Décembre"
     ];
-  
-  
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -262,7 +257,7 @@ class _AccueilState extends State<Accueil> with TickerProviderStateMixin{
           children: [
             const SizedBox(height: 20),
             // Affichage de l'avatar de l'utilisateur
-             AnimatedBuilder(
+            AnimatedBuilder(
               animation: _animationController,
               builder: (context, child) {
                 return Transform.translate(
@@ -270,7 +265,6 @@ class _AccueilState extends State<Accueil> with TickerProviderStateMixin{
                   child: GestureDetector(
                     onTap: () {
                       _showRandomMotivationMessage(context);
-                      
                     },
                     child: Tooltip(
                       message: 'On se motive',
@@ -284,8 +278,7 @@ class _AccueilState extends State<Accueil> with TickerProviderStateMixin{
               },
             ),
             const SizedBox(height: 10),
-         
-            
+
             Text(
               '${moisEnFrancais[now.month - 1]} ${now.year}',
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -295,7 +288,7 @@ class _AccueilState extends State<Accueil> with TickerProviderStateMixin{
               children: [
                 const Spacer(
                     flex:
-                    1), // Espace vide équivalent à la moitié de la largeur de l'écran
+                        1), // Espace vide équivalent à la moitié de la largeur de l'écran
                 Expanded(
                   flex: numberOfDaysInMonth,
                   child: SingleChildScrollView(
@@ -308,9 +301,11 @@ class _AccueilState extends State<Accueil> with TickerProviderStateMixin{
                           GestureDetector(
                             onTap: () {
                               setState(() {
-                                textToPrint ="Il n'y a pas de notes pour le ${DateFormat('dd/MM/yyyy').format(selectedDate.add(Duration(days: 1)))}";
-                                note="";
+                                textToPrint =
+                                    "Il n'y a pas de notes pour le ${DateFormat('dd/MM/yyyy').format(selectedDate.add(Duration(days: 1)))}";
+                                note = "";
                                 emotion = "";
+                                photo = "";
                                 retrieveStringValue();
                                 selectedDate =
                                     firstDayOfMonth.add(Duration(days: i));
@@ -318,11 +313,11 @@ class _AccueilState extends State<Accueil> with TickerProviderStateMixin{
                             },
                             child: Container(
                               width: selectedDate != null &&
-                                  selectedDate.day == i + 1
+                                      selectedDate.day == i + 1
                                   ? 100
                                   : 70,
                               height: selectedDate != null &&
-                                  selectedDate.day == i + 1
+                                      selectedDate.day == i + 1
                                   ? 100
                                   : 70,
                               alignment: Alignment.center,
@@ -330,7 +325,7 @@ class _AccueilState extends State<Accueil> with TickerProviderStateMixin{
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: selectedDate != null &&
-                                    selectedDate.day == i + 1
+                                        selectedDate.day == i + 1
                                     ? const Color.fromARGB(255, 139, 89, 213)
                                     : Colors.grey,
                               ),
@@ -341,11 +336,11 @@ class _AccueilState extends State<Accueil> with TickerProviderStateMixin{
                                     '${i + 1}',
                                     style: TextStyle(
                                       color: selectedDate != null &&
-                                          selectedDate.day == i + 1
+                                              selectedDate.day == i + 1
                                           ? Colors.white
                                           : Colors.black,
                                       fontSize: selectedDate != null &&
-                                          selectedDate.day == i + 1
+                                              selectedDate.day == i + 1
                                           ? 18
                                           : 16,
                                     ),
@@ -355,14 +350,14 @@ class _AccueilState extends State<Accueil> with TickerProviderStateMixin{
                                       selectedDate == now)
                                     Positioned(
                                       bottom:
-                                      -20, // Ajustez cette valeur selon votre préférence
+                                          -20, // Ajustez cette valeur selon votre préférence
                                       child: Container(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 8, vertical: 4),
                                         decoration: BoxDecoration(
                                           color: Colors.black54,
                                           borderRadius:
-                                          BorderRadius.circular(20),
+                                              BorderRadius.circular(20),
                                         ),
                                       ),
                                     ),
@@ -376,62 +371,57 @@ class _AccueilState extends State<Accueil> with TickerProviderStateMixin{
                 ),
                 const Spacer(
                     flex:
-                    1), // Espace vide équivalent à la moitié de la largeur de l'écran
+                        1), // Espace vide équivalent à la moitié de la largeur de l'écran
               ],
             ),
             const SizedBox(height: 25),
             Expanded(
               child: Center(
                 child: Container(
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  height: MediaQuery.of(context).size.height *
-                      0.45, // 80% of screen width
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200], // Change color as needed
-                    border: Border.all(
-                        color: Colors.black), // Change color as needed
-                    borderRadius: BorderRadius.circular(
-                        15), // Adjust the radius as needed
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0), // Adjust padding as needed
-                    child: Column(
-                    children: [
-                      ListTile(
-                      leading: Text(
-                        emotion,
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
-                      title: Text(
-                        "${DateFormat('dd/MM/yyyy').format(selectedDate)}",
-                        style: AppDesign.titleStyle,
-                      ),
-                      subtitle: Text(
-                        "$textToPrint",
-                        style: AppDesign.bodyStyle,
-                      ),
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    height: MediaQuery.of(context).size.height *
+                        0.45, // 80% of screen width
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200], // Change color as needed
+                      border: Border.all(
+                          color: Colors.black), // Change color as needed
+                      borderRadius: BorderRadius.circular(
+                          15), // Adjust the radius as needed
                     ),
-                      if (photo != null && photo.isNotEmpty)
-                        Expanded(
-                          child: Image.file(
-                            File(photo),
-                            fit: BoxFit.contain,
-                            width: MediaQuery.of(context).size.width*0.6,
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0), // Adjust padding as needed
+                      child: Column(children: [
+                        ListTile(
+                          leading: Text(
+                            emotion,
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                          title: Text(
+                            "${DateFormat('dd/MM/yyyy').format(selectedDate)}",
+                            style: AppDesign.titleStyle,
+                          ),
+                          subtitle: Text(
+                            "$textToPrint",
+                            style: AppDesign.bodyStyle,
                           ),
                         ),
-                    ]
-                    ),
-                  )
-                  ),
+                        if (photo != null && photo.isNotEmpty)
+                          Expanded(
+                            child: Image.file(
+                              File(photo),
+                              fit: BoxFit.contain,
+                              width: MediaQuery.of(context).size.width * 0.6,
+                            ),
+                          ),
+                      ]),
+                    )),
               ),
             ),
-
           ],
         ),
       ),
-      
     );
   }
 }

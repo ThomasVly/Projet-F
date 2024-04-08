@@ -395,7 +395,7 @@ class _NotesState extends State<Notes> {
                           });
                           String path = _imageFile.path;
                         },
-                        child: Text('Suppr'),
+                        child: Text('X'),
                       )
                     : Text(""),
               ],
